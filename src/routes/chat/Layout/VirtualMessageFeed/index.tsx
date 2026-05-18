@@ -113,7 +113,16 @@ const VirtualMessageFeed = forwardRef<VirtualMessageFeedHandle, Props>(({ contex
   useEffect(() => {
     // Reset visible count when switching chats
     setVisibleCount(50);
-    setAtBottom(false);
+    // 切换聊天时默认设为 true，因为用户期望看到最新消息
+    // Virtuoso 会在渲染后通过 atBottomStateChange 更新实际状态
+    setAtBottom(true);
+    // 强制滚动到底部
+    if (vList.current && stableMids.length > 0) {
+      // 使用 setTimeout 确保 DOM 渲染完成
+      setTimeout(() => {
+        vList.current?.scrollToIndex(stableMids.length - 1);
+      }, 50);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -205,10 +214,18 @@ const VirtualMessageFeed = forwardRef<VirtualMessageFeedHandle, Props>(({ contex
   };
   // 自动跟随
   const handleFollowOutput = (isAtBottom: boolean) => {
-    const [lastMid] = stableMids ? stableMids.slice(-1) : [0];
-    const ts = new Date().getTime();
-    // tricky
-    const isSentByMyself = ts - lastMid < 1000;
+    if (!stableMids || stableMids.length === 0) {
+      return false;
+    }
+
+    const lastMid = stableMids[stableMids.length - 1];
+    const lastMessage = messageDataRef.current[lastMid];
+
+    // 使用 from_uid 判断是否是自己发送的消息，比时间戳判断更可靠
+    const isSentByMyself = lastMessage?.from_uid === loginUidRef.current;
+
+    // 如果在底部，平滑滚动
+    // 如果是自己发送的消息，强制滚动（无论是否在底部）
     if (isAtBottom || isSentByMyself) {
       return isAtBottom ? "smooth" : true;
     } else {

@@ -1,4 +1,44 @@
 
+
+## 11. 修复聊天页面没有滚动到最新消息的问题
+
+修改总结
+
+  1. 改进 handleFollowOutput 函数（核心修复）
+
+  之前：使用时间戳差值判断是否自己发送的消息
+  const ts = new Date().getTime();
+  const isSentByMyself = ts - lastMid < 1000;  // 不可靠
+
+  之后：使用消息的 from_uid 字段判断
+  const lastMessage = messageDataRef.current[lastMid];
+  const isSentByMyself = lastMessage?.from_uid === loginUidRef.current;
+
+  优势：
+  - 判断逻辑更可靠，不受网络延迟、服务器时间同步影响
+  - 自己发送的消息会强制滚动到底部，无论当前滚动位置
+
+  2. 优化切换聊天时的初始化
+
+  useEffect(() => {
+    setVisibleCount(50);
+    setAtBottom(true);  // 默认 true，用户期望看到最新消息
+    // 强制滚动到底部
+    if (vList.current && stableMids.length > 0) {
+      setTimeout(() => {
+        vList.current?.scrollToIndex(stableMids.length - 1);
+      }, 50);
+    }
+  }, [id]);
+
+  优势：
+  - 切换聊天时默认认为在底部，避免初始状态不正确
+  - 额外的强制滚动确保消息加载后能正确定位
+
+  这些修改应该能解决滚动条偶尔不滚动到底部的问题，特别是自己发送消息时。
+
+
+
 ## 10. 先禁用掉更新提醒
 
 已禁用以下弹窗：
