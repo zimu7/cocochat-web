@@ -113,7 +113,7 @@ const Session: FC<IProps> = ({
   });
   const isVoicing =
     type == "channel"
-      ? voiceList.some((item) => {
+      ? (voiceList ?? []).some((item) => {
           return item.context == type && item.id === id;
         })
       : id == callingFrom || id == callingTo;
