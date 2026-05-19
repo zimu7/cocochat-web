@@ -1,7 +1,5 @@
 // @ts-nocheck
-import { FC, useEffect, useState, memo } from "react";
-import { useDrop } from "react-dnd";
-import { NativeTypes } from "react-dnd-html5-backend";
+import { FC, useEffect, useState, memo, useCallback } from "react";
 import { NavLink, useMatch, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
@@ -42,25 +40,38 @@ const Session: FC<IProps> = ({
   const navigate = useNavigate();
   const { addStageFile } = useUploadFile({ context: type, id });
 
-  const [{ isActive }, drop] = useDrop(
-    () => ({
-      accept: [NativeTypes.FILE],
-      drop({ files }) {
-        if (files.length) {
-          const filesData = files.map((file) => {
-            const { size, type, name } = file;
-            const url = URL.createObjectURL(file);
-            return { size, type, name, url };
-          });
-          addStageFile(filesData);
-          navigate(type == "dm" ? `/chat/dm/${id}` : `/chat/channel/${id}`);
-        }
-      },
-      collect: (monitor) => ({
-        isActive: monitor.canDrop() && monitor.isOver(),
-      }),
-    }),
-    [type, id]
+  const [isActive, setIsActive] = useState(false);
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+  const handleDragEnter = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsActive(true);
+  }, []);
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsActive(false);
+  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsActive(false);
+      const files = Array.from(e.dataTransfer.files);
+      if (files.length) {
+        const filesData = files.map((file) => {
+          const { size, type, name } = file;
+          const url = URL.createObjectURL(file);
+          return { size, type, name, url };
+        });
+        addStageFile(filesData);
+        navigate(type == "dm" ? `/chat/dm/${id}` : `/chat/channel/${id}`);
+      }
+    },
+    [type, id, addStageFile, navigate]
   );
   const { visible: contextMenuVisible, handleContextMenuEvent, hideContextMenu } = useContextMenu();
   const [data, setData] = useState<{
@@ -132,7 +143,10 @@ const Session: FC<IProps> = ({
         deleteChannel={setDeleteChannelId}
       >
         <NavLink
-          ref={drop}
+          onDragOver={handleDragOver}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
           className={({ isActive: linkActive }) =>
             clsx(
               `nav flex gap-2 rounded-lg p-2 w-full`,

@@ -1,6 +1,5 @@
 import { Suspense } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+
 import ReactDOM from "react-dom/client";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -33,9 +32,7 @@ root.render(
         className: "dark:!bg-gray-800 dark:!text-gray-50 wb"
       }}
     />
-    <DndProvider backend={HTML5Backend}>
-      <ReduxRoutes />
-    </DndProvider>
+    <ReduxRoutes />
     {/* Disabled: <MobileAppTip /> */}
   </Suspense>
 );

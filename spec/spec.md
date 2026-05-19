@@ -1,4 +1,13 @@
+## 12. 替换已经停止维护的react-dnd
 
+ 已完成所有替换：
+
+  1. index.tsx — 移除了 DndProvider 和 HTML5Backend 包裹
+  2. Session.tsx — 用原生 onDragOver/onDragEnter/onDragLeave/onDrop 替换 useDrop
+  3. Layout/index.tsx — 同样用原生拖放事件替换 useDrop
+  4. 卸载了 react-dnd 和 react-dnd-html5-backend
+
+  功能完全一致：文件拖入时高亮，放下时上传。不再有 React 19 的 element.ref 警告。
 
 ## 11. 修复聊天页面没有滚动到最新消息的问题
 
