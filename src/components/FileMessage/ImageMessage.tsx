@@ -23,10 +23,15 @@ const ImageMessage: FC<Props> = ({
 }) => {
   const url = thumbnail || content;
   const [status, setStatus] = useState<"loading" | "error" | "loaded">("loading");
-  const { width = 0, height = 0 } = getDefaultSize(properties, {
+  const MAX_HEIGHT = 256;
+  let { width = 0, height = 0 } = getDefaultSize(properties, {
     min: 200,
     max: isMobile() ? 300 : 480,
   });
+  if (height > MAX_HEIGHT) {
+    width = (width / height) * MAX_HEIGHT;
+    height = MAX_HEIGHT;
+  }
   useEffect(() => {
     const img = new Image();
     img.onload = () => {
