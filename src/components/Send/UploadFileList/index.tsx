@@ -46,15 +46,18 @@ export default function UploadFileList({ context, id }: { context: ChatContext; 
       )}
 
       <ul className="w-full overflow-auto flex gap-2 justify-start p-4 pt-6 bg-gray-200 dark:bg-gray-800 rounded-t-lg">
-        {stageFiles.map(({ name, url, size, type, converting, uploading, uploaded }, idx: number) => {
+        {stageFiles.map(({ name, url, size, type, converting, uploading, uploaded, progress }, idx: number) => {
           return (
             <li
               className="group relative flex flex-col bg-gray-100 dark:bg-gray-700 rounded p-2"
               key={url}
             >
               {(uploading || converting) && (
-                <div className="absolute inset-0 z-10 flex-center bg-black/30 rounded">
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/30 rounded">
                   <Spinner type="waveform" size={18} lineWeight={3} speed={1} color="#fff" />
+                  {uploading && typeof progress === "number" && (
+                    <span className="mt-1 text-xs text-white font-medium">{progress}%</span>
+                  )}
                 </div>
               )}
               {uploaded && (

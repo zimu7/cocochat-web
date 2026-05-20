@@ -29,6 +29,7 @@ export type UploadFileData = {
   converting?: boolean;
   uploading?: boolean;
   uploaded?: boolean;
+  progress?: number;
   uploadResult?: UploadFileResult;
 };
 interface IProps {
@@ -99,7 +100,7 @@ const useUploadFile = (props?: IProps) => {
     return shared.cancelledUrls.has(url);
   };
 
-  const uploadFile = async (file?: File, isCancelled?: () => boolean) => {
+  const uploadFile = async (file?: File, isCancelled?: () => boolean, onProgress?: (pct: number) => void) => {
     if (!file) return;
     const cancelled = isCancelled || (() => false);
 
@@ -121,15 +122,18 @@ const useUploadFile = (props?: IProps) => {
 
     let uploadResult = null;
     canceledRef.current = false;
-    totalSliceCountRef.current = 1;
+    const totalSlices = file_size <= FILE_SLICE_SIZE ? 1 : Math.ceil(file_size / FILE_SLICE_SIZE);
+    let uploadedSlices = 0;
+    totalSliceCountRef.current = totalSlices;
     sliceUploadedCountRef.current = 0;
+    onProgress?.(0);
     if (file_size <= FILE_SLICE_SIZE) {
       uploadResult = await uploadChunk({ file_id, chunk: file, is_last: true });
+      uploadedSlices = 1;
       sliceUploadedCountRef.current = 1;
+      onProgress?.(100);
     } else {
-      totalSliceCountRef.current = Math.ceil(file_size / FILE_SLICE_SIZE);
-      const totalSliceCount = totalSliceCountRef.current;
-      const _arr = new Array(totalSliceCount);
+      const _arr = new Array(totalSlices);
 
       for await (const [idx] of _arr.entries()) {
         if (canceledRef.current || cancelled()) break;
@@ -141,7 +145,9 @@ const useUploadFile = (props?: IProps) => {
             chunk,
             is_last: idx == _arr.length - 1
           });
-          sliceUploadedCountRef.current++;
+          uploadedSlices++;
+          sliceUploadedCountRef.current = uploadedSlices;
+          onProgress?.(Math.round((uploadedSlices / totalSlices) * 100));
         } catch (error) {
           console.error("upload file error", error);
           canceledRef.current = true;
@@ -187,7 +193,8 @@ const useUploadFile = (props?: IProps) => {
           id,
           operation: "update_upload",
           url: fileData.url,
-          uploading: true
+          uploading: true,
+          progress: 0
         })
       );
 
@@ -195,7 +202,21 @@ const useUploadFile = (props?: IProps) => {
         const { url, name, type } = fileData;
         const blob = await fetch(url).then((r) => r.blob());
         const file = new File([blob], name, { type });
-        const result = await uploadFile(file, () => isFileCancelled(fileData.url));
+        const result = await uploadFile(
+          file,
+          () => isFileCancelled(fileData.url),
+          (pct) => {
+            dispatch(
+              updateUploadFiles({
+                context,
+                id,
+                operation: "update_upload",
+                url: fileData.url,
+                progress: pct
+              })
+            );
+          }
+        );
 
         if (isFileCancelled(fileData.url)) continue;
 
