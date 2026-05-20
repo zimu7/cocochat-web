@@ -72,6 +72,7 @@
   "contact_block_tip": "This user has been blocked by you",
   "file_expired": "File Expired",
   "only_owner_can_send": "only Channel owner can send message!",
+  "uploading": "Uploading...",
 
   "remark": "Add friend nickname",
   "remark_clear": "Reset friend nickname",

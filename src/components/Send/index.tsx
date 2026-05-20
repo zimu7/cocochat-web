@@ -2,12 +2,12 @@ import { FC, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
-import { ChatPrefixes, ContentTypes } from "@/app/config";
+import { ChatPrefixes } from "@/app/config";
 import { updateInputMode } from "@/app/slices/ui";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { ChatContext } from "@/types/common";
 import MarkdownEditor from "@/components/MarkdownEditor";
-import useAddLocalFileMessage from "@/hooks/useAddLocalFileMessage";
+
 import useDraft from "@/hooks/useDraft";
 import useSendMessage from "@/hooks/useSendMessage";
 import useUploadFile from "@/hooks/useUploadFile";
@@ -44,7 +44,7 @@ const Send: FC<IProps> = ({
     uid: context == "dm" ? id : undefined,
     cid: context == "channel" ? id : undefined,
   });
-  const { resetStageFiles } = useUploadFile({ context, id });
+  const { resetStageFiles, isAnyFileUploading } = useUploadFile({ context, id });
   const { getDraft, getUpdateDraft } = useDraft({ context, id });
   const [msg, setMsg] = useState<MessageWithMentions>({
     text: "",
@@ -53,7 +53,7 @@ const Send: FC<IProps> = ({
   const [markdownEditor, setMarkdownEditor] = useState(null);
   const [markdownFullscreen, setMarkdownFullscreen] = useState(false);
   const dispatch = useAppDispatch();
-  const addLocalFileMessage = useAddLocalFileMessage({ context, to: id });
+
   // 谁发的
   const from_uid = useAppSelector((store) => store.authData.user?.uid, shallowEqual);
   const replying_mid = useAppSelector(
@@ -81,11 +81,36 @@ const Send: FC<IProps> = ({
   };
   const handleSendMessage = async () => {
     if (!id) return;
+    if (isAnyFileUploading) return;
     if (editorRef.current) {
       editorRef.current.reset();
     }
+    // send file messages using pre-uploaded results
+    if (uploadFiles.length !== 0) {
+      for (const fileInfo of uploadFiles) {
+        if (!fileInfo.uploaded || !fileInfo.uploadResult) continue;
+        const { uploadResult, name, type } = fileInfo;
+        try {
+          await sendMessage({
+            ignoreLocal: true,
+            type: "file",
+            content: { path: uploadResult.path },
+            properties: {
+              content_type: type,
+              name,
+              size: uploadResult.size,
+              local_id: +new Date(),
+            },
+          });
+        } catch (error) {
+          console.error("send file message error", error);
+        }
+        URL.revokeObjectURL(fileInfo.url);
+      }
+      resetStageFiles();
+    }
+    // send text message after files are sent
     if (msg.text.trim()) {
-      // send text msg
       const { text, mentions } = msg;
       const properties = { mentions };
       properties.local_id = +new Date();
@@ -97,29 +122,6 @@ const Send: FC<IProps> = ({
         from_uid,
         properties,
       });
-    }
-    // send files
-    if (uploadFiles.length !== 0) {
-      uploadFiles.forEach((fileInfo) => {
-        const ts = +new Date();
-        const { url, name, size, type } = fileInfo;
-        const tmpMsg = {
-          mid: ts,
-          content: url,
-          content_type: ContentTypes.file,
-          created_at: ts,
-          properties: {
-            content_type: type,
-            name,
-            size,
-            local_id: ts,
-          },
-          from_uid,
-          sending: true,
-        };
-        addLocalFileMessage(tmpMsg);
-      });
-      resetStageFiles();
     }
   };
   const sendMarkdown = async (content: string) => {
@@ -202,6 +204,7 @@ const Send: FC<IProps> = ({
           <Toolbar
             sendMessages={handleSendMessage}
             sendVisible={msg.text.trim().length > 0 || uploadFiles.length > 0}
+            sendDisabled={isAnyFileUploading}
             context={context}
             to={id}
             mode={mode}

@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 
 import { ChatContext } from "@/types/common";
 import useUploadFile from "@/hooks/useUploadFile";
@@ -19,10 +20,12 @@ type Props = {
   to: number;
   context: ChatContext;
   sendVisible: boolean;
+  sendDisabled?: boolean;
 };
 const Toolbar: FC<Props> = ({
   sendMessages,
   sendVisible,
+  sendDisabled = false,
   toggleMarkdownFullscreen,
   fullscreen,
   toggleMode,
@@ -97,10 +100,15 @@ const Toolbar: FC<Props> = ({
             </div>
           </Tooltip>
           {sendVisible && (
-            <Tooltip placement="top" tip="Send">
+            <Tooltip placement="top" tip={sendDisabled ? t("uploading", { ns: "chat" }) : "Send"}>
               <SendIcon
-                className={"w-6 h-6 cursor-pointer animate-zoomIn dark:fill-gray-300"}
-                onClick={sendMessages.bind(null)}
+                className={clsx(
+                  "w-6 h-6 dark:fill-gray-300",
+                  sendDisabled
+                    ? "cursor-not-allowed opacity-40"
+                    : "cursor-pointer animate-zoomIn"
+                )}
+                onClick={sendDisabled ? undefined : sendMessages.bind(null)}
               />
             </Tooltip>
           )}
@@ -109,4 +117,5 @@ const Toolbar: FC<Props> = ({
     </div>
   );
 };
+
 export default Toolbar;

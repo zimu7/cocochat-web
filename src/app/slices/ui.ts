@@ -161,6 +161,16 @@ const uiSlice = createSlice({
           }
 
           break;
+        case "update_upload":
+          {
+            const { url: fileUrl, ...uploadData } = rest;
+            const target = files.find((f) => f.url === fileUrl);
+            if (target) {
+              Object.assign(target, uploadData);
+            }
+          }
+
+          break;
 
         default:
           break;

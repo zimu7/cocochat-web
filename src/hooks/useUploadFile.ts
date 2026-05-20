@@ -10,12 +10,26 @@ import { ChatContext } from "@/types/common";
 import { UploadFileResponse } from "@/types/message";
 import { shallowEqual } from "react-redux";
 
+export type UploadFileResult = {
+  name: string;
+  file_type: string;
+  path: string;
+  size: number;
+  hash: string;
+  url: string;
+  thumbnail: string;
+  download: string;
+};
+
 export type UploadFileData = {
   name: string;
   type: string;
   size: number;
   url: string;
   converting?: boolean;
+  uploading?: boolean;
+  uploaded?: boolean;
+  uploadResult?: UploadFileResult;
 };
 interface IProps {
   context: ChatContext;
@@ -53,6 +67,10 @@ const useUploadFile = (props?: IProps) => {
   const [uploadFileFn, { isLoading: isUploading, isError: uploadFileError }] =
     useUploadFileMutation();
 
+  const autoUploadQueueRef = useRef<UploadFileData[]>([]);
+  const isProcessingQueueRef = useRef(false);
+  const cancelledUrlsRef = useRef<Set<string>>(new Set());
+
   const uploadChunk = (data: { file_id: string; chunk: Blob; is_last: boolean }) => {
     const { file_id, chunk, is_last } = data;
     const formData = new FormData();
@@ -62,9 +80,9 @@ const useUploadFile = (props?: IProps) => {
     return uploadFileFn(formData);
   };
 
-  const uploadFile = async (file?: File) => {
+  const uploadFile = async (file?: File, isCancelled?: () => boolean) => {
     if (!file) return;
-    console.log("up file", file);
+    const cancelled = isCancelled || (() => false);
 
     setData(null);
     const {
@@ -72,15 +90,12 @@ const useUploadFile = (props?: IProps) => {
       type: file_type,
       size: file_size
     } = file;
-    console.log("file type", file_type);
     // 生成 file id
     const resp = await prepareUploadFile({
       content_type: file_type,
       filename: name
     });
-    console.log("prepareUploadFile", resp);
-    if ("error" in resp) {
-      // toast.error("Prepare Upload File Error");
+    if ("error" in resp || cancelled()) {
       return;
     }
     const file_id = resp.data;
@@ -89,29 +104,22 @@ const useUploadFile = (props?: IProps) => {
     canceledRef.current = false;
     totalSliceCountRef.current = 1;
     sliceUploadedCountRef.current = 0;
-    // setUploadingFile(true);
-    // 2MB
     if (file_size <= FILE_SLICE_SIZE) {
-      // 一次性上传文件
       uploadResult = await uploadChunk({ file_id, chunk: file, is_last: true });
       sliceUploadedCountRef.current = 1;
     } else {
-      // 分片上传文件
       totalSliceCountRef.current = Math.ceil(file_size / FILE_SLICE_SIZE);
       const totalSliceCount = totalSliceCountRef.current;
       const _arr = new Array(totalSliceCount);
-      //  const chunk=file.slice(block_size * index, block_size * (index + 1));
 
       for await (const [idx] of _arr.entries()) {
-        // 退出循环
-        if (canceledRef.current) break;
+        if (canceledRef.current || cancelled()) break;
         try {
           const chunk = file.slice(FILE_SLICE_SIZE * idx, FILE_SLICE_SIZE * (idx + 1), file_type);
 
           uploadResult = await uploadChunk({
             file_id,
             chunk,
-            // 如果是最后一个chunk，标记下
             is_last: idx == _arr.length - 1
           });
           sliceUploadedCountRef.current++;
@@ -122,14 +130,14 @@ const useUploadFile = (props?: IProps) => {
         }
       }
     }
-    // 出错 则返回
+    if (cancelled()) return;
     if (!uploadResult || "error" in uploadResult || !uploadResult.data) {
       console.error("upload file error uploadResult:", uploadResult);
       return;
     }
     const { path, size, hash } = uploadResult.data as UploadFileResponse;
     const encodedPath = encodeURIComponent(path);
-    const res = {
+    const res: UploadFileResult = {
       name,
       file_type,
       path,
@@ -145,11 +153,87 @@ const useUploadFile = (props?: IProps) => {
     return res;
   };
 
+  const processAutoUploadQueue = async () => {
+    if (isProcessingQueueRef.current) return;
+    isProcessingQueueRef.current = true;
+
+    while (autoUploadQueueRef.current.length > 0) {
+      const fileData = autoUploadQueueRef.current.shift()!;
+
+      if (cancelledUrlsRef.current.has(fileData.url)) continue;
+
+      dispatch(
+        updateUploadFiles({
+          context,
+          id,
+          operation: "update_upload",
+          url: fileData.url,
+          uploading: true
+        })
+      );
+
+      try {
+        const { url, name, type } = fileData;
+        const blob = await fetch(url).then((r) => r.blob());
+        const file = new File([blob], name, { type });
+        const result = await uploadFile(file, () => cancelledUrlsRef.current.has(fileData.url));
+
+        if (cancelledUrlsRef.current.has(fileData.url)) continue;
+
+        if (result) {
+          dispatch(
+            updateUploadFiles({
+              context,
+              id,
+              operation: "update_upload",
+              url: fileData.url,
+              uploading: false,
+              uploaded: true,
+              uploadResult: result
+            })
+          );
+        } else {
+          dispatch(
+            updateUploadFiles({
+              context,
+              id,
+              operation: "update_upload",
+              url: fileData.url,
+              uploading: false
+            })
+          );
+        }
+      } catch (error) {
+        console.error("auto upload error", error);
+        if (!cancelledUrlsRef.current.has(fileData.url)) {
+          dispatch(
+            updateUploadFiles({
+              context,
+              id,
+              operation: "update_upload",
+              url: fileData.url,
+              uploading: false
+            })
+          );
+        }
+      }
+    }
+
+    isProcessingQueueRef.current = false;
+  };
+
   const stopUploading = () => {
     canceledRef.current = true;
   };
 
   const removeStageFile = (idx: number) => {
+    const file = stageFiles[idx];
+    if (file) {
+      cancelledUrlsRef.current.add(file.url);
+      autoUploadQueueRef.current = autoUploadQueueRef.current.filter(
+        (f) => f.url !== file.url
+      );
+    }
     dispatch(updateUploadFiles({ context, id, operation: "remove", index: idx }));
   };
 
@@ -167,17 +251,28 @@ const useUploadFile = (props?: IProps) => {
       }
     });
     dispatch(updateUploadFiles({ context, id, data: filesData }));
+
+    const nonConvertingFiles = filesData.filter((f) => !f.converting);
+    autoUploadQueueRef.current.push(...nonConvertingFiles);
+
     if (heifs.length) {
       heifs.forEach((idx) => {
-        convertHeic2Jpg(filesData[idx]).then((res) => {
-          console.log("heif2jpg", res);
-          dispatch(updateUploadFiles({ context, id, data: res, operation: "replace", idx }));
+        convertHeic2Jpg(filesData[idx]).then((convertedData) => {
+          dispatch(
+            updateUploadFiles({ context, id, data: convertedData, operation: "replace", idx })
+          );
+          autoUploadQueueRef.current.push(convertedData);
+          processAutoUploadQueue();
         });
       });
     }
+
+    processAutoUploadQueue();
   };
 
   const resetStageFiles = () => {
+    autoUploadQueueRef.current = [];
+    cancelledUrlsRef.current.clear();
     dispatch(updateUploadFiles({ context, id, operation: "reset" }));
   };
 
@@ -193,6 +288,8 @@ const useUploadFile = (props?: IProps) => {
     );
   };
 
+  const isAnyFileUploading = stageFiles.some((f) => f.uploading);
+
   return {
     stopUploading,
     data,
@@ -207,7 +304,8 @@ const useUploadFile = (props?: IProps) => {
     addStageFile,
     resetStageFiles,
     removeStageFile,
-    updateStageFile
+    updateStageFile,
+    isAnyFileUploading
   };
 };
 export default useUploadFile;

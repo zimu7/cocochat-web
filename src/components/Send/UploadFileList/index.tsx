@@ -46,12 +46,24 @@ export default function UploadFileList({ context, id }: { context: ChatContext; 
       )}
 
       <ul className="w-full overflow-auto flex gap-2 justify-start p-4 pt-6 bg-gray-200 dark:bg-gray-800 rounded-t-lg">
-        {stageFiles.map(({ name, url, size, type, converting }, idx: number) => {
+        {stageFiles.map(({ name, url, size, type, converting, uploading, uploaded }, idx: number) => {
           return (
             <li
               className="group relative flex flex-col bg-gray-100 dark:bg-gray-700 rounded p-2"
               key={url}
             >
+              {(uploading || converting) && (
+                <div className="absolute inset-0 z-10 flex-center bg-black/30 rounded">
+                  <Spinner type="waveform" size={18} lineWeight={3} speed={1} color="#fff" />
+                </div>
+              )}
+              {uploaded && (
+                <div className="absolute top-1 right-1 z-10 w-5 h-5 flex-center bg-green-500 rounded-full">
+                  <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+              )}
               <div className="flex-center w-20 h-20 md:w-40 md:h-40">
                 {shouldPreviewImage(type) ? (
                   converting ? (

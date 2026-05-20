@@ -1,3 +1,58 @@
+## 14. 优化附件上传逻辑
+
+@src/components/Send/index.tsx 再优化一下，当完成附件选择之后，就开始上传附件，而不要等到点击发送按钮之后再上传。当
+  附件没有完成上传的情况下，不允许发送，除非点击附加上的删除，停止上传附件。
+
+
+
+一切看起来都很好。以下是所有修改的总结：
+
+  src/hooks/useUploadFile.ts - 核心改动：
+  - UploadFileData 新增 uploading、uploaded、uploadResult 字段，用于跟踪每个文件的上传状态
+  - uploadFile 新增 isCancelled 参数，支持按文件取消上传
+  - addStageFile 添加文件后自动触发上传（非 HEIC 文件立即入队，HEIC 文件转换完成后入队）
+  - processAutoUploadQueue 顺序处理上传队列，每个文件上传前后更新 Redux 状态
+  - removeStageFile 删除文件时同时取消该文件的上传（加入 cancelledUrlsRef 并从队列中移除）
+  - resetStageFiles 清空队列和取消集合
+  - 新增 isAnyFileUploading 返回值
+
+  src/app/slices/ui.ts - Redux：
+  - 新增 "update_upload" 操作，通过 blob URL 定位文件并更新上传状态字段
+
+  src/components/Send/index.tsx - 发送组件：
+  - handleSendMessage 不再上传文件，直接使用已上传的 uploadResult 发送文件消息
+  - 上传中时 isAnyFileUploading 为 true，阻止发送
+  - 传递 sendDisabled 给 Toolbar
+
+  src/components/Send/Toolbar.tsx - 工具栏：
+  - 新增 sendDisabled 属性，上传中时发送按钮灰显且不可点击，tooltip 显示"上传中"
+
+  src/components/Send/UploadFileList/index.tsx - 文件列表：
+  - 上传中的文件显示半透明遮罩 + 加载动画
+  - 上传完成的文件右上角显示绿色对勾
+  - 删除文件会同时取消上传
+
+  public/locales/{en,zh}/chat.json - 国际化：
+  - 新增 "uploading" 翻译键
+
+    
+
+## 13. 优化与机器人聊天时附件的处理逻辑
+
+@src/routes/chat/DMChat\ @src/routes/chat/ChannelChat\ 在私聊以及频道聊天的页面，当有附件的时候（图片、媒体文件等）、现在的处理逻辑会导致问题先到达机器人，而附件需要上传时间，消息会后到达机器人。这样就会导致机器人由于无法获取到附件信息而无法正确回复问题。因此，需要将逻辑调整为当上传动作完成后，再发送文本消息，并且需要保证图片消息先于文本消息。
+
+ Problem: When sending a message with attachments, the text was sent immediately via sendMessage, while files were only added to the local state for deferred upload. The bot received the text before the
+  attachments, making it unable to respond correctly.
+
+  Fix: Reversed the order in handleSendMessage:
+
+  1. Files uploaded first — For each staged file, fetch the blob, create a File object, upload it via uploadFile, then send the file message to the server with sendMessage({ type: "file", content: { path } }).
+  Each step is awaited, so file messages arrive on the server before text.
+  2. Text sent last — Only after all files are uploaded and their messages sent does the text message get sent.
+  3. Cleaned up — Removed the now-unused useAddLocalFileMessage hook call and ContentTypes import.
+
+
+
 ## 12. 替换已经停止维护的react-dnd
 
  已完成所有替换：
