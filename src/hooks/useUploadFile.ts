@@ -47,15 +47,33 @@ const convertHeic2Jpg = async (file: { name: string; type: string; size: number;
   const newName = file.name.replace(/\.hei\w$/i, ".jpg");
   return { ...file, name: newName, converting: false, url: URL.createObjectURL(jpgBlob) };
 };
+
+// Module-level shared state, keyed by `${context}_${id}`
+const sharedQueueMap = new Map<string, {
+  queue: UploadFileData[];
+  processing: boolean;
+  cancelledUrls: Set<string>;
+}>();
+
+function getSharedQueue(key: string) {
+  if (!sharedQueueMap.has(key)) {
+    sharedQueueMap.set(key, { queue: [], processing: false, cancelledUrls: new Set() });
+  }
+  return sharedQueueMap.get(key)!;
+}
+
 const useUploadFile = (props?: IProps) => {
   const { context, id } = props ? props : { context: "channel", id: 0 };
   const dispatch = useAppDispatch();
+  const key = `${context}_${id}`;
+  const shared = getSharedQueue(key);
+
   const stageFiles = useAppSelector(
-    (store) => store.ui.uploadFiles[`${context}_${id}`] || [],
+    (store) => store.ui.uploadFiles[key] || [],
     shallowEqual
   );
   const replying = useAppSelector(
-    (store) => store.message.replying[`${context}_${id}`],
+    (store) => store.message.replying[key],
     shallowEqual
   );
   const [data, setData] = useState<Message | null>(null);
@@ -67,10 +85,6 @@ const useUploadFile = (props?: IProps) => {
   const [uploadFileFn, { isLoading: isUploading, isError: uploadFileError }] =
     useUploadFileMutation();
 
-  const autoUploadQueueRef = useRef<UploadFileData[]>([]);
-  const isProcessingQueueRef = useRef(false);
-  const cancelledUrlsRef = useRef<Set<string>>(new Set());
-
   const uploadChunk = (data: { file_id: string; chunk: Blob; is_last: boolean }) => {
     const { file_id, chunk, is_last } = data;
     const formData = new FormData();
@@ -78,6 +92,11 @@ const useUploadFile = (props?: IProps) => {
     formData.append("chunk_data", chunk);
     formData.append("chunk_is_last", `${is_last}`);
     return uploadFileFn(formData);
+  };
+
+  // Check if a file has been cancelled (removed via removeStageFile or resetStageFiles)
+  const isFileCancelled = (url: string) => {
+    return shared.cancelledUrls.has(url);
   };
 
   const uploadFile = async (file?: File, isCancelled?: () => boolean) => {
@@ -154,13 +173,13 @@ const useUploadFile = (props?: IProps) => {
   };
 
   const processAutoUploadQueue = async () => {
-    if (isProcessingQueueRef.current) return;
-    isProcessingQueueRef.current = true;
+    if (shared.processing) return;
+    shared.processing = true;
 
-    while (autoUploadQueueRef.current.length > 0) {
-      const fileData = autoUploadQueueRef.current.shift()!;
+    while (shared.queue.length > 0) {
+      const fileData = shared.queue.shift()!;
 
-      if (cancelledUrlsRef.current.has(fileData.url)) continue;
+      if (isFileCancelled(fileData.url)) continue;
 
       dispatch(
         updateUploadFiles({
@@ -176,9 +195,9 @@ const useUploadFile = (props?: IProps) => {
         const { url, name, type } = fileData;
         const blob = await fetch(url).then((r) => r.blob());
         const file = new File([blob], name, { type });
-        const result = await uploadFile(file, () => cancelledUrlsRef.current.has(fileData.url));
+        const result = await uploadFile(file, () => isFileCancelled(fileData.url));
 
-        if (cancelledUrlsRef.current.has(fileData.url)) continue;
+        if (isFileCancelled(fileData.url)) continue;
 
         if (result) {
           dispatch(
@@ -205,7 +224,7 @@ const useUploadFile = (props?: IProps) => {
         }
       } catch (error) {
         console.error("auto upload error", error);
-        if (!cancelledUrlsRef.current.has(fileData.url)) {
+        if (!isFileCancelled(fileData.url)) {
           dispatch(
             updateUploadFiles({
               context,
@@ -219,7 +238,7 @@ const useUploadFile = (props?: IProps) => {
       }
     }
 
-    isProcessingQueueRef.current = false;
+    shared.processing = false;
   };
 
   const stopUploading = () => {
@@ -229,10 +248,8 @@ const useUploadFile = (props?: IProps) => {
   const removeStageFile = (idx: number) => {
     const file = stageFiles[idx];
     if (file) {
-      cancelledUrlsRef.current.add(file.url);
-      autoUploadQueueRef.current = autoUploadQueueRef.current.filter(
-        (f) => f.url !== file.url
-      );
+      shared.cancelledUrls.add(file.url);
+      shared.queue = shared.queue.filter((f) => f.url !== file.url);
     }
     dispatch(updateUploadFiles({ context, id, operation: "remove", index: idx }));
   };
@@ -253,7 +270,7 @@ const useUploadFile = (props?: IProps) => {
     dispatch(updateUploadFiles({ context, id, data: filesData }));
 
     const nonConvertingFiles = filesData.filter((f) => !f.converting);
-    autoUploadQueueRef.current.push(...nonConvertingFiles);
+    shared.queue.push(...nonConvertingFiles);
 
     if (heifs.length) {
       heifs.forEach((idx) => {
@@ -261,7 +278,7 @@ const useUploadFile = (props?: IProps) => {
           dispatch(
             updateUploadFiles({ context, id, data: convertedData, operation: "replace", idx })
           );
-          autoUploadQueueRef.current.push(convertedData);
+          shared.queue.push(convertedData);
           processAutoUploadQueue();
         });
       });
@@ -271,8 +288,8 @@ const useUploadFile = (props?: IProps) => {
   };
 
   const resetStageFiles = () => {
-    autoUploadQueueRef.current = [];
-    cancelledUrlsRef.current.clear();
+    shared.queue = [];
+    shared.cancelledUrls.clear();
     dispatch(updateUploadFiles({ context, id, operation: "reset" }));
   };
 

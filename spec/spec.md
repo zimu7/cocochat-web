@@ -1,3 +1,11 @@
+## 15. 修复上传取消后再上传的bug
+
+  1. queue、processing、cancelledUrls 改为模块级共享状态 — 用 sharedQueueMap 按 ${context}_${id} 键共享，无论哪个 useUploadFile 实例操作的都是同一份数据，删除文件时 removeStageFile
+     能正确标记取消，上传循环也能正确检测到。
+   2. 新增 stageFilesRef — 在每次渲染时同步最新的 Redux stageFiles 到 ref，异步上传代码中通过 isFileCancelled() 同时检查 shared.cancelledUrls 和 stageFilesRef（文件是否还存在于 Redux），双重保障跨实例取消生效。
+
+
+
 ## 14. 优化附件上传逻辑
 
 @src/components/Send/index.tsx 再优化一下，当完成附件选择之后，就开始上传附件，而不要等到点击发送按钮之后再上传。当
@@ -35,7 +43,7 @@
   public/locales/{en,zh}/chat.json - 国际化：
   - 新增 "uploading" 翻译键
 
-    
+​    
 
 ## 13. 优化与机器人聊天时附件的处理逻辑
 
