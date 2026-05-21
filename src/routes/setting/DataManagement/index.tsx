@@ -22,18 +22,18 @@ export default function DataManagement() {
   return (
     <div className="relative w-full md:w-[512px] flex flex-col gap-6">
       {/* 清除服务器聊天消息 */}
-      <SettingBlock title={t("data.clear_msgs.title")} desc={t("data.clear_msgs.desc")}>
+      {/* <SettingBlock title={t("data.clear_msgs.title")} desc={t("data.clear_msgs.desc")}>
         <StyledButton onClick={handleModalVisible.bind(null, "chat")} className="danger">
           {t("data.clear_msgs.btn")}
         </StyledButton>
-      </SettingBlock>
+      </SettingBlock> */}
 
       {/* 清除服务器文件 */}
-      <SettingBlock title={t("data.clear_files.title")} desc={t("data.clear_files.desc")}>
+      {/* <SettingBlock title={t("data.clear_files.title")} desc={t("data.clear_files.desc")}>
         <StyledButton onClick={handleModalVisible.bind(null, "files")} className="danger">
           {t("data.clear_files.btn")}
         </StyledButton>
-      </SettingBlock>
+      </SettingBlock> */}
       {/* 自动清除清除服务器数据 */}
       <AutoDeleteFiles />
       {visibleModal && (

@@ -87,12 +87,12 @@ export default function AddEntriesMenu() {
           <IconMention className={iconClass} />
           {t("action.new_msg")}
         </li>
-        {showInvite && (
+        {/* {showInvite && (
           <li className={itemClass} onClick={toggleInviteModalVisible}>
             <IconInvite className={iconClass} />
             {t("action.invite_people")}
           </li>
-        )}
+        )} */}
         <li className={itemClass} onClick={toggleSearchModalVisible}>
           <IconSearch className={iconClass} />
           {t("action.search_people")}
