@@ -20,6 +20,7 @@ import renderContent from "./renderContent";
 import Reply from "./Reply";
 import useInView from "./useInView";
 import { shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
 import NameWithRemark from "../NameWithRemark";
 import { isMobile } from "@/utils";
 
@@ -40,6 +41,7 @@ const Message: FC<IProps> = ({
   read = true,
 }) => {
   const { visible: contextMenuVisible, handleContextMenuEvent, hideContextMenu } = useContextMenu();
+  const { t } = useTranslation("chat");
   const inViewRef = useInView<HTMLDivElement>();
   const [edit, setEdit] = useState(false);
   const avatarRef = useRef(null);
@@ -97,7 +99,9 @@ const Message: FC<IProps> = ({
   // if (!message) return null;
   let timePrefix = null;
   const dayjsTime = dayjs(time);
-  timePrefix = dayjsTime.isToday() ? "Today" : dayjsTime.isYesterday() ? "Yesterday" : null;
+  timePrefix = dayjsTime.isToday() ? t("today") : dayjsTime.isYesterday() ? t("yesterday") : null;
+  const timeFormat = t("time_format");
+  const datetimeFormat = t("datetime_format");
 
   // return null;
   const _key = properties?.local_id || mid;
@@ -185,12 +189,12 @@ const Message: FC<IProps> = ({
               delay={200}
               disabled={!timePrefix || readOnly}
               placement="top"
-              tip={dayjsTime.format("YYYY-MM-DD h:mm:ss A")}
+              tip={dayjsTime.format(datetimeFormat)}
             >
               <time className="text-gray-400 text-xs">
                 {timePrefix
-                  ? `${timePrefix} ${dayjsTime.format("h:mm A")}`
-                  : dayjsTime.format("YYYY-MM-DD h:mm:ss A")}
+                  ? `${timePrefix} ${dayjsTime.format(timeFormat)}`
+                  : dayjsTime.format(datetimeFormat)}
               </time>
             </Tooltip>
             {failed && (

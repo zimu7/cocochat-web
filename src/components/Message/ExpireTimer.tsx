@@ -2,6 +2,7 @@ import { FC, useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
 import IconTimer from "@/assets/icons/timer.svg";
 import { removeMessage } from "../../app/slices/message";
@@ -27,6 +28,7 @@ const ExpireTimer: FC<Props> = ({
   contextId
 }) => {
   const [countdown, setCountdown] = useState<number | undefined>();
+  const { t } = useTranslation("chat");
   const dispatch = useDispatch();
   const clearMsgFromClient = useCallback(() => {
     if (context == "dm") {
@@ -73,7 +75,7 @@ const ExpireTimer: FC<Props> = ({
   }, [countdown, mid]);
   if (!countdown) return null;
   const duration = dayjs.duration(countdown * 1000);
-  const day = duration.days() !== 0 ? `${duration.days()} day` : "";
+  const day = duration.days() !== 0 ? `${duration.days()} ${t("day")}` : "";
   const hours = duration.hours() !== 0 ? `${duration.hours().toString().padStart(2, "0")}:` : "";
   const minutes =
     duration.minutes() !== 0 ? `${duration.minutes().toString().padStart(2, "0")}:` : "";

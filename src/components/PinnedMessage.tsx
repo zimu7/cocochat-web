@@ -1,5 +1,6 @@
 import { FC } from "react";
 import dayjs from "dayjs";
+import i18n from "@/i18n";
 
 import { MessagePayload } from "@/app/slices/message";
 import { useAppSelector } from "@/app/store";
@@ -35,7 +36,7 @@ const PinnedMessageView: FC<Props> = ({ data }) => {
           <span className="text-gray-500">{name}</span>
           {created_at && (
             <time className="text-xs text-gray-400">
-              {dayjs(created_at).format("YYYY-MM-DD h:mm:ss A")}
+              {dayjs(created_at).format(i18n.t("datetime_format", { ns: "chat" }))}
             </time>
           )}
         </div>

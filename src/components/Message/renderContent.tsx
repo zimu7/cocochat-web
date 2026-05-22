@@ -43,7 +43,7 @@ const renderContent = ({
           {edited && (
             <span
               className="ml-1 text-gray-500 text-[10px]"
-              title={dayjs(+edited).format("YYYY-MM-DD h:mm:ss A")}
+              title={dayjs(+edited).format(i18n.t("datetime_format", { ns: "chat" }))}
             >
               ({i18n.t("edited", { ns: "chat" })})
             </span>

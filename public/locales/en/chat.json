@@ -72,5 +72,10 @@
   "remark_placeholder": "Set Nickname",
   "search_placeholder": "Search messages...",
   "search_not_found": "No matching messages found",
-  "date_format": "YYYY/M/D HH:mm:ss"
+  "date_format": "YYYY/M/D HH:mm:ss",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "time_format": "h:mm A",
+  "datetime_format": "YYYY-MM-DD h:mm:ss A",
+  "day": "day"
 }

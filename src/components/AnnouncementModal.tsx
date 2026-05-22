@@ -65,12 +65,12 @@ const AnnouncementModal: FC<Props> = ({ announcement, onClose, cid }) => {
                 )}
                 <div>
                   <span className="font-semibold">{t("created_at")}:</span>{" "}
-                  {dayjs(announcement.created_at).format("YYYY-MM-DD h:mm A")}
+                  {dayjs(announcement.created_at).format(t("datetime_format"))}
                 </div>
                 {announcement.updated_at !== announcement.created_at && (
                   <div>
                     <span className="font-semibold">{t("updated_at")}:</span>{" "}
-                    {dayjs(announcement.updated_at).format("YYYY-MM-DD h:mm A")}
+                    {dayjs(announcement.updated_at).format(t("datetime_format"))}
                   </div>
                 )}
               </div>
