@@ -59,7 +59,8 @@
     "leave_message": "Leave a message"
   },
   "status": {
-    "uploading": "Uploading"
+    "uploading": "Uploading",
+    "saving": "Saving"
   },
   "tip": {
     "email_msg_tip": "Your region has blocked notifications, upgrade to Pro to use email notification.",
@@ -91,7 +92,9 @@
     "send_failed_blocked": "Send failed, blocked maybe",
     "send_msg_failed": "Send Message Failed",
     "only_text_reply": "Only text is supported when replying a message",
-    "api_key_copied": "API Key Copied"
+    "api_key_copied": "API Key Copied",
+    "esc_to": "esc to",
+    "enter_to": "enter to"
   },
   "new_version": "<0>New Version</0> Available",
   "mobile_app": "Check out our <0>Mobile APP</0>",

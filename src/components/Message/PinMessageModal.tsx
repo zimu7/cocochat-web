@@ -39,12 +39,12 @@ const PinMessageModal: FC<Props> = ({ closeModal, mid = 0, gid = 0 }) => {
               {t("action.cancel")}
             </Button>
             <Button disabled={isPining} onClick={handlePin} className="main">
-              {isPining ? "Pining" : t("action.pin")}
+              {isPining ? t("status.uploading") : t("action.pin")}
             </Button>
           </>
         }
         title={t("action.pin")}
-        description={`Do you want to pin this message to #${channel?.name}`}
+        description={t("pin_desc") + " #" + channel?.name}
       >
         <PreviewMessage mid={mid} context="pin" />
       </StyledModal>

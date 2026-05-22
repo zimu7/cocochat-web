@@ -1,6 +1,7 @@
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { useKey } from "@/hooks/useLightweightHooks";
+import { useTranslation } from "react-i18next";
 
 import { ContentTypes } from "@/app/config";
 import { useEditMessageMutation } from "@/app/services/message";
@@ -12,6 +13,7 @@ type Props = {
   cancelEdit: () => void;
 };
 const EditMessage: FC<Props> = ({ mid, cancelEdit }) => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const msg = useAppSelector((store) => store.message[mid], shallowEqual);
   const [shift, setShift] = useState(false);
@@ -77,20 +79,20 @@ const EditMessage: FC<Props> = ({ mid, cancelEdit }) => {
           onChange={handleMsgChange}
           disabled={isEditing}
           value={currMsg}
-          placeholder={`Edit Message`}
+          placeholder={t("action.edit_msg")}
         />
       </div>
       <div className="flex items-center p-1 gap-4 text-xs">
         <span>
-          esc to{" "}
+          {t("tip.esc_to")}{" "}
           <button className="text-primary-500 cursor-pointer px-1" onClick={cancelEdit}>
-            cancel
+            {t("action.cancel")}
           </button>
         </span>
         <span>
-          enter to{" "}
+          {t("tip.enter_to")}{" "}
           <button className="text-primary-500 cursor-pointer px-1" onClick={handleSave}>
-            {isEditing ? "saving" : `save`}
+            {isEditing ? t("status.uploading") : t("action.update")}
           </button>
         </span>
       </div>

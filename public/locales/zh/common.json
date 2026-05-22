@@ -59,7 +59,8 @@
     "leave_message": "留言"
   },
   "status": {
-    "uploading": "上传中"
+    "uploading": "上传中",
+    "saving": "保存中"
   },
   "tip": {
     "email_msg_tip": "您的地区收不到消息提醒，升级到 Pro 版本可以使用邮件提醒功能",
@@ -91,7 +92,9 @@
     "send_failed_blocked": "发送失败，可能被屏蔽",
     "send_msg_failed": "发送消息失败",
     "only_text_reply": "回复消息时仅支持纯文本",
-    "api_key_copied": "API Key 已复制"
+    "api_key_copied": "API Key 已复制",
+    "esc_to": "按 Esc ",
+    "enter_to": "按 Enter "
   },
   "new_version": "有<0>新版本</0>",
   "mobile_app": "欢迎下载使用<0>手机 APP</0>",
