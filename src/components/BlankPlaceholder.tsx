@@ -93,7 +93,8 @@ const BlankPlaceholder: FC<Props> = ({ type = "chat" }) => {
             )}
           </p>
         </div>
-        <div
+        {/* 注释掉邀请朋友或队友的功能 */}
+        {/* <div
           style={{
             width: "432px",
             display: "flex",
@@ -108,14 +109,14 @@ const BlankPlaceholder: FC<Props> = ({ type = "chat" }) => {
               <div className={classes.boxTip}>{t("invite")}</div>
             </button>
           )}
-        </div>
+        </div> */}
       </div>
       {createChannelVisible && (
         <ChannelModal personal={true} closeModal={toggleChannelModalVisible} />
       )}
 
       {userListVisible && <UsersModal closeModal={toggleUserListVisible} />}
-      {inviteModalVisible && <InviteModal closeModal={toggleInviteModalVisible} />}
+      {/* {inviteModalVisible && <InviteModal closeModal={toggleInviteModalVisible} />} */}
     </>
   );
 };

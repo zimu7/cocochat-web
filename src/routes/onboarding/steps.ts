@@ -25,15 +25,15 @@ const steps: Step[] = [
     name: "whoCanSignUp",
     label: t("welcome:onboarding.who_sign_up")
   },
-  {
-    name: "inviteLink",
-    label: t("welcome:onboarding.invites"),
-    canJumpTo: ["whoCanSignUp"]
-  },
+  // {
+  //   name: "inviteLink",
+  //   label: t("welcome:onboarding.invites"),
+  //   canJumpTo: ["whoCanSignUp"]
+  // },
   {
     name: "donePage",
     label: t("welcome:onboarding.done"),
-    canJumpTo: ["whoCanSignUp", "inviteLink"]
+    canJumpTo: ["whoCanSignUp"]
   }
 ];
 

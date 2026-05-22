@@ -1,3 +1,18 @@
+## 17. 修复onboarding过程的问题
+
+onboarding过程开始前，需要先清楚本地缓存，不然当进行管理员账号设置的时候，会直接用之前已经设置过的账号，导致管理员账
+  号无法配置。
+
+ 现在我完全理解这个 bug 了。问题是：
+
+  1. 当之前设置过服务器时，auth 数据会存储在 localStorage 中
+  2. Redux authDataSlice 在模块加载时从 localStorage 初始化其状态（在任何组件渲染之前）
+  3. onboarding 页面运行 clearLocalCache()，它会清除 localStorage，但 Redux store 仍然保留了旧的 auth 数据
+  4. 在 AdminAccount 中，loggedIn = !!store.authData.token 仍然是 true，因为 Redux 中有旧 token
+  5. 检查 loggedIn 的 useEffect 会立即触发 → 跳到下一步，跳过了管理员账号设置
+
+  修复方法是：在清除 localStorage 的同时，也通过 dispatch resetAuthData() 来重置 Redux auth 状态。
+
 ## 16. 缺失的国际化内容
 
 所有剩余的硬编码 toast 消息都已注释掉。我们的更改已完成。

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { useWizard, Wizard } from "react-use-wizard";
 import clsx from "clsx";
 
@@ -11,6 +12,7 @@ import ServerName from "./steps/server-name";
 import WelcomePage from "./steps/welcome-page";
 import WhoCanSignUp from "./steps/who-can-sign-up";
 import SelectLanguage from "../../components/Language";
+import { resetAuthData } from "@/app/slices/auth.data";
 import {
   KEY_DEVICE_ID,
   KEY_DEVICE_TOKEN,
@@ -69,7 +71,7 @@ const Navigator = () => {
         );
         const nodeCls = `${itemClass}`;
         return (
-          <React.Fragment key={indexToRender}>
+          <Fragment key={indexToRender}>
             <span
               className={nodeCls}
               onClick={() => {
@@ -81,7 +83,7 @@ const Navigator = () => {
               {stepToRender.label}
             </span>
             {indexToRender !== steps.length - 1 && <span className={nodeCls}>→</span>}
-          </React.Fragment>
+          </Fragment>
         );
       })}
     </div>
@@ -90,11 +92,13 @@ const Navigator = () => {
 
 export default function OnboardingPage() {
   const { t, ready } = useTranslation(["welcome", "setting"]);
+  const dispatch = useDispatch();
   const [serverName, setServerName] = useState("");
 
-  // 进入 onboarding 时清理所有旧缓存
+  // 进入 onboarding 时清理所有旧缓存（包括 Redux 状态）
   useEffect(() => {
     clearLocalCache();
+    dispatch(resetAuthData());
   }, []);
 
   // 等待 i18n 初始化完成
@@ -115,8 +119,8 @@ export default function OnboardingPage() {
           <ServerName serverName={serverName} setServerName={setServerName} />
           <AdminAccount serverName={serverName} />
           <WhoCanSignUp />
-          {/* lazy call invite link API  */}
-          <InviteLink />
+          {/* lazy call invite link API */}
+          {/* <InviteLink /> */}
           <DonePage serverName={serverName} />
         </Wizard>
       </div>
