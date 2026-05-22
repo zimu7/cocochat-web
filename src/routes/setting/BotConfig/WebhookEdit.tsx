@@ -41,7 +41,7 @@ const WebhookEdit = ({ uid }: Props) => {
       if ("error" in resp) {
         switch (resp.error.status) {
           case 406:
-            toast.error("Not Valid URL!");
+            toast.error(ct("error.not_valid_url"));
             break;
 
           default:

@@ -61,10 +61,10 @@ const EditModal = ({ uid, closeModal }: Props) => {
     if (error) {
       switch (error.status) {
         case 406:
-          toast.error("Invalid Webhook URL!");
+          toast.error(ct("error.invalid_webhook"));
           break;
         case 409:
-          toast.error("Name conflict with existed username, try the proposed name below.");
+          toast.error(ct("error.name_conflict"));
           setInputs((prev) => ({ ...prev, name: `${prev.name}-bot` }));
           break;
         default:
@@ -75,7 +75,7 @@ const EditModal = ({ uid, closeModal }: Props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Update Bot Successfully!");
+      toast.success(ct("error.update_bot_success"));
       closeModal();
     }
   }, [isSuccess, closeModal]);

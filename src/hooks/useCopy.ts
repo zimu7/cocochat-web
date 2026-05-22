@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import i18n from "@/i18n";
 
 async function copyImageToClipboard(imageUrl: string) {
   const response = await fetch(imageUrl);
@@ -30,7 +31,7 @@ const useCopy = (config: { enableToast: boolean } | void) => {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
     if (copied && enableToast) {
-      toast.success("Copied!");
+      toast.success(i18n.t("tip.copied"));
     }
   }, [copied]);
 

@@ -37,7 +37,7 @@ const MsgNotify = ({}: Props) => {
     if (!msgNotify) {
       // 检查下 SMTP 开关
       if (!(values as SMTPConfig).enabled) {
-        toast.error("Enable SMTP first!");
+        toast.error(ct("error.enable_smtp_first"));
         return;
       }
     }

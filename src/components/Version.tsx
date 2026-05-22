@@ -13,7 +13,7 @@ type Props = {};
 const Version: FC<Props> = () => {
   const serverVersion = useAppSelector((store) => store.server.version, shallowEqual);
   const [syncing, setSyncing] = useState(false);
-  const { t } = useTranslation("setting", { keyPrefix: "version" });
+  const { t, i18n } = useTranslation("setting", { keyPrefix: "version" });
   const ts = (process.env.REACT_APP_BUILD_TIME ?? 0) as number;
   const handleSync = () => {
     setSyncing(true);
@@ -31,7 +31,7 @@ const Version: FC<Props> = () => {
         {t("server_version")}: {serverVersion}
       </li>
       <li>
-        {t("build_time")}: {dayjs(ts * 1000).format("YYYY年M月D日 HH:mm:ss")}{" "}
+        {t("build_time")}: {dayjs(ts * 1000).format(i18n.language === "zh" ? "YYYY年M月D日 HH:mm:ss" : "YYYY/M/D HH:mm:ss")}{" "}
         <span className="text-gray-700 dark:text-gray-300">({dayjs(ts * 1000).fromNow()})</span>
       </li>
     </ul>

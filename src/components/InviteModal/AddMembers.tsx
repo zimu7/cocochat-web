@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import i18n from "@/i18n";
 
 import { useAddMembersMutation } from "@/app/services/channel";
 import { useAppSelector } from "@/app/store";
@@ -23,7 +24,7 @@ const AddMembers: FC<Props> = ({ cid = 0, closeModal }) => {
   const userData = useAppSelector((store) => store.users.byId, shallowEqual);
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Add members successfully!");
+      toast.success(i18n.t("tip.add_members_success"));
       closeModal();
     }
   }, [isSuccess]);

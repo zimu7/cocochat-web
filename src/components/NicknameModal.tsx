@@ -18,6 +18,7 @@ const NicknameModal = ({ visible, updateVisible, uid }: Props) => {
   const [updateRemark, { isLoading }] = useUpdateRemarkMutation();
   const { t } = useTranslation("chat");
   const { t: ct } = useTranslation("common", { keyPrefix: "action" });
+  const { t: ctt } = useTranslation();
   const [input, setInput] = useState(remark);
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setInput(evt.target.value);
@@ -27,7 +28,7 @@ const NicknameModal = ({ visible, updateVisible, uid }: Props) => {
     if (!error) {
       updateVisible(false);
     } else {
-      toast.error("failed");
+      toast.error(ctt("error.failed"));
     }
   };
   if (!visible) return null;

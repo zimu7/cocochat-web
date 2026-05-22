@@ -1,6 +1,7 @@
 import { FC, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import { useDispatch } from "react-redux";
 import Tippy from "@tippyjs/react";
 import clsx from "clsx";
@@ -82,14 +83,14 @@ const Commands: FC<Props> = ({
     hideAll();
     const faved = isFavorited(mid);
     if (faved) {
-      toast.success("Favorited!");
+      toast.success(i18n.t("tip.favorited"));
       return;
     }
     const added = await addFavorite(mid);
     if (added) {
-      toast.success("Added Favorites!");
+      toast.success(i18n.t("tip.added_favorites"));
     } else {
-      toast.error("Added Favorites Failed!");
+      toast.error(i18n.t("tip.added_favorites_failed"));
     }
   };
   const cmdClass = `flex cursor-pointer p-1 md:hover:bg-gray-100 md:dark:hover:bg-gray-800`;

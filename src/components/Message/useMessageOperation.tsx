@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import i18n from "@/i18n";
 
 import { ContentTypes } from "@/app/config";
 import { useAppSelector } from "@/app/store";
@@ -70,7 +71,7 @@ export default function useMessageOperation({ mid, context, contextId, selectedT
   }, [mid, forwardModalVisible, content_type]);
   useEffect(() => {
     if (isUnpinSuccess) {
-      toast.success("Unpin Message Successfully!");
+      toast.success(i18n.t("tip.unpin_success"));
     }
   }, [isUnpinSuccess]);
   const enablePin = context == "channel" && canPin;

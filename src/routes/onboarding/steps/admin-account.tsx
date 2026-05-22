@@ -16,6 +16,7 @@ type Props = {
 };
 const AdminAccount: FC<Props> = ({ serverName }) => {
   const { t } = useTranslation("welcome", { keyPrefix: "onboarding" });
+  const { t: ct } = useTranslation();
   const { nextStep } = useWizard();
   const formRef = useRef<HTMLFormElement>(null);
   const loggedIn = useAppSelector((store) => !!store.authData.token, shallowEqual);
@@ -33,7 +34,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
   // Display error
   useEffect(() => {
     if (signUpError) {
-      toast.error(`Failed to sign up`);
+      toast.error(ct("error.failed_sign_up"));
     }
   }, [signUpError]);
   useEffect(() => {
@@ -47,7 +48,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
   }, [signUpOk]);
   useEffect(() => {
     if (loginError) {
-      toast.error(`Login failed`);
+      toast.error(ct("error.login_failed"));
     }
   }, [loginError]);
 

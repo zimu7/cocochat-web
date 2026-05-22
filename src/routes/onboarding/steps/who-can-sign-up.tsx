@@ -10,6 +10,7 @@ import StyledRadio from "@/components/styled/Radio";
 
 export default function SignUpSetting() {
   const { t } = useTranslation("welcome");
+  const { t: ct } = useTranslation();
   const { t: st } = useTranslation("setting");
   const { nextStep } = useWizard();
   const { data: loginConfig } = useGetLoginConfigQuery();
@@ -28,7 +29,7 @@ export default function SignUpSetting() {
   // Display error
   useEffect(() => {
     if (error === undefined) return;
-    toast.error(`Failed to update sign up rule: ${error.data}`);
+    toast.error(`${ct("error.failed_update_signup")}: ${error.data}`);
   }, [error]);
 
   // Increment `step` when updating has completed

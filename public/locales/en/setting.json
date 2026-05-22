@@ -320,7 +320,8 @@
     "error_not_supported": "Your browser doesn't support Passkey",
     "error_cancelled": "User cancelled or timeout",
     "error_exists": "Passkey already exists",
-    "enter_name": "Enter a name for this passkey"
+    "enter_name": "Enter a name for this passkey",
+    "error_user_not_available": "User information not available"
   },
   "widget": {
     "tip": "Extending CocoChat by embedding the cocochat widget SDK!",
@@ -396,7 +397,9 @@
     "delete_success": "Channel deleted successfully",
     "delete_error": "Failed to delete channel",
     "test_success": "Test notification sent successfully",
-    "test_error": "Failed to send test notification"
+    "test_error": "Failed to send test notification",
+    "channel_name_required": "Channel name is required",
+    "missing_required_fields": "Missing required fields: {{fields}}"
   },
   "admin_notification_channels": {
     "desc": "Enable notification channel types for users",

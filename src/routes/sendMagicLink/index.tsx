@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import i18n from "@/i18n";
 
 import { useSendLoginMagicLinkMutation } from "@/app/services/auth";
 import SentTip from "./SentTip";
@@ -18,7 +19,7 @@ export default function SendMagicLinkPage() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Send Email Successfully!");
+      toast.success(i18n.t("error.send_email_success"));
     }
   }, [isSuccess]);
 
@@ -29,13 +30,13 @@ export default function SendMagicLinkPage() {
           toast.error(error.data);
           break;
         case 401:
-          toast.error("Username or Password Incorrect");
+          toast.error(i18n.t("error.username_pwd_incorrect"));
           break;
         case 404:
-          toast.error("Account not exist");
+          toast.error(i18n.t("error.account_not_exist"));
           break;
         default:
-          toast.error("Something Error");
+          toast.error(i18n.t("error.something_error"));
           break;
       }
       return;

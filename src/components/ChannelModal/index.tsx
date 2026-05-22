@@ -61,7 +61,7 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
   // todo: delete the following code and use common error handler instead
   useEffect(() => {
     if (isError) {
-      toast.error("create new channel failed");
+      toast.error(i18n.t("tip.create_channel_failed"));
     }
   }, [isError]);
 
@@ -73,7 +73,7 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
       const welcome = i18n.t("welcome_msg", { ns: "chat", name }) ?? "";
       sendMessage({ id, content: welcome, from_uid: loginUser?.uid, type: "text" });
       closeModal();
-      toast.success("create new channel success");
+      toast.success(i18n.t("tip.create_channel_success"));
       navigateTo(`/chat/channel/${id}`);
     }
   }, [isSuccess, newChannel, channelData]);

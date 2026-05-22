@@ -57,7 +57,6 @@
     "name": "服务器名",
     "desc": "服务器描述",
     "upload_desc": "图片最小 128x128，我们推荐上传 512x512 大小的图片，最大不要超过 5M。",
-
     "sign_up": {
       "title": "注册设置",
       "desc": "允许什么方式注册",
@@ -188,7 +187,6 @@
     "renew": "升级证书",
     "update": "手动更新",
     "update_placeholder": "请输入新的证书内容",
-
     "renew_select": "请选择价格套餐",
     "tip": {
       "title": "一个获取免费升级的机会！",
@@ -319,7 +317,8 @@
     "error_not_supported": "您的浏览器不支持通行密钥",
     "error_cancelled": "用户取消或超时",
     "error_exists": "通行密钥已存在",
-    "enter_name": "请输入通行密钥名称"
+    "enter_name": "请输入通行密钥名称",
+    "error_user_not_available": "用户信息不可用"
   },
   "widget": {
     "tip": "将挂件 SDK 内嵌到网页，实现 CocoChat 扩展！",
@@ -395,7 +394,9 @@
     "delete_success": "渠道删除成功",
     "delete_error": "渠道删除失败",
     "test_success": "测试通知发送成功",
-    "test_error": "测试通知发送失败"
+    "test_error": "测试通知发送失败",
+    "channel_name_required": "渠道名称是必填项",
+    "missing_required_fields": "缺少必填字段：{{fields}}"
   },
   "admin_notification_channels": {
     "desc": "为用户启用通知渠道类型",

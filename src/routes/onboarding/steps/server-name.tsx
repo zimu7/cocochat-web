@@ -29,7 +29,7 @@ const ServerName: FC<Props> = ({ serverName, setServerName }) => {
         onClick={() => {
           // Verification for space name
           if (serverName === "") {
-            toast.error("Please enter server name!");
+            toast.error(t("error.enter_server_name"));
             return;
           }
           nextStep();

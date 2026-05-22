@@ -2,6 +2,7 @@
 import { FormEvent, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
 
@@ -61,7 +62,7 @@ const Login = () => {
 
   useEffect(() => {
     if (tokenLoginError) {
-      toast.error("Login error!");
+      toast.error(i18n.t("error.login_error_widget"));
     }
   }, [tokenLoginError]);
   useEffect(() => {
@@ -86,7 +87,7 @@ const Login = () => {
 
           break;
         default:
-          toast.error("Something error!");
+          toast.error(i18n.t("error.something_error"));
           break;
       }
     }

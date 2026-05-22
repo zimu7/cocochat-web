@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useAppSelector } from "@/app/store";
 import { shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { ChatContext } from "@/types/common";
 import dayjs from "dayjs";
 import Avatar from "@/components/Avatar";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function MessageSearch({ context, id, onLocate }: Props) {
+  const { t } = useTranslation("chat");
   const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(false);
   
@@ -65,7 +67,7 @@ export default function MessageSearch({ context, id, onLocate }: Props) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="搜索消息..."
+                placeholder={t("search_placeholder")}
                 className="flex-1 px-3 py-2 bg-gray-50 dark:bg-gray-700 rounded outline-none text-sm"
                 autoFocus
               />
@@ -77,7 +79,7 @@ export default function MessageSearch({ context, id, onLocate }: Props) {
 
           <div className="max-h-96 overflow-y-auto">
             {query && searchResults.length === 0 && (
-              <div className="p-4 text-center text-gray-500 text-sm">未找到匹配的消息</div>
+              <div className="p-4 text-center text-gray-500 text-sm">{t("search_not_found")}</div>
             )}
             {searchResults.map((msg) => {
               const user = usersData[msg.from_uid || 0];

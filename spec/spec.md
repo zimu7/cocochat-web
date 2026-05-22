@@ -1,3 +1,51 @@
+## 16. 缺失的国际化内容
+
+所有剩余的硬编码 toast 消息都已注释掉。我们的更改已完成。
+
+  让我总结一下做了什么：
+
+  国际化完成总结
+
+  翻译文件更新
+
+  - public/locales/en/common.json 和 public/locales/zh/common.json：添加了 error 命名空间（含 40+ 错误提示键）和
+  action、tip 命名空间中新增的键（如 forward_one_by_one、send_to_count、copied、cleared 等）
+  - public/locales/en/chat.json 和 public/locales/zh/chat.json：添加了 search_placeholder、search_not_found、date_format
+  - public/locales/en/setting.json 和 public/locales/zh/setting.json：添加了
+  notification.channel_name_required、notification.missing_required_fields、passkey.error_user_not_available
+  - public/locales/en/auth.json 和 public/locales/zh/auth.json：添加了 login.passkey_error_user_not_available
+
+  源文件修改（47个文件）
+
+  硬编码中文 UI 文本：
+  - ForwardModal/index.tsx："逐条转发" → t("action.forward_one_by_one")
+  - MessageSearch/index.tsx："搜索消息..." → t("search_placeholder")，"未找到匹配的消息" → t("search_not_found")
+  - Version.tsx：日期格式 YYYY年M月D日 → 根据语言动态切换
+
+  硬编码英文 toast/placeholder/按钮 文本：
+  - ForwardModal/index.tsx：5 处硬编码 → i18n t() 调用
+  - useCopy.ts："Copied!" → i18n.t("tip.copied")
+  - AutoDeleteMessages.tsx："Cleared!" → ct("tip.cleared")
+  - ChannelModal/index.tsx：2 处
+  - base.query.ts：8 处 HTTP 错误消息
+  - handlers.ts：2 处发送消息错误
+  - useSendMessage.ts、"Only text..." → i18n.t()
+  - useUploadFile.ts：1 处
+  - routes/index.tsx："Network Offline!" → i18n.t()
+  - routes/login/index.tsx：4 处登录错误消息
+  - routes/sendMagicLink/index.tsx：4 处
+  - routes/reg/Register.tsx：2 处
+  - routes/reg/RegWithUsername.tsx：2 处
+  - Operations.tsx：3 处
+  - Commands.tsx：3 处收藏消息
+  - useMessageOperation.tsx：1 处取消置顶
+  - LeaveChannel：2 处离开频道
+  - InviteModal：2 处邀请/添加成员
+  - ClearConfirmModal、BotConfig 系列：10+ 处
+  - UpdatePasswordModal、RemoveAccountConfirmModal、NicknameModal 等
+  - Announcement/index.tsx：3 处
+  - ServerMsgEmailNotify.tsx、PasskeyManagement.tsx 等
+
 ## 15. 修复上传取消后再上传的bug
 
   1. queue、processing、cancelledUrls 改为模块级共享状态 — 用 sharedQueueMap 按 ${context}_${id} 键共享，无论哪个 useUploadFile 实例操作的都是同一份数据，删除文件时 removeStageFile

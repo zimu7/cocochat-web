@@ -49,7 +49,7 @@ export default function Announcement({ id = 0 }) {
 
   useEffect(() => {
     if (deleteSuccess) {
-      toast.success("Announcement deleted");
+      toast.success(ct("error.announcement_deleted"));
       setContent("");
       setShowDeleteConfirm(false);
       refetch();
@@ -58,11 +58,11 @@ export default function Announcement({ id = 0 }) {
 
   const handleSave = () => {
     if (!content.trim()) {
-      toast.error("Announcement content cannot be empty");
+      toast.error(ct("error.announcement_empty"));
       return;
     }
     if (content.length > 5000) {
-      toast.error("Announcement content cannot exceed 5000 characters");
+      toast.error(ct("error.announcement_too_long"));
       return;
     }
     createOrUpdate({ gid: id, content: content.trim() });

@@ -34,7 +34,7 @@ export default function PasskeyManagement() {
     }
 
     if (!user?.name) {
-      toast.error("User information not available");
+      toast.error(t("error_user_not_available"));
       return;
     }
 

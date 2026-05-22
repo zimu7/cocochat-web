@@ -2,6 +2,7 @@ import { lazy, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Provider, shallowEqual } from "react-redux";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import i18n from "@/i18n";
 
 import Meta from "@/components/Meta";
 import RequireAuth from "@/components/RequireAuth";
@@ -44,7 +45,7 @@ const PageRoutes = () => {
   // 掉线检测
   useEffect(() => {
     if (!online) {
-      toastId = toast.error("Network Offline!", { duration: Infinity });
+      toastId = toast.error(i18n.t("tip.network_offline"), { duration: Infinity });
     } else if (toastId) {
       toast.dismiss(toastId);
     }

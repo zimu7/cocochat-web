@@ -76,7 +76,7 @@ export default function NotificationSettings() {
 
   const handleSave = async () => {
     if (!formData.name?.trim()) {
-      toast.error("Channel name is required");
+      toast.error(t("channel_name_required"));
       return;
     }
 
@@ -87,7 +87,7 @@ export default function NotificationSettings() {
         .map((field) => field.label);
 
       if (missingFields.length > 0) {
-        toast.error(`Missing required fields: ${missingFields.join(", ")}`);
+        toast.error(t("missing_required_fields", { fields: missingFields.join(", ") }));
         return;
       }
     }

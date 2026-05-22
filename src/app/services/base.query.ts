@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import dayjs from "dayjs";
+import i18n from "@/i18n";
 
 import { getLocalAuthData } from "@/utils";
 import BASE_URL, { tokenHeader, IS_OFFICIAL_DEMO } from "../config";
@@ -99,11 +100,11 @@ const baseQueryWithTokenCheck = async (args: any, api: any, extraOptions: any) =
     switch (result.error.originalStatus || result.error.status) {
       case "FETCH_ERROR":
         {
-          toast.error(`${api.endpoint}: Failed to fetch`);
+          toast.error(`${api.endpoint}: ${i18n.t("error.fetch_failed")}`);
         }
         break;
       case 400:
-        toast.error("Bad Request");
+        toast.error(i18n.t("error.bad_request"));
         break;
       case 401:
         {
@@ -121,7 +122,7 @@ const baseQueryWithTokenCheck = async (args: any, api: any, extraOptions: any) =
         {
           const whiteList403 = ["sendMsg", "login"];
           if (!whiteList403.includes(api.endpoint)) {
-            toast.error("Request Not Allowed");
+            toast.error(i18n.t("error.not_allowed"));
           }
         }
 
@@ -129,18 +130,18 @@ const baseQueryWithTokenCheck = async (args: any, api: any, extraOptions: any) =
       case 404:
         {
           if (!whiteList404.includes(api.endpoint)) {
-            toast.error("Request Not Found");
+            toast.error(i18n.t("error.not_found"));
           }
         }
         break;
       case 413:
         {
-          toast.error("File size too large");
+          toast.error(i18n.t("error.file_too_large"));
         }
         break;
       case 415:
         {
-          toast.error("Unsupported Media Type");
+          toast.error(i18n.t("error.unsupported_media"));
         }
         break;
       case 451:
@@ -151,13 +152,13 @@ const baseQueryWithTokenCheck = async (args: any, api: any, extraOptions: any) =
             api.dispatch(resetAuthData());
             location.href = "/#/login";
           }
-          toast.error(result.error.data || "License Error");
+          toast.error(result.error.data || i18n.t("error.license_error"));
         }
         break;
       case 500:
       case 503:
         {
-          toast.error(result.error.data || "Server Error");
+          toast.error(result.error.data || i18n.t("error.server_error"));
         }
         break;
 

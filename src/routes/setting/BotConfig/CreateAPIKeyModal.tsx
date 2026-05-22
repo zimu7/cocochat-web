@@ -40,10 +40,10 @@ const CreateAPIKeyModal = ({ closeModal, uid }: Props) => {
     if (error) {
       switch (error.status) {
         case 406:
-          toast.error("Invalid Webhook URL!");
+          toast.error(ct("error.invalid_webhook"));
           break;
         case 409:
-          toast.error("Name Already Exists!");
+          toast.error(ct("error.name_already_exists"));
           break;
         default:
           break;
@@ -52,7 +52,7 @@ const CreateAPIKeyModal = ({ closeModal, uid }: Props) => {
   }, [error]);
   const handleCopy = () => {
     copy(data);
-    toast.success("API Key Copied!");
+    toast.success(ct("tip.api_key_copied"));
     closeModal();
   };
 

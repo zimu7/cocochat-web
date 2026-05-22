@@ -5,6 +5,7 @@ import StyledButton from "../styled/Button";
 import useUserOperation from "@/hooks/useUserOperation";
 import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   uid?: number;
@@ -14,9 +15,10 @@ type Props = {
 const UpdatePassword = ({ uid, onClose }: Props) => {
   const [pwd, setPwd] = useState("");
   const { updatePassword } = useUserOperation({ uid });
+  const { t: ct } = useTranslation();
   const handleUpdate = () => {
     if (pwd.length < 6) {
-      toast.error("Min length is 6");
+      toast.error(ct("error.min_length_6"));
       return;
     }
     updatePassword(pwd);

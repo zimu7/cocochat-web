@@ -18,7 +18,6 @@
   "created_at": "创建时间",
   "updated_at": "最后更新",
   "dismiss_announcement": "关闭公告",
-
   "channel_name": "频道名称",
   "private_channel": "私密频道",
   "create_channel": "创建新频道",
@@ -26,7 +25,6 @@
   "create_private_channel_desc": "这是一个私密频道，只有被选择的人才能看到",
   "search_user_placeholder": "请输入用户名",
   "welcome_msg": "欢迎来到 {{name}} 频道",
-
   "invite_title": "邀请朋友加入{{name}}",
   "invite_by_email": "邮件邀请",
   "enable_smtp": "首先开启 SMTP",
@@ -36,22 +34,18 @@
   "invite_link_edit": "编辑邀请链接",
   "invite_link_setting_tip": "邀请链接有效期：{{expire}}，最多使用次数：{{times}}",
   "generate_new_link": "生成新邀请链接",
-
   "send_to": "发送至",
   "edited": "已编辑",
   "license_tip": "您的使用人数已达证书限制上限，请升级证书或者联系管理员！",
-
   "delete_msg_title": "删除消息",
   "delete_msg_desc": "确定删除{{msg}}？",
   "delete_msg_this": "此消息",
   "delete_msg_these": "这些消息",
-
   "new_msg": "{{num}} 条新消息",
   "mark_read": "设为已读",
   "pin_chat": "置顶",
   "unpin_chat": "取消置顶",
   "reply_msg_del": "被回复的消息已删除！",
-
   "file": "文件",
   "image": "图片",
   "forward": "转发",
@@ -72,9 +66,11 @@
   "file_expired": "文件已过期",
   "only_owner_can_send": "只有频道创建者才能发消息！",
   "uploading": "上传中...",
-
   "remark": "备注",
   "remark_clear": "重置备注",
   "remark_intro": "给联系人备注，方便日后查找，备注仅您可见",
-  "remark_placeholder": "备注该用户"
+  "remark_placeholder": "备注该用户",
+  "search_placeholder": "搜索消息...",
+  "search_not_found": "未找到匹配的消息",
+  "date_format": "YYYY年M月D日 HH:mm:ss"
 }

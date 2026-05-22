@@ -14,6 +14,7 @@ interface Props {
 
 const RemoveConfirmModal: FC<Props> = ({ closeModal }) => {
   const { t } = useTranslation("member");
+  const { t: ct } = useTranslation();
   const [removeCurrentAccount, { isLoading, isSuccess }] = useLazyDeleteCurrentAccountQuery();
   const { clearLocalData } = useLogout();
   const handleRemove = async () => {
@@ -22,7 +23,7 @@ const RemoveConfirmModal: FC<Props> = ({ closeModal }) => {
     } catch (error) {
       console.error(error);
       
-      toast.error("Remove Account Failed!");
+      toast.error(ct("error.remove_account_failed"));
     }
   };
   useEffect(() => {

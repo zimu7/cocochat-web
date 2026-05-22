@@ -65,7 +65,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
         channels: selectedChannels
       });
     }
-    toast.success("Forward Message Successfully");
+    toast.success(t("tip.forward_success"));
     closeModal();
   };
   const removeSelected = (id: number, from = "user") => {
@@ -92,7 +92,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
               className="px-2 py-2.5 text-sm dark:text-white bg-black/10 rounded-lg w-full"
               value={input}
               onChange={handleSearchChange}
-              placeholder="Search user or channel"
+              placeholder={t("action.search_user_or_channel")}
             />
           </div>
           <ul className="flex flex-col pb-5">
@@ -133,7 +133,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
           </ul>
         </div>
         <div className={`flex flex-col items-start p-4 box-border`}>
-          <h3 className="font-semibold text-sm text-gray-700 mb-4">Send To {selectedCount}</h3>
+          <h3 className="font-semibold text-sm text-gray-700 mb-4">{t("action.send_to_count", { count: selectedCount })}</h3>
           <ul className="w-full h-[260px] py-2.5 overflow-y-scroll">
             {selectedChannels.map((cid) => {
               return (
@@ -170,11 +170,11 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
               name="forwardType"
               id="forwardType"
             />
-            <span>逐条转发</span>
+            <span>{t("action.forward_one_by_one")}</span>
           </label>
           <Input
             className="mb-8"
-            placeholder="Leave a message"
+            placeholder={t("action.leave_message")}
             value={appendText}
             onChange={updateAppendText}
           ></Input>
@@ -183,7 +183,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
               {t("action.cancel")}
             </Button>
             <Button className="normal" disabled={sendButtonDisabled} onClick={handleForward}>
-              Send To {selectedCount == 0 ? null : `(${selectedCount})`}
+              {t("action.send_to_count", { count: selectedCount })}
             </Button>
           </div>
         </div>

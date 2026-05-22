@@ -36,7 +36,7 @@ const ClearConfirmModal: FC<Props> = ({ context, title, desc, closeModal }) => {
   const clearSuccess = clearFilesSuccess || clearMsgSuccess;
   useEffect(() => {
     if (clearSuccess) {
-      toast.success("Clear success");
+      toast.success(ct("tip.clear_success"));
       closeModal();
     }
   }, [clearSuccess]);

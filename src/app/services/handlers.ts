@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { batch } from "react-redux";
+import i18n from "@/i18n";
 
 import { ContentTypes } from "../config";
 import { addMessage, removeMessage } from "../slices/message";
@@ -62,10 +63,10 @@ export const onMessageSendStarted = async (
   } catch (error) {
     if (error?.error?.status == 403) {
       // 403 means blocked
-      toast.error(`Send failed, blocked maybe`);
+      toast.error(i18n.t("tip.send_failed_blocked"));
       // dispatch(updateMessage({ mid: ts, failed: true }));
     } else {
-      toast.error(`Send Message Failed ${JSON.stringify(error)}`);
+      toast.error(`${i18n.t("tip.send_msg_failed")} ${JSON.stringify(error)}`);
     }
     dispatch(removeContextMessage({ id, mid: ts }));
     dispatch(removeMessage(ts));

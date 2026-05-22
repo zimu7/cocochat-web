@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
+import i18n from "@/i18n";
 import { useKey } from "@/hooks/useLightweightHooks";
 
 import { updateSelectMessages } from "@/app/slices/ui";
@@ -35,9 +36,9 @@ const Operations: FC<Props> = ({ context, id }) => {
     const added = await addFavorite(mids);
     if (added) {
       dispatch(updateSelectMessages({ context, id, operation: "reset" }));
-      toast.success("Messages Saved!");
+      toast.success(i18n.t("tip.messages_saved"));
     } else {
-      toast.error("Operation Failed!");
+      toast.error(i18n.t("tip.operation_failed"));
     }
   };
 
@@ -45,7 +46,7 @@ const Operations: FC<Props> = ({ context, id }) => {
     setDeleteModalVisible((prev) => !prev);
     if (isSuccess) {
       dispatch(updateSelectMessages({ context, id, operation: "reset" }));
-      toast.success("Messages Deleted!");
+      toast.success(i18n.t("tip.messages_deleted"));
     }
   };
 

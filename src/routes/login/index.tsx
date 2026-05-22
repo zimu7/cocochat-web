@@ -63,21 +63,21 @@ export default function LoginPage() {
       switch ((error as FetchBaseQueryError).status) {
         case 401:
         case 404:
-          toast.error("Username or Password incorrect");
+          toast.error(ct("error.username_pwd_incorrect"));
           break;
         case 403:
-          toast.error("Login method does not supported");
+          toast.error(ct("error.login_not_supported"));
           break;
         case 410:
           toast.error(
-            "No associated account found, please contact user admin for an invitation link to join."
+            ct("error.no_associated_account")
           );
           break;
         // 451 有解析错误，暂时先客户端处理
         case "PARSING_ERROR":
           break;
         default:
-          toast.error("Something Error");
+          toast.error(ct("error.something_error"));
           break;
       }
       return;

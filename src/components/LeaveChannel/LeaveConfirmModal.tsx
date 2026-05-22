@@ -16,12 +16,13 @@ interface Props {
 
 const LeaveConfirmModal: FC<Props> = ({ id, closeModal, handleNextStep }) => {
   const { t } = useTranslation("setting");
+  const { t: ct } = useTranslation();
   const navigateTo = useNavigate();
   const { isOwner, leaving, leaveChannel, leaveSuccess } = useLeaveChannel(id);
 
   useEffect(() => {
     if (leaveSuccess) {
-      toast.success("Leave channel successfully!");
+      toast.success(ct("tip.leave_channel_success"));
       closeModal();
       navigateTo("/chat");
     }
