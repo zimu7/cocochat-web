@@ -262,6 +262,26 @@ const VirtualMessageFeed = forwardRef<VirtualMessageFeedHandle, Props>(({ contex
 
   const readIndex = context == "channel" ? readChannels[id] : readUsers[id];
 
+  // Track last mid to detect new own messages for auto-scroll
+  const prevLastMidRef = useRef<number | null>(null);
+
+  // Auto-scroll when user's own message appears at the end.
+  // This covers the case where visibleCount < allMids.length, which causes
+  // stableMids to shift (drop first, add last) rather than grow — Virtuoso's
+  // followOutput only fires on append, not on same-length shifts.
+  useEffect(() => {
+    const lastMid = stableMids.length > 0 ? stableMids[stableMids.length - 1] : null;
+    if (lastMid && lastMid !== prevLastMidRef.current && prevLastMidRef.current !== null) {
+      const lastMessage = messageData[lastMid];
+      if (lastMessage?.from_uid === loginUid) {
+        setTimeout(() => {
+          vList.current?.scrollToIndex(stableMids.length - 1);
+        }, 50);
+      }
+    }
+    prevLastMidRef.current = lastMid;
+  }, [stableMids, messageData, loginUid]);
+
   // Store frequently changing values in refs to avoid recreating itemContent
   const messageDataRef = useRef(messageData);
   const midsRef = useRef(stableMids);

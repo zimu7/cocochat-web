@@ -1,3 +1,54 @@
+## 20. 修复聊天消息没有自动到底部的问题
+
+Here's a summary of the change:
+
+  Root Cause: When allMids.length > visibleCount (e.g. 200 messages but only 50 visible), adding a new message causes stableMids to shift (first item dropped, new item appended) — the array length stays the
+  same. Virtuoso's followOutput callback only fires when items are appended (length increases). Since followOutput never fires, handleFollowOutput never runs, and the isSentByMyself check never triggers the
+  auto-scroll.
+
+  Fix at VirtualMessageFeed/index.tsx:265-283: Added a useEffect that watches the last message ID in stableMids. When it detects a new last message (mid changed) that was sent by the current user, it explicitly
+   calls vList.current.scrollToIndex() to scroll to the bottom. The prevLastMidRef.current !== null guard prevents scrolling on initial mount (which is already handled by initialTopMostItemIndex).
+
+  This coexists with the existing handleFollowOutput — that function still handles the case where visibleCount >= allMids.length (where followOutput fires normally). The useEffect covers the case it misses.
+
+
+
+## 19. 聊天消息列表国际化时间显示
+
+以下是所有修改的总结：
+
+  问题：中文环境下的时间显示混合了英文，例如：“Today 9:40 晚上”，而不是“今天 21:40”。
+
+  修改：
+
+  1. src/components/Message/index.tsx - 主要修复：
+
+    - 添加了 useTranslation hook
+    - 将硬编码的“Today”/“Yesterday”替换为 t("today")/t("yesterday")
+    - 将硬编码的 h:mm A / YYYY-MM-DD h:mm:ss A 格式替换为来自 i18n 的 timeFormat/datetimeFormat
+  2. public/locales/zh/chat.json - 添加了中文翻译：
+
+    - today: "今天"
+    - yesterday: "昨天"
+    - time_format: "HH:mm" (24小时制，无 AM/PM)
+    - datetime_format: "YYYY-MM-DD HH:mm:ss"
+    - day: "天"
+  3. public/locales/en/chat.json - 添加了英文格式键：
+
+    - today: "Today"
+    - yesterday: "Yesterday"
+    - time_format: "h:mm A"
+    - datetime_format: "YYYY-MM-DD h:mm:ss A"
+    - day: "day"
+  4. src/components/Message/renderContent.tsx - 使用 i18n.t("datetime_format") 来显示编辑时间戳的工具提示。
+  5. src/components/PinnedMessage.tsx - 使用 i18n.t("datetime_format") 来显示固定消息时间。
+  6. src/components/AnnouncementModal.tsx - 使用 t("datetime_format") 来显示创建/更新时间。
+  7. src/components/Message/ExpireTimer.tsx - 使用 t("day") 代替硬编码的“day”。
+
+  中文用户现在将看到“今天 21:40”、“昨天 18:32”，而不是“Today 9:40 晚上”、“Yesterday 6:32 下午”。
+
+
+
 ## 18. onboard国际化语言异步加载问题
 
 有的时候刷新页面，上面的步骤条国际化内容并未加载成功，而有的时候又是可以的，请检查一下是否存在异步加载的问题。
