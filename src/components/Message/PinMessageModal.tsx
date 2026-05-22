@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PinMessageModal: FC<Props> = ({ closeModal, mid = 0, gid = 0 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("chat");
   const { channel, pinMessage, isPining, isSuccess } = usePinMessage(gid);
   const handlePin = () => {
     pinMessage(mid);
