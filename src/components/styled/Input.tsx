@@ -23,6 +23,7 @@ interface Props
       | "disabled"
       | "minLength"
       | "spellCheck"
+      | "autoComplete"
     >,
     HTMLInputElement
   > {
@@ -59,7 +60,7 @@ const Input: FC<Props> = ({ type = "text", prefix = "", className = "", ...rest 
     >
       <input
         type={inputType}
-        autoComplete={inputType == "password" ? "current-password" : "on"}
+        autoComplete={rest.autoComplete ?? (inputType == "password" ? "current-password" : "on")}
         className={`${inputClass} ${className}`}
         {...rest}
       />

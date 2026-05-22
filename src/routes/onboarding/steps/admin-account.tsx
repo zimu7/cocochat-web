@@ -81,6 +81,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
           className="large"
           placeholder="Enter your email"
           type={"email"}
+          autoComplete="off"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -88,6 +89,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
         <StyledInput
           className="large"
           type="password"
+          autoComplete="new-password"
           required
           minLength={6}
           placeholder="Enter your password"
@@ -97,6 +99,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
         <StyledInput
           className="large"
           type="password"
+          autoComplete="new-password"
           required
           minLength={6}
           placeholder="Confirm your password"

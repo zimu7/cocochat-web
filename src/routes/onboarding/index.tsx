@@ -56,6 +56,7 @@ const clearLocalCache = async () => {
 
 const Navigator = () => {
   const { activeStep, goToStep } = useWizard();
+  const { t } = useTranslation(["welcome", "setting"]);
   const canJumpTo = steps[activeStep]?.canJumpTo || [];
   console.log("active step", activeStep);
 
@@ -80,7 +81,7 @@ const Navigator = () => {
                 }
               }}
             >
-              {stepToRender.label}
+              {t(stepToRender.labelKey as any)}
             </span>
             {indexToRender !== steps.length - 1 && <span className={nodeCls}>→</span>}
           </Fragment>
