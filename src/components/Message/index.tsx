@@ -102,7 +102,9 @@ const Message: FC<IProps> = ({
   const dayjsTime = dayjs(time);
   timePrefix = dayjsTime.isToday() ? t("today") : dayjsTime.isYesterday() ? t("yesterday") : null;
   const timeFormat = t("time_format");
-  const datetimeFormat = t("datetime_format");
+  const isCurrentYear = dayjsTime.year() === dayjs().year();
+  const datetimeFormat = isCurrentYear ? t("datetime_format_current_year") : t("datetime_format");
+  const fullDatetimeFormat = t("datetime_format");
 
   // return null;
   const _key = properties?.local_id || mid;
@@ -191,7 +193,7 @@ const Message: FC<IProps> = ({
               delay={200}
               disabled={!timePrefix || readOnly}
               placement="top"
-              tip={dayjsTime.format(datetimeFormat)}
+              tip={dayjsTime.format(fullDatetimeFormat)}
             >
               <time className="text-gray-400 text-xs">
                 {timePrefix

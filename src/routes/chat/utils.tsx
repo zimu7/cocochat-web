@@ -158,14 +158,17 @@ export const renderMessageFragment = ({
   let { created_at, mid } = curr;
   const local_id = curr.properties?.local_id;
   let divider = null;
-  let time = dayjs(created_at).format("YYYY/MM/DD");
+  const dayjsTime = dayjs(created_at);
+  const isCurrentYear = dayjsTime.year() === dayjs().year();
+  const dividerFormat = isCurrentYear
+    ? i18n.t("divider_date_format", { ns: "chat" })
+    : i18n.t("divider_date_format_with_year", { ns: "chat" });
   if (!prev && typeof prev !== "undefined") {
-    // 首条信息
-    divider = time;
+    divider = dayjsTime.format(dividerFormat);
   } else if (prev) {
     let { created_at: prev_created_at } = prev;
     if (!dayjs(prev_created_at).isSame(created_at, "day")) {
-      divider = time;
+      divider = dayjsTime.format(dividerFormat);
     }
   }
   const _key = local_id || mid;

@@ -72,10 +72,13 @@
   "remark_placeholder": "备注该用户",
   "search_placeholder": "搜索消息...",
   "search_not_found": "未找到匹配的消息",
-  "date_format": "YYYY年M月D日 HH:mm:ss",
+  "date_format": "YYYY年M月D日 HH:mm",
+  "divider_date_format": "M月D日",
+  "divider_date_format_with_year": "YYYY年M月D日",
   "today": "今天",
   "yesterday": "昨天",
   "time_format": "HH:mm",
-  "datetime_format": "YYYY-MM-DD HH:mm:ss",
+  "datetime_format": "YYYY年M月D日 HH:mm",
+  "datetime_format_current_year": "M月D日 HH:mm",
   "day": "天"
 }

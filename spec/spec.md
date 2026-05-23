@@ -1,4 +1,23 @@
+## 22. 优化时间格式，中文环境更符合大陆习惯
 
+已进行的修改：
+
+  1. public/locales/zh/chat.json - 更新中文日期格式：
+
+    - datetime_format: YYYY年M月D日 HH:mm (历史消息，无秒)
+    - datetime_format_current_year: M月D日 HH:mm (本年消息，无年份)
+    - divider_date_format: M月D日 (本年日期分割线)
+    - divider_date_format_with_year: YYYY年M月D日 (非本年日期分割线)
+  2. public/locales/en/chat.json - 对应英文格式更新
+  3. src/routes/chat/utils.tsx - 日期分割线根据是否本年选择不同格式：
+
+    - 本年：显示 "4月20日"
+    - 非本年：显示 "2025年3月30日"
+  4. src/components/Message/index.tsx - 消息时间戳：
+
+    - 本年消息：显示 "4月20日 17:23" (无年份、无秒)
+    - 非本年消息：显示 "2025年4月20日 17:23" (有年份、无秒)
+    - tooltip 始终显示完整日期（含年份），方便悬停查看
 
 ## 21. 优化聊天界面的显示风格
 
