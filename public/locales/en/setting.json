@@ -51,7 +51,21 @@
     "only_owner": "Only Owner and Admin Can Send Message",
     "announcement_placeholder": "Write your announcement here... Markdown is supported.",
     "no_announcements": "No content to preview",
-    "no_permission": "You don't have permission to manage announcements"
+    "no_permission": "You don't have permission to manage announcements",
+    "announcement_title": "Channel Announcement",
+    "announcement_desc": "Create or update the announcement for this channel. Members will see it as a popup when it's new or updated.",
+    "announcement_edit": "Edit",
+    "announcement_preview": "Preview",
+    "announcement_char_count": "{{count}} / 5000 characters",
+    "announcement_char_exceeded": "Character limit exceeded",
+    "announcement_saving": "Saving...",
+    "announcement_create": "Create Announcement",
+    "announcement_update": "Update Announcement",
+    "announcement_delete": "Delete",
+    "announcement_delete_confirm": "Are you sure?",
+    "announcement_deleting": "Deleting...",
+    "announcement_confirm_delete": "Confirm Delete",
+    "announcement_cancel": "Cancel"
   },
   "dm": {
     "delete": "Delete User",

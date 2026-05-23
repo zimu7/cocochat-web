@@ -50,7 +50,21 @@
     "only_owner": "仅创建者和管理员可发消息",
     "announcement_placeholder": "在此输入公告内容... 支持 Markdown 格式。",
     "no_announcements": "暂无内容预览",
-    "no_permission": "您没有权限管理公告"
+    "no_permission": "您没有权限管理公告",
+    "announcement_title": "频道公告",
+    "announcement_desc": "创建或更新频道公告。成员将在公告新增或更新时以弹窗形式看到。",
+    "announcement_edit": "编辑",
+    "announcement_preview": "预览",
+    "announcement_char_count": "{{count}} / 5000 字符",
+    "announcement_char_exceeded": "超出字符限制",
+    "announcement_saving": "保存中...",
+    "announcement_create": "创建公告",
+    "announcement_update": "更新公告",
+    "announcement_delete": "删除",
+    "announcement_delete_confirm": "确定删除吗？",
+    "announcement_deleting": "删除中...",
+    "announcement_confirm_delete": "确认删除",
+    "announcement_cancel": "取消"
   },
   "overview": {
     "title_feat": "特性开关",

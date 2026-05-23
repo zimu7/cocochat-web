@@ -76,15 +76,14 @@ export default function Announcement({ id = 0 }) {
     <>
       {!canManage ? (
         <div className="w-[512px] p-4 text-gray-500 dark:text-gray-400">
-          {t("no_permission") || "You don't have permission to manage announcements"}
+          {t("no_permission")}
         </div>
       ) : (
         <div className="w-[512px] flex flex-col gap-6 h-full mb-10">
           <div className="flex flex-col gap-2">
-            <Label>Channel Announcement</Label>
+            <Label>{t("announcement_title")}</Label>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Create or update the announcement for this channel. Members will see it as a popup when
-              it's new or updated.
+              {t("announcement_desc")}
             </p>
           </div>
 
@@ -98,7 +97,7 @@ export default function Announcement({ id = 0 }) {
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
-              Edit
+              {t("announcement_edit")}
             </button>
             <button
               onClick={() => setMode("preview")}
@@ -108,7 +107,7 @@ export default function Announcement({ id = 0 }) {
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               }`}
             >
-              Preview
+              {t("announcement_preview")}
             </button>
           </div>
 
@@ -120,17 +119,16 @@ export default function Announcement({ id = 0 }) {
                 onChange={(e) => setContent(e.target.value)}
                 rows={12}
                 placeholder={
-                  t("announcement_placeholder") ||
-                  "Write your announcement here... Markdown is supported."
+                  t("announcement_placeholder")
                 }
                 className="font-mono"
               />
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500 dark:text-gray-400">
-                  {content.length} / 5000 characters
+                  {t("announcement_char_count", { count: content.length })}
                 </span>
                 {content.length > 5000 && (
-                  <span className="text-red-500">Character limit exceeded</span>
+                  <span className="text-red-500">{t("announcement_char_exceeded")}</span>
                 )}
               </div>
             </div>
@@ -140,7 +138,7 @@ export default function Announcement({ id = 0 }) {
                 <MarkdownRender content={content} />
               ) : (
                 <p className="text-gray-400 dark:text-gray-500 italic">
-                  {t("no_announcements") || "No content to preview"}
+                  {t("no_announcements")}
                 </p>
               )}
             </div>
@@ -149,7 +147,7 @@ export default function Announcement({ id = 0 }) {
           {/* Action Buttons */}
           <div className="flex gap-3">
             <Button onClick={handleSave} disabled={saving || !content.trim() || content.length > 5000}>
-              {saving ? "Saving..." : announcement ? "Update Announcement" : "Create Announcement"}
+              {saving ? t("announcement_saving") : announcement ? t("announcement_update") : t("announcement_create")}
             </Button>
 
             {announcement && (
@@ -160,25 +158,25 @@ export default function Announcement({ id = 0 }) {
                     className="!bg-red-500 hover:!bg-red-600"
                     disabled={deleting}
                   >
-                    Delete
+                    {t("announcement_delete")}
                   </Button>
                 ) : (
                   <div className="flex gap-2 items-center">
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                      Are you sure?
+                      {t("announcement_delete_confirm")}
                     </span>
                     <Button
                       onClick={handleDelete}
                       className="!bg-red-500 hover:!bg-red-600"
                       disabled={deleting}
                     >
-                      {deleting ? "Deleting..." : "Confirm Delete"}
+                      {deleting ? t("announcement_deleting") : t("announcement_confirm_delete")}
                     </Button>
                     <Button
                       onClick={() => setShowDeleteConfirm(false)}
                       className="!bg-gray-500 hover:!bg-gray-600"
                     >
-                      Cancel
+                      {t("announcement_cancel")}
                     </Button>
                   </div>
                 )}
