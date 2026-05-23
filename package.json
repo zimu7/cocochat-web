@@ -1,6 +1,6 @@
 {
   "name": "cocochat-web",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://chat.zimu.pub",
   "dependencies": {
     "@radix-ui/react-popover": "^1.1.15",
