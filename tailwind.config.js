@@ -20,6 +20,16 @@ module.exports = {
           700: "#0E7090",
           800: "#155B75",
           900: "#164C63"
+        },
+        messageBubble: {
+          self: {
+            light: "#91ED6C",
+            dark: "#3F9F39"
+          },
+          other: {
+            light: "#EEEEF0",
+            dark: "#34363A"
+          }
         }
       },
       animation: {

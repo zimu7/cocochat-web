@@ -209,11 +209,11 @@ const Message: FC<IProps> = ({
             className={clsx(
               `vc-msg select-text text-gray-800 text-sm wb whitespace-pre-wrap dark:!text-white pr-6 md:pr-0`,
               isTextMessage &&
-                "relative max-w-full md:max-w-[640px] rounded px-4 py-2 text-gray-900 !pr-4 dark:!text-gray-900 after:content-[''] after:absolute after:top-2.5 after:border-y-[6px] after:border-y-transparent",
+                "relative max-w-full md:max-w-[640px] rounded px-4 py-2 text-gray-900 !pr-4 dark:!text-gray-100 after:content-[''] after:absolute after:top-2.5 after:border-y-[6px] after:border-y-transparent",
               isTextMessage &&
                 (isSelf
-                  ? "bg-[#91ed6c] after:right-[-8px] after:border-l-[8px] after:border-l-[#91ed6c]"
-                  : "bg-[#EEEEF0] after:left-[-8px] after:border-r-[8px] after:border-r-[#EEEEF0]"),
+                  ? "bg-messageBubble-self-light dark:bg-messageBubble-self-dark after:right-[-8px] after:border-l-[8px] after:border-l-messageBubble-self-light dark:after:border-l-messageBubble-self-dark"
+                  : "bg-messageBubble-other-light dark:bg-messageBubble-other-dark after:left-[-8px] after:border-r-[8px] after:border-r-messageBubble-other-light dark:after:border-r-messageBubble-other-dark"),
               sending && "opacity-90"
             )}
           >
