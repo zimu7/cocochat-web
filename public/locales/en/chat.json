@@ -80,5 +80,6 @@
   "time_format": "h:mm A",
   "datetime_format": "M/D/YYYY h:mm A",
   "datetime_format_current_year": "M/D h:mm A",
+  "datetime_format_full": "M/D/YYYY h:mm:ss A",
   "day": "day"
 }

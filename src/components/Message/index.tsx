@@ -104,7 +104,7 @@ const Message: FC<IProps> = ({
   const timeFormat = t("time_format");
   const isCurrentYear = dayjsTime.year() === dayjs().year();
   const datetimeFormat = isCurrentYear ? t("datetime_format_current_year") : t("datetime_format");
-  const fullDatetimeFormat = t("datetime_format");
+  const fullDatetimeFormat = t("datetime_format_full");
 
   // return null;
   const _key = properties?.local_id || mid;

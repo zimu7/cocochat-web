@@ -80,5 +80,6 @@
   "time_format": "HH:mm",
   "datetime_format": "YYYY年M月D日 HH:mm",
   "datetime_format_current_year": "M月D日 HH:mm",
+  "datetime_format_full": "YYYY年M月D日 HH:mm:ss",
   "day": "天"
 }
