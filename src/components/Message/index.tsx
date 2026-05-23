@@ -3,6 +3,7 @@ import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import IconAdmin from "@/assets/icons/owner.svg";
+import { ContentTypes } from "@/app/config";
 import { useAppSelector } from "@/app/store";
 import { ChatContext } from "@/types/common";
 import useContextMenu from "@/hooks/useContextMenu";
@@ -107,6 +108,7 @@ const Message: FC<IProps> = ({
   const _key = properties?.local_id || mid;
   const showExpire = (expires_in ?? 0) > 0;
   const isSelf = fromUid == loginUid && enableRightLayout;
+  const isTextMessage = [ContentTypes.text, ContentTypes.markdown].includes(content_type);
   return (
     <div
       key={_key}
@@ -206,6 +208,12 @@ const Message: FC<IProps> = ({
           <div
             className={clsx(
               `vc-msg select-text text-gray-800 text-sm wb whitespace-pre-wrap dark:!text-white pr-6 md:pr-0`,
+              isTextMessage &&
+                "relative max-w-full md:max-w-[640px] rounded px-4 py-2 text-gray-900 !pr-4 dark:!text-gray-900 after:content-[''] after:absolute after:top-2.5 after:border-y-[6px] after:border-y-transparent",
+              isTextMessage &&
+                (isSelf
+                  ? "bg-[#91ed6c] after:right-[-8px] after:border-l-[8px] after:border-l-[#91ed6c]"
+                  : "bg-[#EEEEF0] after:left-[-8px] after:border-r-[8px] after:border-r-[#EEEEF0]"),
               sending && "opacity-90"
             )}
           >
