@@ -181,21 +181,21 @@ const Message: FC<IProps> = ({
           <div
             className={clsx(`flex items-center gap-2 font-semibold`, isSelf && "flex-row-reverse")}
           >
-            <span className="text-primary-500 text-sm">
+            <span className="text-primary-500 text-sm leading-5">
               {currUser?.name ? (
                 <NameWithRemark uid={currUser.uid} showName={false} name={currUser.name} />
               ) : (
                 "Deleted User"
               )}
             </span>
-            {currUser?.is_admin && <IconAdmin />}
+            {currUser?.is_admin && <IconAdmin className="w-4 h-4 shrink-0" />}
             <Tooltip
               delay={200}
               disabled={!timePrefix || readOnly}
               placement="top"
               tip={dayjsTime.format(fullDatetimeFormat)}
             >
-              <time className="text-gray-400 text-xs">
+              <time className="text-gray-400 text-xs leading-5">
                 {timePrefix
                   ? `${timePrefix} ${dayjsTime.format(timeFormat)}`
                   : dayjsTime.format(datetimeFormat)}
