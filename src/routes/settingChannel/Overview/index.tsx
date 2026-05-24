@@ -18,10 +18,10 @@ import Radio from "@/components/styled/Radio";
 import Textarea from "@/components/styled/Textarea";
 import IconChannel from "@/assets/icons/channel.svg";
 import { shallowEqual } from "react-redux";
-import ShowEmail from "./ShowEmail";
-import DMMember from "./DMMember";
-import AddFriend from "./AddFriend";
-import OnlyOwnerCanSendMsg from "./OnlyOwnerCanSendMsg";
+// import ShowEmail from "./ShowEmail";
+// import DMMember from "./DMMember";
+// import AddFriend from "./AddFriend";
+// import OnlyOwnerCanSendMsg from "./OnlyOwnerCanSendMsg";
 
 export default function Overview({ id = 0 }) {
   const { t } = useTranslation("setting", { keyPrefix: "channel" });
@@ -88,7 +88,7 @@ export default function Overview({ id = 0 }) {
   }, [changeTypeSuccess]);
 
   if (!values || !id || !channel) return null;
-  const { name, description, show_email, dm_to_member, add_friend, only_owner_can_send_msg } =
+  const { name, description /* show_email, dm_to_member, add_friend, only_owner_can_send_msg */ } =
     values;
   const readOnly = !loginUser?.is_admin && channel?.owner != loginUser?.uid;
   const inputClass = `w-full flex flex-col items-start gap-2 relative`;
@@ -142,12 +142,12 @@ export default function Overview({ id = 0 }) {
             />
           </div>
         )}
-        {!readOnly && loginUser.is_admin && (
+        {/* {!readOnly && loginUser.is_admin && (
           <OnlyOwnerCanSendMsg id={id} only_owner_can_send_msg={only_owner_can_send_msg} />
         )}
         {!readOnly && loginUser.is_admin && <ShowEmail id={id} show_email={show_email} />}
         {!readOnly && loginUser.is_admin && <DMMember id={id} dm_to_member={dm_to_member} />}
-        {!readOnly && loginUser.is_admin && <AddFriend id={id} add_friend={add_friend} />}
+        {!readOnly && loginUser.is_admin && <AddFriend id={id} add_friend={add_friend} />} */}
       </div>
       {changed && <SaveTip saveHandler={handleUpdate} resetHandler={handleReset} />}
     </div>
