@@ -3,8 +3,6 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 import { useSendLoginMagicLinkMutation } from "@/app/services/auth";
-import useInviteLink from "@/hooks/useInviteLink";
-import InviteLink from "../InviteLink";
 import Button from "../styled/Button";
 import Input from "../styled/Input";
 
@@ -18,7 +16,6 @@ const InviteByEmail: FC<Props> = ({ cid }) => {
   const [email, setEmail] = useState("");
   const formRef = useRef<HTMLFormElement | null>(null);
   const [sendMagicLinkByEmail, { isSuccess, isLoading }] = useSendLoginMagicLinkMutation();
-  const { enableSMTP } = useInviteLink(cid);
   useEffect(() => {
     if (isSuccess) {
       toast.success(ct("tip.email_sent"));
@@ -41,7 +38,7 @@ const InviteByEmail: FC<Props> = ({ cid }) => {
 
   return (
     <div className="pt-4">
-      <div className="flex flex-col gap-4 mb-6">
+      {/* <div className="flex flex-col gap-4 mb-6">
         <label className="text-sm text-gray-400 dark:text-gray-100" htmlFor="">
           {t("invite_by_email")}
         </label>
@@ -66,13 +63,13 @@ const InviteByEmail: FC<Props> = ({ cid }) => {
             {ct("action.send")}
           </Button>
         </div>
-      </div>
-      <div className="flex flex-col gap-2 mb-3">
+      </div> */}
+      {/* <div className="flex flex-col gap-2 mb-3">
         <label className="text-sm text-gray-400 dark:text-gray-100" htmlFor="">
           {t("send_invite_link")}
         </label>
         <InviteLink context="channel" cid={cid} />
-      </div>
+      </div> */}
     </div>
   );
 };
