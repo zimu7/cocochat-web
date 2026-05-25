@@ -164,7 +164,7 @@ const Message: FC<IProps> = ({
           className={clsx(
             "w-full flex flex-col gap-2",
             pinInfo && "relative",
-            isSelf && "items-end"
+            isSelf ? "items-end" : "items-start"
           )}
           data-pin-tip={`pinned by ${pinCreatorName || ""}`}
         >
