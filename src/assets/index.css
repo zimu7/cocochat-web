@@ -217,6 +217,16 @@
   .context-menu .item[data-disabled="true"] {
     color: #a4a8b3;
   }
+  .context-menu .sub-menu {
+    display: none;
+    position: absolute;
+    left: calc(100% + 4px);
+    top: -12px;
+  }
+  .context-menu .item:hover > .sub-menu,
+  .context-menu .sub-menu:hover {
+    display: flex;
+  }
   html.dark .context-menu {
     background-color: black;
   }

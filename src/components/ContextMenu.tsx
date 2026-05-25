@@ -19,45 +19,6 @@ interface Props {
   hideMenu?: (() => void);
 }
 
-const SubMenu = ({ items, hideMenu }: { items: Item[]; hideMenu?: () => void }) => {
-  return (
-    <ul className="context-menu">
-      {items.map((sub) => {
-        const {
-          title,
-          icon = null,
-          handler = (evt) => {
-            evt.preventDefault();
-            hideMenu?.();
-          },
-          underline = false,
-          danger = false,
-          checked = false
-        } = sub;
-        return (
-          <li
-            className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
-            key={title}
-            onClick={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
-              if (checked) return;
-              handler(evt);
-              hideMenu?.();
-            }}
-          >
-            {icon}
-            {title}
-            {checked && (
-              <IconChecked className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
-
 const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
   return (
     <ul className="context-menu">
@@ -65,8 +26,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
         const {
           title,
           icon = null,
-          handler = (evt) => {
-            evt.preventDefault();
+          handler = (evt: any) => {
             hideMenu?.();
           },
           underline = false,
@@ -75,18 +35,45 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
         } = item;
         if (subs.length > 0)
           return (
-            <ContextMenuPrimitive.Sub key={title}>
-              <ContextMenuPrimitive.SubTrigger className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}>
-                {icon}
-                {title}
-                <IconArrow className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
-              </ContextMenuPrimitive.SubTrigger>
-              <ContextMenuPrimitive.Portal>
-                <ContextMenuPrimitive.SubContent className="z-50">
-                  <SubMenu items={subs} hideMenu={hideMenu} />
-                </ContextMenuPrimitive.SubContent>
-              </ContextMenuPrimitive.Portal>
-            </ContextMenuPrimitive.Sub>
+            <li
+              key={title}
+              className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""} relative`}
+            >
+              {icon}
+              {title}
+              <IconArrow className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+              <ul className="context-menu sub-menu">
+                {subs.map((sub) => {
+                  const {
+                    title: subTitle,
+                    icon: subIcon = null,
+                    handler: subHandler = (evt: any) => {
+                      hideMenu?.();
+                    },
+                    underline: subUnderline = false,
+                    danger: subDanger = false,
+                    checked: subChecked = false
+                  } = sub;
+                  return (
+                    <li
+                      className={`item group ${subUnderline ? "bottom_line" : ""} ${subDanger ? "danger" : ""}`}
+                      key={subTitle}
+                      onClick={(evt) => {
+                        if (subChecked) return;
+                        subHandler(evt);
+                        hideMenu?.();
+                      }}
+                    >
+                      {subIcon}
+                      {subTitle}
+                      {subChecked && (
+                        <IconChecked className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </li>
           );
 
         return (
@@ -94,8 +81,6 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
             className={`item ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
             key={title}
             onClick={(evt) => {
-              evt.stopPropagation();
-              evt.preventDefault();
               handler(evt);
               hideMenu?.();
             }}

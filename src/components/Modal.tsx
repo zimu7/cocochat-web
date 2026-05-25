@@ -21,6 +21,9 @@ const Modal: FC<PropsWithChildren<Props>> = ({ id = "root-modal", mask = true, c
     setWrapper(wrapper);
     return () => {
       modalRoot.removeChild(wrapper);
+      if (mask) {
+        modalRoot.classList.remove("mask");
+      }
     };
   }, [id, mask]);
 

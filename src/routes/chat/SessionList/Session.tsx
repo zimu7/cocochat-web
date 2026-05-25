@@ -142,14 +142,12 @@ const Session: FC<IProps> = ({
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={({ isActive: linkActive }) =>
-            clsx(
-              `nav flex gap-2 rounded-lg p-2 w-full`,
-              isActive && "shadow-[inset_0_0_0_2px_#52edff]",
-              linkActive && "bg-gray-500/20",
-              pinned ? "md:hover:bg-gray-300/20" : "md:hover:bg-gray-500/20"
-            )
-          }
+          className={clsx(
+            `nav flex gap-2 rounded-lg p-2 w-full`,
+            isActive && "shadow-[inset_0_0_0_2px_#52edff]",
+            isCurrentPath && "bg-gray-500/20",
+            pinned ? "md:hover:bg-gray-300/20" : "md:hover:bg-gray-500/20"
+          )}
           to={navPath}
         >
           <div className="flex shrink-0 relative size-10">
