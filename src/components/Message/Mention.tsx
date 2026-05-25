@@ -1,6 +1,4 @@
-// import { FC, ReactNode } from "react";
-import Tippy from "@tippyjs/react";
-
+import Popover from "../Popover";
 import { useAppSelector } from "@/app/store";
 import Profile from "../Profile";
 import { shallowEqual } from "react-redux";
@@ -19,14 +17,12 @@ const Mention = ({ uid, popover = true, cid, textOnly = false }: Props) => {
   if (textOnly) return <>{`@${user.name}`}</>;
   if (!popover) return <span className="px-0.5 text-primary-400">{`@${user.name}`}</span>;
   return (
-    <Tippy
-      interactive
+    <Popover
       placement="top"
-      trigger="click"
       content={<Profile uid={uid} type="card" cid={cid} />}
     >
       <span className="px-0.5 text-primary-400 cursor-pointer">{`@${user.name}`}</span>
-    </Tippy>
+    </Popover>
   );
 };
 

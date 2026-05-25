@@ -1,11 +1,12 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 
 import { useAppSelector } from "@/app/store";
 import IconAdd from "@/assets/icons/add.svg";
 import AddEntriesMenu from "./AddEntriesMenu";
 import Tooltip from "./Tooltip";
+import Popover from "./Popover";
 import { shallowEqual } from "react-redux";
 
 type Props = {
@@ -16,6 +17,7 @@ export default function Server({ readonly = false }: Props) {
   const { pathname } = useLocation();
   const { name, description, logo } = useAppSelector((store) => store.server, shallowEqual);
   const userCount = useAppSelector((store) => store.users.ids.length, shallowEqual);
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
   // console.log("server info", server);
   if (readonly)
     return (
@@ -63,9 +65,14 @@ export default function Server({ readonly = false }: Props) {
       </NavLink>
 
       <Tooltip tip={t("more")} placement="bottom">
-        <Tippy interactive placement="bottom-end" trigger="click" content={<AddEntriesMenu />}>
+        <Popover
+          placement="bottom-end"
+          open={addMenuOpen}
+          onOpenChange={setAddMenuOpen}
+          content={<AddEntriesMenu close={() => setAddMenuOpen(false)} />}
+        >
           <IconAdd className="dark:fill-gray-400" role="button" />
-        </Tippy>
+        </Popover>
       </Tooltip>
     </div>
   );

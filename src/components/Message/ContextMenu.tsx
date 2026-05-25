@@ -1,7 +1,6 @@
 import { FC, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import Tippy from "@tippyjs/react";
 
 import { updateSelectMessages } from "@/app/slices/ui";
 import { ChatContext } from "@/types/common";
@@ -13,15 +12,13 @@ import IconForward from "@/assets/icons/forward.svg";
 import IconPin from "@/assets/icons/pin.svg";
 import IconReply from "@/assets/icons/reply.svg";
 import IconSelect from "@/assets/icons/select.svg";
-import ContextMenu, { Item } from "../ContextMenu";
+import ContextMenu, { ContextMenuPrimitive, Item } from "../ContextMenu";
 import useMessageOperation from "./useMessageOperation";
 
 type Props = {
   context: ChatContext;
   contextId: number;
   mid: number;
-  visible: boolean;
-  hide: () => void;
   editMessage: () => void;
   children: ReactElement;
   selectedText?: string;
@@ -30,8 +27,6 @@ const MessageContextMenu: FC<Props> = ({
   context,
   contextId,
   mid,
-  visible,
-  hide,
   editMessage,
   children,
   selectedText = ""
@@ -106,18 +101,16 @@ const MessageContextMenu: FC<Props> = ({
       {ForwardModal}
       {PinModal}
       {DeleteModal}
-      <Tippy
-        visible={visible}
-        followCursor={"initial"}
-        interactive
-        placement="right-start"
-        popperOptions={{ strategy: "fixed" }}
-        onClickOutside={hide}
-        key={mid}
-        content={<ContextMenu hideMenu={hide} items={items} />}
-      >
-        {children}
-      </Tippy>
+      <ContextMenuPrimitive.Root>
+        <ContextMenuPrimitive.Trigger asChild>
+          {children}
+        </ContextMenuPrimitive.Trigger>
+        <ContextMenuPrimitive.Portal>
+          <ContextMenuPrimitive.Content className="z-50">
+            <ContextMenu items={items} />
+          </ContextMenuPrimitive.Content>
+        </ContextMenuPrimitive.Portal>
+      </ContextMenuPrimitive.Root>
     </>
   );
 };

@@ -5,7 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 import "./assets/index.css";
 import "./libs/DayjsSetting";
-import "./libs/TippySetting";
+import { TooltipPrimitive } from "./components/Tooltip";
 
 // Disabled: MobileAppTip and NewVersion
 // import MobileAppTip from "./components/MobileAppTip";
@@ -27,12 +27,14 @@ if (isDarkMode()) {
 }
 root.render(
   <Suspense fallback="loading">
-    <Toaster
-      toastOptions={{
-        className: "dark:!bg-gray-800 dark:!text-gray-50 wb"
-      }}
-    />
-    <ReduxRoutes />
+    <TooltipPrimitive.Provider delayDuration={150}>
+      <Toaster
+        toastOptions={{
+          className: "dark:!bg-gray-800 dark:!text-gray-50 wb"
+        }}
+      />
+      <ReduxRoutes />
+    </TooltipPrimitive.Provider>
     {/* Disabled: <MobileAppTip /> */}
   </Suspense>
 );

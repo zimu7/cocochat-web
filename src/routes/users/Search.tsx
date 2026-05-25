@@ -1,11 +1,11 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 
 import { useAppSelector } from "@/app/store";
 import AddEntriesMenu from "@/components/AddEntriesMenu";
 import Tooltip from "@/components/Tooltip";
+import Popover from "@/components/Popover";
 import IconAdd from "@/assets/icons/add.svg";
 import IconSearch from "@/assets/icons/search.svg";
 import { shallowEqual } from "react-redux";
@@ -26,6 +26,7 @@ const Search: FC<Props> = ({ input, updateInput, openModal, type = "users" }) =>
     updateInput(evt.target.value);
   };
   const isMembers = type === "members";
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
   return (
     <div
       className={clsx(
@@ -52,9 +53,14 @@ const Search: FC<Props> = ({ input, updateInput, openModal, type = "users" }) =>
           <IconAdd onClick={openModal} role="button" className="dark:fill-gray-400" />
         ) : (
           <Tooltip tip={t("more")} placement="bottom">
-            <Tippy interactive placement="bottom-end" trigger="click" content={<AddEntriesMenu />}>
+            <Popover
+              placement="bottom-end"
+              open={addMenuOpen}
+              onOpenChange={setAddMenuOpen}
+              content={<AddEntriesMenu close={() => setAddMenuOpen(false)} />}
+            >
               <IconAdd role="button" className="dark:fill-gray-400" />
-            </Tippy>
+            </Popover>
           </Tooltip>
         )
       ) : null}

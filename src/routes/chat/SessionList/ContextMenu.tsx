@@ -2,7 +2,6 @@ import { FC, ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { shallowEqual, useDispatch } from "react-redux";
 import { useLocation, useMatch, useNavigate } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 
 import { useReadMessageMutation } from "@/app/services/message";
 import {
@@ -13,7 +12,7 @@ import {
 import { removeUserSession } from "@/app/slices/message.user";
 import { useAppSelector } from "@/app/store";
 import { ChatContext } from "@/types/common";
-import ContextMenu, { Item } from "@/components/ContextMenu";
+import ContextMenu, { ContextMenuPrimitive, Item } from "@/components/ContextMenu";
 import useUserOperation from "@/hooks/useUserOperation";
 import Modal from "../../../components/Modal";
 import NicknameModal from "../../../components/NicknameModal";
@@ -22,9 +21,7 @@ type Props = {
   context: ChatContext;
   pinned: boolean;
   id: number;
-  visible: boolean;
   mid: number;
-  hide: () => void;
   deleteChannel: (param: number) => void;
   setInviteChannelId: (param: number) => void;
   children: ReactElement;
@@ -33,9 +30,7 @@ const SessionContextMenu: FC<Props> = ({
   pinned,
   context = "dm",
   id,
-  visible,
   mid,
-  hide,
   deleteChannel,
   setInviteChannelId,
   children,
@@ -157,17 +152,16 @@ const SessionContextMenu: FC<Props> = ({
   return (
     <>
       <NicknameModal uid={id} visible={remarkVisible} updateVisible={setRemarkVisible} />
-      <Tippy
-        interactive
-        placement="right-start"
-        popperOptions={{ strategy: "fixed" }}
-        followCursor={"initial"}
-        visible={visible}
-        onClickOutside={hide}
-        content={<ContextMenu hideMenu={hide} items={items.filter(Boolean) as Item[]} />}
-      >
-        {children}
-      </Tippy>
+      <ContextMenuPrimitive.Root>
+        <ContextMenuPrimitive.Trigger asChild>
+          {children}
+        </ContextMenuPrimitive.Trigger>
+        <ContextMenuPrimitive.Portal>
+          <ContextMenuPrimitive.Content className="z-50">
+            <ContextMenu items={items.filter(Boolean) as Item[]} />
+          </ContextMenuPrimitive.Content>
+        </ContextMenuPrimitive.Portal>
+      </ContextMenuPrimitive.Root>
     </>
   );
 };

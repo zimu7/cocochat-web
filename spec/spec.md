@@ -1,3 +1,174 @@
+
+
+
+
+## 23 迁移 @tippyjs/react 到 Radix UI
+
+迁移 @tippyjs/react 到 Radix UI
+
+ Context
+
+ @tippyjs/react v4.2.6 内部使用 React.cloneElement 和 children.ref，与 React 19 不兼容，导致控制台报错："Accessing element.ref was removed in React 19"。该库已停止维护，需替换为 React 19 兼容方案。
+
+ 安装包
+
+ pnpm add @radix-ui/react-tooltip @radix-ui/react-context-menu
+
+ 已有: @radix-ui/react-popover
+
+ 迁移分 7 个阶段
+
+ 阶段 1: Tooltip 组件 (改 1 个文件，自动修复 8 处用法)
+
+ 重写 src/components/Tooltip.tsx，使用 @radix-ui/react-tooltip：
+
+ - 保持外部 API 不变: <Tooltip tip="" placement="top" delay={200}>child</Tooltip>
+ - 使用 <Tooltip.Root> / <Tooltip.Trigger asChild> / <Tooltip.Content> / <Tooltip.Arrow>
+ - asChild 不使用 cloneElement，直接传递 props 给子元素
+ - disabled={isMobile()} 时只渲染 children
+ - placement 映射到 Radix side
+ - delay 映射到 delayDuration
+ - 在 src/index.tsx 添加 <Tooltip.Provider delayDuration={150}> 包裹根组件
+ - Triangle 箭头用 <Tooltip.Arrow> 替代，CSS 复用现有样式
+
+ 消费者文件无需修改: home/index.tsx, Server.tsx, Menu.tsx, Commands.tsx, Message/index.tsx, Reaction.tsx, Send/Toolbar.tsx
+
+ 阶段 2: 新建 Popover 组件
+
+ 创建 src/components/Popover.tsx，使用 @radix-ui/react-popover：
+
+ type Props = {
+   placement?: string;        // 映射到 side + align
+   offset?: number;
+   open?: boolean;            // 受控模式
+   onOpenChange?: (open: boolean) => void;
+   disabled?: boolean;
+   content: React.ReactNode;
+   children: React.ReactNode;
+   className?: string;
+ };
+
+ - 受控模式: open + onOpenChange 替代 Tippy 的 visible + onClickOutside
+ - 非受控模式: Radix 自动管理打开/关闭
+ - asChild 避免 cloneElement
+ - Portal 渲染 (等同于 Tippy 的 appendTo + strategy:fixed)
+
+ 阶段 3: 替换 hideAll()
+
+ hideAll() 是 tippy.js 全局函数，需逐个替换为局部关闭回调：
+
+ ┌─────────────────────┬─────────────────────────────────────┬────────────────────────────────┐
+ │        文件         │              当前用法               │            替换方式            │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ useContextMenu.tsx  │ hideAll() + hideContextMenu()       │ 只保留 hideContextMenu()       │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ useUserOperation.ts │ hideAll() x3                        │ 改为接收 closeMenu 回调参数    │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ AddEntriesMenu.tsx  │ hideAll() x4                        │ 改为接收 close prop            │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ MemberList.tsx      │ hideAll() x1                        │ 改为接收 close prop            │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ Commands.tsx        │ hideAll() x4 + hidePicker={hideAll} │ 改为 hidePicker={closePopover} │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ Reaction.tsx        │ hidePicker={hideAll}                │ 改为 hidePicker={closePopover} │
+ ├─────────────────────┼─────────────────────────────────────┼────────────────────────────────┤
+ │ APIConfig.tsx       │ hideAll() x2                        │ 改为 setOpen(false)            │
+ └─────────────────────┴─────────────────────────────────────┴────────────────────────────────┘
+
+ 阶段 4: 转换交互式 Tippy (click 触发) → Popover
+
+ 按复杂度从低到高：
+
+ 1. Language.tsx - 语言选择下拉，trigger="click" + interactive
+ 2. Mention.tsx - @用户资料卡，trigger="click"
+ 3. Search.tsx (users) - 嵌套 Tooltip + Popover
+ 4. Server.tsx - 嵌套 Tooltip + Popover
+ 5. DMChat/index.tsx - 收藏面板
+ 6. ChannelChat/index.tsx - 置顶/收藏面板 x2
+ 7. User/index.tsx - 用户资料 popover
+ 8. Profile/index.tsx - 更多选项菜单
+ 9. MemberList.tsx - 角色切换 + 更多菜单 x2
+ 10. Commands.tsx - 表情选择器 + 更多菜单 x2 (最复杂)
+ 11. Reaction.tsx - 添加表情 (click) + 表情详情 (hover-interactive)
+
+ 阶段 5: 转换受控 Tippy → 受控 Popover
+
+ 1. styled/Select.tsx - 自定义下拉选择，visible + onClickOutside
+ 2. files/Filter/index.tsx - 筛选下拉 x3
+ 3. resources/Filter/index.tsx - 筛选下拉 x4
+
+ 阶段 6: 转换右键菜单 → Radix ContextMenu
+
+ 1. useContextMenu.tsx - 简化 hook，移除 offset 计算，移除 ContextMenu 渲染组件
+ 2. ContextMenu.tsx - 用 Radix <ContextMenu.Sub> 替代 WrapWithSubmenu
+ 3. Message/ContextMenu.tsx - 使用 <ContextMenu.Root> + <ContextMenu.Trigger asChild>
+ 4. User/ContextMenu.tsx - 同上
+ 5. SessionList/ContextMenu.tsx - 同上
+
+ 阶段 7: 清理
+
+ 1. 删除 src/libs/TippySetting.ts
+ 2. 从 src/index.tsx 移除 import "./libs/TippySetting"
+ 3. 从 package.json 移除 @tippyjs/react 和 tippy.js
+ 4. 运行 pnpm install
+ 5. 全局搜索确认无残留 @tippyjs 或 tippy.js 引用
+
+ 关键文件清单
+
+ ┌───────────────────────────────────┬─────────────────────────────────────────┐
+ │               文件                │                  操作                   │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/components/Tooltip.tsx        │ 重写 (Radix Tooltip)                    │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/components/Popover.tsx        │ 新建 (Radix Popover)                    │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/components/ContextMenu.tsx    │ 重写 (Radix ContextMenu.Sub)            │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/hooks/useContextMenu.tsx      │ 重写 (简化)                             │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/hooks/useUserOperation.ts     │ 修改 (移除 hideAll)                     │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/components/AddEntriesMenu.tsx │ 修改 (hideAll → close prop)             │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/index.tsx                     │ 修改 (添加 Provider，移除 TippySetting) │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ 22 个消费者文件                   │ 修改 (Tippy → Popover/ContextMenu)      │
+ ├───────────────────────────────────┼─────────────────────────────────────────┤
+ │ src/libs/TippySetting.ts          │ 删除                                    │
+ └───────────────────────────────────┴─────────────────────────────────────────┘
+
+ 验证
+
+  1. 启动开发服务器，确认控制台无 React 19 ref 警告
+  2. 测试悬停提示 (导航栏图标、消息操作按钮)
+  3. 测试点击弹出 (语言选择、用户资料卡、添加成员菜单)
+  4. 测试右键菜单 (消息右键、用户右键、会话右键)
+  5. 测试子菜单 (Profile 更多选项、ContextMenu 子菜单)
+  6. 测试受控弹出 (筛选下拉、自定义选择)
+  7. 测试移动端 (Tooltip 应被禁用)
+
+
+
+已完成的迁移：
+
+  1. 安装 @radix-ui/react-tooltip + @radix-ui/react-context-menu
+  2. 重写 Tooltip.tsx — 使用 Radix Tooltip + asChild 避免 cloneElement
+  3. 新建 Popover.tsx — 基于 Radix Popover 的通用弹出组件
+  4. 重写 ContextMenu.tsx — 使用 Radix ContextMenu.Sub 替代 Tippy 子菜单
+  5. 简化 useContextMenu.tsx — 移除 Tippy 的 offset/hideAll/渲染组件
+  6. 转换 22 个消费者文件：
+
+    - 简单 Tooltip 消费者自动生效（无需改动）
+    - 交互式 Tippy → Popover（Language, Mention, Server, Search, DMChat, ChannelChat, User, Profile, MemberList, Commands, Reaction, APIConfig, Message/index）
+    - 受控 Tippy → 受控 Popover（Select, files/Filter, resources/Filter）
+    - 右键 Tippy → Radix ContextMenu（Message/ContextMenu, User/ContextMenu, SessionList/ContextMenu, Session）
+  7. 替换 hideAll() — 改为局部 close 回调（AddEntriesMenu, useUserOperation, Commands, Reaction, MemberList, APIConfig）
+  8. 清理 — 删除 TippySetting.ts，移除 @tippyjs/react + tippy.js 依赖
+
+  请重启开发服务器验证控制台不再出现 "Accessing element.ref was removed" 警告。
+
+
+
 ## 22. 优化时间格式，中文环境更符合大陆习惯
 
 已进行的修改：

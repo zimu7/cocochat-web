@@ -3,8 +3,6 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { ViewportList } from "react-viewport-list";
 import Search from "@/routes/users/Search";
-import Tippy from "@tippyjs/react";
-import { hideAll } from "tippy.js";
 
 import { useUpdateUserMutation } from "@/app/services/user";
 import { useAppSelector } from "@/app/store";
@@ -15,6 +13,7 @@ import IconCheck from "@/assets/icons/check.sign.svg";
 import IconMore from "@/assets/icons/more.svg";
 import IconOwner from "@/assets/icons/owner.svg";
 import User from "../User";
+import Popover from "../Popover";
 import { shallowEqual } from "react-redux";
 // import ViewPassword from "./ViewPassword";
 import UpdatePassword from "./UpdatePassword";
@@ -44,6 +43,8 @@ const MemberList: FC<Props> = ({ cid }) => {
     cid,
   });
   const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
+  const [rolePopoverUid, setRolePopoverUid] = useState<number | undefined>(undefined);
+  const [morePopoverUid, setMorePopoverUid] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -60,7 +61,7 @@ const MemberList: FC<Props> = ({ cid }) => {
     uid: number;
     isAdmin: boolean;
   }) => {
-    hideAll();
+    setRolePopoverUid(undefined);
     if (ignore) return;
     updateUser({ id: uid, is_admin: isAdmin });
   };
@@ -99,7 +100,7 @@ const MemberList: FC<Props> = ({ cid }) => {
                       <NameWithRemark name={name} uid={uid} /> {owner && <IconOwner />}
                     </span>
                     {showEmailInChannel && (
-                      <span className="hidden md:block text-xs text-gray-500 dark:text-slate-50">
+                      <span className="hidden md:block text-xs text-gray-500 dark:textlate-50">
                         {email}
                       </span>
                     )}
@@ -107,10 +108,10 @@ const MemberList: FC<Props> = ({ cid }) => {
                 </div>
                 <div className="flex items-center gap-7">
                   {switchRoleVisible ? (
-                    <Tippy
-                      interactive
+                    <Popover
                       placement="bottom-end"
-                      trigger="click"
+                      open={rolePopoverUid === uid}
+                      onOpenChange={(open) => setRolePopoverUid(open ? uid : undefined)}
                       content={
                         <ul className="context-menu">
                           <li
@@ -142,7 +143,7 @@ const MemberList: FC<Props> = ({ cid }) => {
                         {is_admin ? t("admin") : t("user")}
                         <IconArrowDown className="dark:fill-slate-50" />
                       </span>
-                    </Tippy>
+                    </Popover>
                   ) : (
                     <span className="text-xs text-right text-gray-500 dark:text-slate-100 flex items-center gap-1">
                       {is_admin ? t("admin") : t("user")}
@@ -150,10 +151,10 @@ const MemberList: FC<Props> = ({ cid }) => {
                   )}
 
                   {dotsVisible && (
-                    <Tippy
-                      interactive
+                    <Popover
                       placement="right-start"
-                      trigger="click"
+                      open={morePopoverUid === uid}
+                      onOpenChange={(open) => setMorePopoverUid(open ? uid : undefined)}
                       content={
                         <ul className="min-w-30 context-menu">
                           {canCopyEmail && (
@@ -187,7 +188,7 @@ const MemberList: FC<Props> = ({ cid }) => {
                       <div className="relative w-6 h-6">
                         <IconMore role="button" className="dark:fill-gray-400" />
                       </div>
-                    </Tippy>
+                    </Popover>
                   )}
                 </div>
               </li>

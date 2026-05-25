@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Tippy from "@tippyjs/react";
 
 import IconArrow from "@/assets/icons/arrow.down.svg";
 import IconSelect from "@/assets/icons/check.sign.svg";
+import Popover from "../Popover";
 
 export interface Option {
   icon?: string;
@@ -28,19 +28,17 @@ const Select: FC<Props> = ({ options = [], updateSelect = null, current = null }
   };
   const handleSelect = (data: Partial<Option>) => {
     setCurr(data);
-    toggleVisible();
+    setOptionsVisible(false);
     if (updateSelect) {
       updateSelect(data);
     }
   };
 
   return (
-    <Tippy
-      onClickOutside={setOptionsVisible.bind(null, false)}
-      visible={optionsVisible}
-      appendTo={document.body}
+    <Popover
       placement="bottom"
-      interactive
+      open={optionsVisible}
+      onOpenChange={setOptionsVisible}
       content={
         <ul className="context-menu">
           {options.map(({ title, value, selected, underline }) => {
@@ -68,7 +66,7 @@ const Select: FC<Props> = ({ options = [], updateSelect = null, current = null }
         </span>
         <IconArrow className="!w-5 !h-5" />
       </div>
-    </Tippy>
+    </Popover>
   );
 };
 

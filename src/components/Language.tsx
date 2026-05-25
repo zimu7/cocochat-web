@@ -1,10 +1,11 @@
-import Tippy from "@tippyjs/react";
 import { useState, useMemo } from "react";
 import LanguageList, { LangMap, LanguageType } from "../routes/setting/Overview/Language";
 import StyledButton from "./styled/Button";
 import { useTranslation } from "react-i18next";
 import ArrowDown from "@/assets/icons/arrow.down.svg";
 import { cn } from "../utils";
+import Popover from "./Popover";
+
 type Props = {};
 
 const SelectLanguage = ({}: Props) => {
@@ -15,12 +16,10 @@ const SelectLanguage = ({}: Props) => {
     return LangMap[langKey] || LangMap.en;
   }, [i18n.language]);
   return (
-    <Tippy
-      onShown={setVisible.bind(null, true)}
-      onHidden={setVisible.bind(null, false)}
-      interactive
+    <Popover
       placement="bottom-end"
-      trigger="click"
+      open={visible}
+      onOpenChange={setVisible}
       content={<LanguageList context="aside" />}
     >
       <StyledButton className="small ghost fixed right-3 top-3 inline-flex gap-1 !w-fit">
@@ -29,7 +28,7 @@ const SelectLanguage = ({}: Props) => {
           className={cn("dark:stroke-gray-100 transition-all", visible ? "rotate-180" : "")}
         />{" "}
       </StyledButton>
-    </Tippy>
+    </Popover>
   );
 };
 

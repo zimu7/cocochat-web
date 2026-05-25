@@ -1,12 +1,11 @@
-import { FC } from "react";
-import Tippy from "@tippyjs/react";
-import { hideAll } from "tippy.js";
+import { FC, useState } from "react";
 
 import { useReactMessageMutation } from "@/app/services/message";
 import { useAppSelector } from "@/app/store";
 import IconAddEmoji from "@/assets/icons/add.emoji.svg";
 import ReactionItem, { Emojis, ReactionMap } from "../ReactionItem";
 import Tooltip from "../Tooltip";
+import Popover from "../Popover";
 import ReactionPicker from "./ReactionPicker";
 import { shallowEqual } from "react-redux";
 
@@ -23,7 +22,6 @@ const ReactionDetails = ({
   const names = uids.map((id) => {
     return usersData[id]?.name ?? "Deleted User";
   });
-  // const emojiData = getEmojiDataFromNative(emoji || "", "apple", AppleEmojiData);
   const prefixDesc =
     names.length > 3
       ? `${names.join(", ")} and ${names.length - 3} others reacted with`
@@ -53,6 +51,7 @@ type Props = {
 };
 const Reaction: FC<Props> = ({ mid, reactions = null, readOnly = false }) => {
   const [reactWithEmoji] = useReactMessageMutation();
+  const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
   const currUid = useAppSelector((store) => store.authData.user?.uid, shallowEqual);
   const handleReact = (emoji: string) => {
     reactWithEmoji({ mid, action: emoji });
@@ -71,18 +70,16 @@ const Reaction: FC<Props> = ({ mid, reactions = null, readOnly = false }) => {
             }`}
             key={reaction}
           >
-            <Tippy
+            <Popover
               disabled={readOnly}
-              offset={[0, 20]}
-              // visible={true}
-              interactive
               placement="top"
+              offset={20}
               content={<ReactionDetails uids={uids} emoji={reaction as keyof Emojis} index={idx} />}
             >
               <i className="emoji w-4 h-4">
                 <ReactionItem native={reaction as keyof Emojis} />
               </i>
-            </Tippy>
+            </Popover>
 
             {uids.length > 1 ? (
               <i className="text-primary-600 text-xs not-italic">{`${uids.length}`} </i>
@@ -92,16 +89,16 @@ const Reaction: FC<Props> = ({ mid, reactions = null, readOnly = false }) => {
       })}
       {!readOnly && (
         <Tooltip placement="top" tip="Add Reaction">
-          <Tippy
-            interactive
+          <Popover
             placement="right-start"
-            trigger="click"
-            content={<ReactionPicker mid={mid} hidePicker={hideAll} />}
+            open={reactionPickerOpen}
+            onOpenChange={setReactionPickerOpen}
+            content={<ReactionPicker mid={mid} hidePicker={() => setReactionPickerOpen(false)} />}
           >
             <button className="invisible group-hover:visible w-6 h-6 bg-cyan-100 md:hover:bg-cyan-200 rounded-md flex-center">
               <IconAddEmoji className={"w-4 h-4"} />
             </button>
-          </Tippy>
+          </Popover>
         </Tooltip>
       )}
     </span>

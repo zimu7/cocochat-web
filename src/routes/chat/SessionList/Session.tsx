@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { FC, useEffect, useState, memo, useCallback } from "react";
 import { NavLink, useMatch, useNavigate } from "react-router-dom";
 import clsx from "clsx";
@@ -7,7 +6,6 @@ import { useAppSelector } from "@/app/store";
 import { ChatContext } from "@/types/common";
 import Avatar from "@/components/Avatar";
 import User from "@/components/User";
-import useContextMenu from "@/hooks/useContextMenu";
 import useUploadFile from "@/hooks/useUploadFile";
 import { fromNowTime } from "@/utils";
 import IconLock from "@/assets/icons/lock.svg";
@@ -73,7 +71,6 @@ const Session: FC<IProps> = ({
     },
     [type, id, addStageFile, navigate]
   );
-  const { visible: contextMenuVisible, handleContextMenuEvent, hideContextMenu } = useContextMenu();
   const [data, setData] = useState<{
     name: string;
     icon: string;
@@ -133,8 +130,6 @@ const Session: FC<IProps> = ({
   return (
     <li className={clsx("session")}>
       <ContextMenu
-        visible={contextMenuVisible}
-        hide={hideContextMenu}
         context={type}
         id={id}
         mid={mid}
@@ -156,7 +151,6 @@ const Session: FC<IProps> = ({
             )
           }
           to={navPath}
-          onContextMenu={handleContextMenuEvent}
         >
           <div className="flex shrink-0 relative size-10">
             {type == "dm" ? (

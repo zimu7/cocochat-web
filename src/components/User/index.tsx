@@ -1,14 +1,13 @@
 import { FC, memo } from "react";
 import { useNavigate } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 
 import { useAppSelector } from "@/app/store";
-import useContextMenu from "@/hooks/useContextMenu";
 import IconBot from "@/assets/icons/bot.svg";
 import IconAdmin from "@/assets/icons/owner.svg";
 import Avatar from "../Avatar";
 import Profile from "../Profile";
+import Popover from "../Popover";
 import ContextMenu from "./ContextMenu";
 import { shallowEqual } from "react-redux";
 import { cn } from "@/utils";
@@ -41,7 +40,6 @@ const User: FC<Props> = ({
   ...rest
 }) => {
   const navigate = useNavigate();
-  const { visible: contextMenuVisible, handleContextMenuEvent, hideContextMenu } = useContextMenu();
   const curr = useAppSelector((store) => store.users.byId[uid], shallowEqual);
   const loginUid = useAppSelector((store) => store.authData.user?.uid, shallowEqual);
   const showStatus = useAppSelector((store) => store.server.show_user_online_status, shallowEqual);
@@ -85,14 +83,11 @@ const User: FC<Props> = ({
         cid={cid}
         uid={uid}
         enable={enableContextMenu}
-        visible={contextMenuVisible}
-        hide={hideContextMenu}
       >
         <div
           className={containerClass}
           onClick={enableNavToSetting ? handleNavToSetting : undefined}
           onDoubleClick={dm ? handleDoubleClick : undefined}
-          onContextMenu={enableContextMenu ? handleContextMenuEvent : undefined}
           {...rest}
         >
           <div
@@ -127,20 +122,14 @@ const User: FC<Props> = ({
       cid={cid}
       uid={uid}
       enable={enableContextMenu}
-      visible={contextMenuVisible}
-      hide={hideContextMenu}
     >
-      <Tippy
-        inertia={true}
-        interactive
+      <Popover
         placement="left"
-        trigger="click"
         content={<Profile uid={uid} type="card" cid={cid} />}
       >
         <div
           className={containerClass}
           onDoubleClick={dm ? handleDoubleClick : undefined}
-          onContextMenu={enableContextMenu ? handleContextMenuEvent : undefined}
           {...rest}
         >
           <div
@@ -164,7 +153,7 @@ const User: FC<Props> = ({
           )}
           {!compact && curr.is_admin && !curr.is_bot && <IconAdmin />}
         </div>
-      </Tippy>
+      </Popover>
     </ContextMenu>
   );
 };

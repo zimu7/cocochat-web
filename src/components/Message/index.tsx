@@ -1,16 +1,15 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 import dayjs from "dayjs";
 import IconAdmin from "@/assets/icons/owner.svg";
 import { ContentTypes } from "@/app/config";
 import { useAppSelector } from "@/app/store";
 import { ChatContext } from "@/types/common";
-import useContextMenu from "@/hooks/useContextMenu";
 import usePinMessage from "@/hooks/usePinMessage";
 import IconInfo from "@/assets/icons/info.svg";
 import Avatar from "../Avatar";
 import Profile from "../Profile";
+import Popover from "../Popover";
 import Tooltip from "../Tooltip";
 import Commands from "./Commands";
 import ContextMenu from "./ContextMenu";
@@ -41,7 +40,6 @@ const Message: FC<IProps> = ({
   updateReadIndex,
   read = true,
 }) => {
-  const { visible: contextMenuVisible, handleContextMenuEvent, hideContextMenu } = useContextMenu();
   const { t } = useTranslation("chat");
   const inViewRef = useInView<HTMLDivElement>();
   const [edit, setEdit] = useState(false);
@@ -114,13 +112,11 @@ const Message: FC<IProps> = ({
   return (
     <div
       key={_key}
-      onContextMenu={readOnly ? undefined : (evt) => {
-        // 在右键点击时保存选中的文本（手机端禁用该功能，因为长按必定会选中）
+      onContextMenu={readOnly ? undefined : () => {
         if (!isMobile()) {
           const selection = window.getSelection();
           selectedTextRef.current = selection?.toString().trim() || "";
         }
-        handleContextMenuEvent(evt);
       }}
       data-msg-mid={mid}
       ref={inViewRef}
@@ -132,13 +128,9 @@ const Message: FC<IProps> = ({
         isSelf && "flex-row-reverse"
       )}
     >
-      <Tippy
-        key={_key}
-        popperOptions={{ strategy: "fixed" }}
+      <Popover
         disabled={readOnly}
-        interactive
         placement="right"
-        trigger="click"
         content={<Profile uid={fromUid || 0} type="card" cid={context == "dm" ? 0 : contextId} />}
       >
         <div className="cursor-pointer w-10 h-10 shrink-0" data-uid={fromUid} ref={avatarRef}>
@@ -150,14 +142,12 @@ const Message: FC<IProps> = ({
             name={currUser?.name}
           />
         </div>
-      </Tippy>
+      </Popover>
       <ContextMenu
         editMessage={toggleEditMessage}
         context={context}
         contextId={contextId}
         mid={mid}
-        visible={contextMenuVisible && !failed}
-        hide={hideContextMenu}
         selectedText={selectedTextRef.current}
       >
         <div

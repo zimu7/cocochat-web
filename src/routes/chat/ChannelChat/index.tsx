@@ -2,7 +2,6 @@ import { memo, useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { shallowEqual, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 
 import { updateChannelVisibleAside } from "@/app/slices/footprint";
 import { updateRememberedNavs } from "@/app/slices/ui";
@@ -11,6 +10,7 @@ import { useGetGroupAnnouncementQuery } from "@/app/services/server";
 import ChannelIcon from "@/components/ChannelIcon";
 import GoBackNav from "@/components/GoBackNav";
 import Tooltip from "@/components/Tooltip";
+import Popover from "@/components/Popover";
 import MessageSearch from "@/components/MessageSearch";
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import AnnouncementModal from "@/components/AnnouncementModal";
@@ -141,12 +141,9 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
         aside={
           <ul className="flex flex-col gap-6">
             <Tooltip tip={t("pin")} placement="left">
-              <Tippy
+              <Popover
                 placement="left-start"
-                popperOptions={{ strategy: "fixed" }}
-                offset={[0, 150]}
-                interactive
-                trigger="click"
+                offset={150}
                 content={<PinList id={cid} />}
               >
                 <li className={`${toolClass}`}>
@@ -157,21 +154,18 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                   ) : null}
                   <IconPin className="fill-gray-500" />
                 </li>
-              </Tippy>
+              </Popover>
             </Tooltip>
             <Tooltip tip={t("fav")} placement="left">
-              <Tippy
+              <Popover
                 placement="left-start"
-                popperOptions={{ strategy: "fixed" }}
-                offset={[0, 164]}
-                interactive
-                trigger="click"
+                offset={164}
                 content={<FavList cid={cid} />}
               >
                 <li className={`${toolClass}`}>
                   <IconFav className="fill-gray-500" />
                 </li>
-              </Tippy>
+              </Popover>
             </Tooltip>
             {canViewMembers && (
               <li className={`${toolClass}`} onClick={toggleMembersVisible}>

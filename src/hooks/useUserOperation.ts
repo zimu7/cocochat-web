@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { shallowEqual, useDispatch } from "react-redux";
 // import { ContentTypes } from "@/app/config";
 import { useMatch, useNavigate } from "react-router-dom";
-import { hideAll } from "tippy.js";
 
 import { useRemoveMembersMutation } from "@/app/services/channel";
 import {
@@ -67,7 +66,6 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     const finalId = isNumber ? id || passedUid : passedUid;
     if (!finalId) return;
     removeInChannel({ id: +cid, members: [+finalId] });
-    hideAll();
   };
 
   const handleRemove = (id: number) => {
@@ -75,7 +73,6 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     const finalId = isNumber ? id || passedUid : passedUid;
     if (finalId) {
       removeUser(finalId);
-      hideAll();
     }
   };
 
@@ -83,7 +80,6 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     const isString = typeof email == "string";
     const finalEmail = isString ? email || user?.email : user?.email;
     copy(finalEmail || "");
-    hideAll();
   };
   const startCall = () => {
     const data = {

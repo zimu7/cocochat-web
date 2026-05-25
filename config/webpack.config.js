@@ -314,7 +314,7 @@ module.exports = function (webpackEnv) {
                       plugins: [{ removeViewBox: false }]
                     },
                     titleProp: true,
-                    ref: true
+                    ref: false
                   }
                 }
               ],

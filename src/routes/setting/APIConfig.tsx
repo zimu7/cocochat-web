@@ -1,8 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import Tippy from "@tippyjs/react";
-import { hideAll } from "tippy.js";
 
 import {
   useGetThirdPartySecretQuery,
@@ -12,6 +10,7 @@ import { LoginConfig } from "@/types/server";
 import Button from "@/components/styled/Button";
 import Input from "@/components/styled/Input";
 import Toggle from "@/components/styled/Toggle";
+import Popover from "@/components/Popover";
 import useConfig from "@/hooks/useConfig";
 
 export default function APIConfig() {
@@ -21,10 +20,11 @@ export default function APIConfig() {
   const { data } = useGetThirdPartySecretQuery();
   const [updateSecret, { data: updatedSecret, isSuccess, isLoading }] =
     useUpdateThirdPartySecretMutation();
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (isSuccess) {
-      hideAll();
+      setConfirmOpen(false);
       toast.success(ct("tip.update"));
     }
   }, [isSuccess]);
@@ -46,15 +46,16 @@ export default function APIConfig() {
         </label>
         <Input disabled={!thirdParty} type="password" id="secret" value={updatedSecret || data} />
       </div>
-      <Tippy
-        interactive
+      <Popover
+        disabled={!thirdParty}
         placement="right-start"
-        trigger="click"
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
         content={
           <div className="p-3 rounded-lg border border-orange-400 border-solid flex flex-col gap-3 w-[250px] bg-white">
             <div className="text-orange-500 text-xs">{t("third_app.update_tip")}</div>
             <div className="flex justify-end gap-3 w-full">
-              <Button onClick={() => hideAll()} className="cancel mini">
+              <Button onClick={() => setConfirmOpen(false)} className="cancel mini">
                 {ct("action.cancel")}
               </Button>
               <Button disabled={isLoading} className="mini danger" onClick={() => updateSecret()}>
@@ -65,7 +66,7 @@ export default function APIConfig() {
         }
       >
         <Button disabled={!thirdParty}> {t("third_app.update")}</Button>
-      </Tippy>
+      </Popover>
       <div className="text-xs text-orange-400">
         {t("third_app.key_tip")}
         <a

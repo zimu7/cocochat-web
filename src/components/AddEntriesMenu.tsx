@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { hideAll } from "tippy.js";
 
 import { useAppSelector } from "@/app/store";
 import IconInvite from "@/assets/icons/add.person.svg";
@@ -15,7 +14,11 @@ import { shallowEqual } from "react-redux";
 import useServerExtSetting from "../hooks/useServerExtSetting";
 import { KEY_ADMIN_ONLY_INVITE } from "../app/config";
 
-export default function AddEntriesMenu() {
+interface Props {
+  close?: () => void;
+}
+
+export default function AddEntriesMenu({ close }: Props) {
   const { t } = useTranslation();
   const { getExtSetting } = useServerExtSetting();
   const onlyAdminCanInvite = getExtSetting(KEY_ADMIN_ONLY_INVITE);
@@ -30,33 +33,21 @@ export default function AddEntriesMenu() {
   const [channelModalVisible, setChannelModalVisible] = useState(false);
   const [usersModalVisible, setUsersModalVisible] = useState(false);
   const toggleInviteModalVisible = () => {
-    setInviteModalVisible((prev) => {
-      if (!prev) {
-        hideAll();
-      }
-      return !prev;
-    });
+    close?.();
+    setInviteModalVisible((prev) => !prev);
   };
   const toggleSearchModalVisible = () => {
-    setSearchModalVisible((prevVisible) => {
-      if (!prevVisible) {
-        hideAll();
-      }
-      return !prevVisible;
-    });
+    close?.();
+    setSearchModalVisible((prevVisible) => !prevVisible);
   };
   const toggleUsersModalVisible = () => {
-    setUsersModalVisible((prevVisible) => {
-      if (!prevVisible) {
-        hideAll();
-      }
-      return !prevVisible;
-    });
+    close?.();
+    setUsersModalVisible((prevVisible) => !prevVisible);
   };
   const handleOpenChannelModal = (isPrivate: boolean) => {
     setIsPrivate(isPrivate);
     setChannelModalVisible(true);
-    hideAll();
+    close?.();
   };
   const handleCloseModal = () => {
     setChannelModalVisible(false);

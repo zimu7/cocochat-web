@@ -1,5 +1,5 @@
 import { FC, ReactElement } from "react";
-import Tippy from "@tippyjs/react";
+import * as ContextMenuPrimitive from "@radix-ui/react-context-menu";
 
 import IconArrow from "@/assets/icons/arrow.right.svg";
 import IconChecked from "@/assets/icons/check.sign.svg";
@@ -16,80 +16,58 @@ export interface Item {
 
 interface Props {
   items: Item[];
-  hideMenu?: () => void;
+  hideMenu?: (() => void);
 }
-const WrapWithSubmenu = ({
-  items,
-  hideMenu,
-  child
-}: {
-  items: Item[];
-  hideMenu: () => void | null;
-  child: ReactElement;
-}) => {
-  return (
-    <Tippy
-      interactive
-      placement="auto-start"
-      trigger="mouseenter focus"
-      content={
-        <ul className="context-menu">
-          {items.map((sub) => {
-            const {
-              title,
-              icon = null,
-              handler = (evt) => {
-                evt.preventDefault();
-                if (hideMenu) {
-                  hideMenu();
-                }
-              },
-              underline = false,
-              danger = false,
-              checked = false
-            } = sub;
-            return (
-              <li
-                className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
-                key={title}
-                onClick={(evt) => {
-                  evt.stopPropagation();
-                  evt.preventDefault();
-                  if (checked) return;
-                  handler(evt);
-                  if (hideMenu) {
-                    hideMenu();
-                  }
-                }}
-              >
-                {icon}
-                {title}
-                {checked && (
-                  <IconChecked className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      }
-    >
-      {child}
-    </Tippy>
-  );
-};
-const ContextMenu: FC<Props> = ({ items = [], hideMenu = null }) => {
+
+const SubMenu = ({ items, hideMenu }: { items: Item[]; hideMenu?: () => void }) => {
   return (
     <ul className="context-menu">
-      {items.map((item) => {
-        // if (!item) return null;
+      {items.map((sub) => {
         const {
           title,
           icon = null,
           handler = (evt) => {
             evt.preventDefault();
-            if (hideMenu) {
-              hideMenu();
-            }
+            hideMenu?.();
+          },
+          underline = false,
+          danger = false,
+          checked = false
+        } = sub;
+        return (
+          <li
+            className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
+            key={title}
+            onClick={(evt) => {
+              evt.stopPropagation();
+              evt.preventDefault();
+              if (checked) return;
+              handler(evt);
+              hideMenu?.();
+            }}
+          >
+            {icon}
+            {title}
+            {checked && (
+              <IconChecked className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
+  return (
+    <ul className="context-menu">
+      {items.map((item) => {
+        const {
+          title,
+          icon = null,
+          handler = (evt) => {
+            evt.preventDefault();
+            hideMenu?.();
           },
           underline = false,
           danger = false,
@@ -97,27 +75,18 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu = null }) => {
         } = item;
         if (subs.length > 0)
           return (
-            <WrapWithSubmenu
-              key={title}
-              items={subs}
-              hideMenu={hideMenu}
-              child={
-                <li
-                  className={`item group ${underline ? "bottom_line" : ""} ${
-                    danger ? "danger" : ""
-                  }`}
-                  key={title}
-                  onClick={(evt) => {
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                  }}
-                >
-                  {icon}
-                  {title}
-                  <IconArrow className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
-                </li>
-              }
-            ></WrapWithSubmenu>
+            <ContextMenuPrimitive.Sub key={title}>
+              <ContextMenuPrimitive.SubTrigger className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}>
+                {icon}
+                {title}
+                <IconArrow className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+              </ContextMenuPrimitive.SubTrigger>
+              <ContextMenuPrimitive.Portal>
+                <ContextMenuPrimitive.SubContent className="z-50">
+                  <SubMenu items={subs} hideMenu={hideMenu} />
+                </ContextMenuPrimitive.SubContent>
+              </ContextMenuPrimitive.Portal>
+            </ContextMenuPrimitive.Sub>
           );
 
         return (
@@ -128,9 +97,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu = null }) => {
               evt.stopPropagation();
               evt.preventDefault();
               handler(evt);
-              if (hideMenu) {
-                hideMenu();
-              }
+              hideMenu?.();
             }}
           >
             {icon}
@@ -142,4 +109,5 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu = null }) => {
   );
 };
 
+export { ContextMenuPrimitive };
 export default ContextMenu;

@@ -1,10 +1,10 @@
 import { FC, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 
 import { useAppSelector } from "@/app/store";
 import GoBackNav from "@/components/GoBackNav";
 import Tooltip from "@/components/Tooltip";
+import Popover from "@/components/Popover";
 import User from "@/components/User";
 import MessageSearch from "@/components/MessageSearch";
 import FavIcon from "@/assets/icons/bookmark.svg";
@@ -43,18 +43,15 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
       aside={
         <ul className="flex flex-col gap-6">
           <Tooltip tip="Saved Items" placement="left">
-            <Tippy
+            <Popover
               placement="left-start"
-              popperOptions={{ strategy: "fixed" }}
-              offset={[0, 180]}
-              interactive
-              trigger="click"
+              offset={180}
               content={<FavList uid={uid} />}
             >
               <li className={`relative cursor-pointer fav`}>
                 <FavIcon className="fill-gray-500" />
               </li>
-            </Tippy>
+            </Popover>
           </Tooltip>
         </ul>
       }

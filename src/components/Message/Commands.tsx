@@ -3,9 +3,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { useDispatch } from "react-redux";
-import Tippy from "@tippyjs/react";
 import clsx from "clsx";
-import { hideAll } from "tippy.js";
 
 import { updateSelectMessages } from "@/app/slices/ui";
 import { ChatContext } from "@/types/common";
@@ -22,6 +20,7 @@ import replyIcon from "@/assets/icons/reply.svg?url";
 import IconSelect from "@/assets/icons/select.svg";
 import ContextMenu, { Item } from "../ContextMenu";
 import Tooltip from "../Tooltip";
+import Popover from "../Popover";
 import ReactionPicker from "./ReactionPicker";
 import useMessageOperation from "./useMessageOperation";
 
@@ -59,28 +58,29 @@ const Commands: FC<Props> = ({
     cid: context == "channel" ? contextId : null
   });
   const dispatch = useDispatch();
-  const [tippyVisible, setTippyVisible] = useState(false);
+  const [popoverVisible, setPopoverVisible] = useState(false);
+  const [reactionOpen, setReactionOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const cmdsRef = useRef(null);
   const handleReply = () => {
     if (contextId) {
       setReplying(mid);
     }
-    hideAll();
+    setMoreOpen(false);
   };
 
-  const handleTippyVisible = (visible = true) => {
-    setTippyVisible(visible);
+  const handlePopoverVisible = (visible = true) => {
+    setPopoverVisible(visible);
   };
   const handleSelect = (mid: number) => {
     dispatch(updateSelectMessages({ context, id: contextId, data: mid }));
-    hideAll();
+    setMoreOpen(false);
   };
   const handleUnpin = () => {
-    hideAll();
+    setMoreOpen(false);
     unPin(mid);
   };
   const handleAddFav = async () => {
-    hideAll();
     const faved = isFavorited(mid);
     if (faved) {
       toast.success(i18n.t("tip.favorited"));
@@ -100,24 +100,25 @@ const Commands: FC<Props> = ({
         ref={cmdsRef}
         className={clsx(
           `bg-white dark:bg-gray-900 rounded-md z-[999] absolute top-0 -translate-y-1/2 flex items-center border border-solid border-black/10 invisible group-hover:visible`,
-          tippyVisible && "!visible",
+          popoverVisible && "!visible",
           isSelf ? "left-2.5" : "right-2.5"
         )}
       >
-        <Tippy
-          onShow={handleTippyVisible.bind(null, true)}
-          onHide={handleTippyVisible.bind(null, false)}
-          interactive
+        <Popover
           placement="left-start"
-          trigger="click"
-          content={<ReactionPicker mid={mid} hidePicker={hideAll} />}
+          open={reactionOpen}
+          onOpenChange={(open) => {
+            setReactionOpen(open);
+            handlePopoverVisible(open);
+          }}
+          content={<ReactionPicker mid={mid} hidePicker={() => setReactionOpen(false)} />}
         >
           <li className={cmdClass}>
             <Tooltip placement="top" tip={t("action.add_reaction")}>
               <img src={reactIcon} className="toggler w-6 h-6" alt="icon emoji" />
             </Tooltip>
           </li>
-        </Tippy>
+        </Popover>
         {canEdit && (
           <li className={cmdClass} onClick={toggleEditMessage}>
             <Tooltip placement="top" tip={t("action.edit")}>
@@ -137,14 +138,16 @@ const Commands: FC<Props> = ({
             <IconBookmark className="fill-slate-500 w-6 h-6" />
           </Tooltip>
         </li>
-        <Tippy
-          onShow={handleTippyVisible.bind(null, true)}
-          onHide={handleTippyVisible.bind(null, false)}
-          interactive
+        <Popover
           placement="left-start"
-          trigger="click"
+          open={moreOpen}
+          onOpenChange={(open) => {
+            setMoreOpen(open);
+            handlePopoverVisible(open);
+          }}
           content={
             <ContextMenu
+              hideMenu={() => setMoreOpen(false)}
               items={
                 [
                   canPin && {
@@ -178,7 +181,7 @@ const Commands: FC<Props> = ({
               <img src={moreIcon} alt="icon more" />
             </Tooltip>
           </li>
-        </Tippy>
+        </Popover>
       </ul>
       {PinModal}
       {ForwardModal}

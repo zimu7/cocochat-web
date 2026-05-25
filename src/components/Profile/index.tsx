@@ -1,7 +1,6 @@
 import { FC, memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import Tippy from "@tippyjs/react";
 import clsx from "clsx";
 
 import { useAppSelector } from "@/app/store";
@@ -9,6 +8,7 @@ import useUserOperation from "@/hooks/useUserOperation";
 import IconMessage from "@/assets/icons/message.svg";
 import IconMore from "@/assets/icons/more.svg";
 import Avatar from "../Avatar";
+import Popover from "../Popover";
 import ContextMenu, { Item } from "../ContextMenu";
 import { shallowEqual } from "react-redux";
 import Remark from "./remark";
@@ -88,13 +88,9 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid }) => {
                 <span>{t("send_msg")}</span>
               </li>
             </NavLink>
-            <Tippy
+            <Popover
               disabled={!hasMore}
-              interactive
-              popperOptions={{ strategy: "fixed" }}
               placement="right"
-              trigger="click"
-              hideOnClick={true}
               content={
                 <ContextMenu
                   items={
@@ -142,7 +138,7 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid }) => {
                 <IconMore className={hasMore ? "fill-primary-500" : ""} />
                 <span>{ct("more")}</span>
               </li>
-            </Tippy>
+            </Popover>
           </ul>
         )}
       </div>

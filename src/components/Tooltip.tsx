@@ -1,45 +1,39 @@
-import { FC } from "react";
-import Tippy, { TippyProps } from "@tippyjs/react";
-import clsx from "clsx";
+import { FC, ReactElement, ReactNode } from "react";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 
 import { isMobile } from "../utils";
 
-const Triangle: FC<Pick<TippyProps, "placement">> = ({ placement }) => {
-  if (placement == "left") return null;
-  const cls = clsx(
-    "w-3 h-3 bg-inherit absolute rounded-[1px] origin-center rotate-45",
-    placement == "right" && "left-0 top-1/2 -translate-x-1/2 -translate-y-1/2",
-    placement == "top" && "left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2",
-    placement == "bottom" && "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-  );
-  return <i className={cls}></i>;
-};
+type Placement = "top" | "bottom" | "left" | "right";
 
 type Props = {
   tip: string;
-} & TippyProps;
+  placement?: Placement;
+  delay?: number | null;
+  disabled?: boolean;
+  children: ReactElement;
+};
 
-const Tooltip: FC<Props> = ({ tip = "", placement = "right", delay = null, children, ...rest }) => {
-  const defaultDuration: [number, number] = [300, 250];
+const Tooltip: FC<Props> = ({ tip = "", placement = "right", delay = null, disabled, children }) => {
+  if (isMobile() || disabled || !tip) {
+    return children;
+  }
 
   return (
-    <Tippy
-      disabled={isMobile()}
-      offset={[0, 18]}
-      duration={delay ? defaultDuration : 0}
-      delay={delay ?? [150, 0]}
-      placement={placement}
-      content={
-        <div className="relative bg-white dark:bg-gray-800 px-3 py-2 text-xs rounded-lg drop-shadow text-gray-700 dark:text-gray-100">
-          <Triangle placement={placement} />
+    <TooltipPrimitive.Root delayDuration={delay ?? 150}>
+      <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Portal>
+        <TooltipPrimitive.Content
+          side={placement}
+          sideOffset={6}
+          className="z-50 bg-white dark:bg-gray-800 px-3 py-2 text-xs rounded-lg drop-shadow text-gray-700 dark:text-gray-100 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+        >
           {tip}
-        </div>
-      }
-      {...rest}
-    >
-      {children}
-    </Tippy>
+          <TooltipPrimitive.Arrow className="fill-white dark:fill-gray-800" />
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
+    </TooltipPrimitive.Root>
   );
 };
 
+export { TooltipPrimitive };
 export default Tooltip;
