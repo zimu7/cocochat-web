@@ -28,3 +28,4 @@ yarn-error.log*
 web.cocochat.*
 *.zip
 /logs
+/.claude/settings.local.json

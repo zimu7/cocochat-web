@@ -77,14 +77,15 @@ function Files() {
         <Filter filter={filter} updateFilter={updateFilter} />
         <View view={view} />
       </div>
-      <div
-        className={clsx(
-          `flex-1 min-h-0 min-w-0 px-4 overflow-y-auto overflow-x-hidden no-scrollbar gap-4`,
-          view == "item" && "flex flex-col",
-          view == "grid" && "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
-        )}
-        ref={listContainerRef}
-      >
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+        <div
+          className={clsx(
+            `min-h-0 min-w-0 px-4 gap-4`,
+            view == "item" && "flex flex-col",
+            view == "grid" && "grid grid-cols-4"
+          )}
+          ref={listContainerRef}
+        >
         {nonExpiredFiles.map((file) => {
           const { mid, thumbnail, content, created_at, from_uid, properties } = file;
           const { name, content_type, size } = properties ? JSON.parse(properties) : {};
@@ -106,6 +107,7 @@ function Files() {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

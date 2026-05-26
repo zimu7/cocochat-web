@@ -65,7 +65,7 @@ function HomePage() {
       {/* Disabled: <Manifest /> */}
       {!guest && <Notification />}
       <div
-        className={`cocochat-container flex w-screen h-screen bg-neutral-100 dark:bg-neutral-900`}
+        className={`cocochat-container flex w-full h-screen overflow-x-hidden bg-neutral-100 dark:bg-neutral-900`}
       >
         {!guest && (
           <div

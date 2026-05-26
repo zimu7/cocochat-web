@@ -92,19 +92,19 @@ function ResourceManagement() {
   // });
 
   return (
-    <div className="h-screen md:overflow-y-scroll flex flex-col items-start my-2 mr-6 rounded-2xl bg-white dark:bg-gray-700">
+    <div className="h-screen flex flex-col my-2 mr-6 rounded-2xl bg-white dark:bg-gray-700" style={{ overflowX: "hidden" }}>
       <Search value={filter.name} updateSearchValue={handleUpdateSearch} />
-      <div className="flex justify-between w-full px-4 py-5">
+      <div className="flex justify-between w-full px-4 py-5 shrink-0">
         <Filter filter={filter} updateFilter={updateFilter} />
         <View view={view} />
       </div>
-      <div
-        className={clsx(
-          `w-full h-full px-4 overflow-scroll`,
-          view == "item" && "flex gap-2 flex-col",
-          view == "grid" && "col-count-2 md:col-count-3 lg:col-count-4"
-        )}
-      >
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-4">
+        <div
+          className={clsx(
+            view == "item" && "flex gap-2 flex-col",
+            view == "grid" && "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          )}
+        >
         {fileMsgs.map((id) => {
           const data = message[id];
           if (!data) return null;
@@ -117,7 +117,7 @@ function ResourceManagement() {
           const url = thumbnail || content;
           if (isExpired(url)) return null;
           return (
-            <div key={mid} className="grid-box mb-2">
+            <div key={mid} className="min-w-0">
               <FileBox
                 preview={view == "grid"}
                 flex={view == "item"}
@@ -132,6 +132,7 @@ function ResourceManagement() {
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );
