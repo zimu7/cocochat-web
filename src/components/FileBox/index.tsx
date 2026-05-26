@@ -80,14 +80,12 @@ const FileBox: FC<Props> = ({
   useEffect(() => {
     const tryFetch = async (url: string) => {
       try {
-        let statusNum = (await fetch(url)).status;
-        if (statusNum >= 400) {
+        const resp = await fetch(url, { method: "HEAD" });
+        if (resp.status >= 400) {
           setFetchError(true);
         }
       } catch (e) {
-        console.warn(e);
-
-        setFetchError(true);
+        // HEAD may not be supported, skip silently
       }
     };
     if (!expired && content) {
