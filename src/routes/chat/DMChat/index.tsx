@@ -45,7 +45,7 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
           <Tooltip tip="Saved Items" placement="left">
             <Popover
               placement="left-start"
-              offset={180}
+              offset={12}
               content={<FavList uid={uid} />}
             >
               <li className={`relative cursor-pointer fav`}>

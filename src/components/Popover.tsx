@@ -7,6 +7,8 @@ type Align = "start" | "center" | "end";
 type Props = {
   placement?: string;
   offset?: number;
+  alignOffset?: number;
+  avoidCollisions?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   disabled?: boolean;
@@ -28,6 +30,8 @@ function parsePlacement(placement: string = "bottom"): { side: Side; align: Alig
 const Popover: FC<Props> = ({
   placement = "bottom",
   offset = 8,
+  alignOffset = 0,
+  avoidCollisions = true,
   open,
   onOpenChange,
   disabled,
@@ -49,6 +53,8 @@ const Popover: FC<Props> = ({
           side={side}
           sideOffset={offset}
           align={align}
+          alignOffset={alignOffset}
+          avoidCollisions={avoidCollisions}
           className={`z-[1000] outline-none ${className ?? ""}`}
           onInteractOutside={(e) => {
             onOpenChange?.(false);

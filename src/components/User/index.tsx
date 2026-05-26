@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 
@@ -9,6 +9,7 @@ import Avatar from "../Avatar";
 import Profile from "../Profile";
 import Popover from "../Popover";
 import ContextMenu from "./ContextMenu";
+import NicknameModal from "../NicknameModal";
 import { shallowEqual } from "react-redux";
 import { cn } from "@/utils";
 import NameWithRemark from "../NameWithRemark";
@@ -29,7 +30,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 const User: FC<Props> = ({
   cid,
   uid,
-  // owner = false,
+  owner: _owner,
   dm = false,
   interactive = true,
   popover = false,
@@ -117,16 +118,23 @@ const User: FC<Props> = ({
         </div>
       </ContextMenu>
     );
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [remarkVisible, setRemarkVisible] = useState(false);
+
   return (
-    <ContextMenu
-      cid={cid}
-      uid={uid}
-      enable={enableContextMenu}
-    >
-      <Popover
-        placement="left"
-        content={<Profile uid={uid} type="card" cid={cid} />}
+    <>
+      <NicknameModal uid={uid} visible={remarkVisible} updateVisible={setRemarkVisible} />
+      <ContextMenu
+        cid={cid}
+        uid={uid}
+        enable={enableContextMenu}
       >
+        <Popover
+          open={profileOpen}
+          onOpenChange={setProfileOpen}
+          placement="left"
+          content={<Profile uid={uid} type="card" cid={cid} onClose={() => setProfileOpen(false)} onRemark={() => { setProfileOpen(false); setRemarkVisible(true); }} />}
+        >
         <div
           className={containerClass}
           onDoubleClick={dm ? handleDoubleClick : undefined}
@@ -155,6 +163,7 @@ const User: FC<Props> = ({
         </div>
       </Popover>
     </ContextMenu>
+    </>
   );
 };
 

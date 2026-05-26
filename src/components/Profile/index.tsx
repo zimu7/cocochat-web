@@ -18,10 +18,13 @@ interface Props {
   uid: number;
   type?: "embed" | "card";
   cid?: number;
+  onClose?: () => void;
+  onRemark?: () => void;
 }
 
-const Profile: FC<Props> = ({ uid, type = "embed", cid }) => {
+const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => {
   const [remarkVisible, setRemarkVisible] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const { t } = useTranslation("member");
   const { t: chatTrans } = useTranslation("chat");
   const { t: ct } = useTranslation();
@@ -90,14 +93,25 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid }) => {
             </NavLink>
             <Popover
               disabled={!hasMore}
+              open={moreOpen}
+              onOpenChange={setMoreOpen}
               placement="right"
               content={
                 <ContextMenu
+                  hideMenu={() => setMoreOpen(false)}
                   items={
                     [
                       {
                         title: chatTrans("remark"),
-                        handler: setRemarkVisible.bind(null, true),
+                        handler: () => {
+                          setMoreOpen(false);
+                          if (onRemark) {
+                            onRemark();
+                          } else {
+                            onClose?.();
+                            setRemarkVisible(true);
+                          }
+                        },
                       },
                       canCopyEmail && {
                         title: t("copy_email"),

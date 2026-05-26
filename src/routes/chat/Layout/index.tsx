@@ -130,7 +130,7 @@ const Layout: FC<Props> = ({
         {aside && (
           <div
             className={clsx(
-              "flex z-50 p-3 absolute right-0 md:translate-x-full flex-col",
+              "flex z-50 p-3 absolute right-0 md:right-auto md:left-full flex-col",
               platform().isWindows ? "top-14 md:top-5" : "top-14 md:top-0"
             )}
           >
