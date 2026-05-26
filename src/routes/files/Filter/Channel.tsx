@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import ChannelIcon from "@/components/ChannelIcon";
 import useFilteredChannels from "@/hooks/useFilteredChannels";
@@ -10,6 +11,7 @@ type Props = {
 };
 const Channel: FC<Props> = ({ select = 0, updateFilter }) => {
   const { channels } = useFilteredChannels();
+  const { t } = useTranslation("file");
   const handleClick = (gid?: number) => {
     updateFilter({ gid });
   };
@@ -23,7 +25,7 @@ const Channel: FC<Props> = ({ select = 0, updateFilter }) => {
         >
           <ChannelIcon />
           <span className="text-gray-500 dark:text-gray-100 font-semibold text-sm">
-            Any Channel
+            {t("any_channel")}
           </span>
           {!select && <CheckSign className="absolute right-0 top-1/2 -translate-y-1/2" />}
         </li>

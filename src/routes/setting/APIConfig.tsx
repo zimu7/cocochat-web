@@ -44,7 +44,7 @@ export default function APIConfig() {
           {" "}
           {t("third_app.key")}:
         </label>
-        <Input disabled={!thirdParty} type="password" id="secret" value={updatedSecret || data} />
+        <Input disabled={!thirdParty} type="password" id="secret" value={updatedSecret || data || ""} />
       </div>
       <Popover
         disabled={!thirdParty}

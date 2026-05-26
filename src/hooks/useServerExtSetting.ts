@@ -12,7 +12,7 @@ const useServerExtSetting = (config?: { successTip?: boolean; key?: string }) =>
   const { t } = useTranslation();
   const _config = Object.assign({}, { successTip: true, key: "" }, config);
   const { refetch } = useGetSystemCommonQuery();
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
 
   const jsonSetting = useAppSelector((store) => store.server.ext_setting ?? "{}", shallowEqual);
   let setting = {};
@@ -50,7 +50,8 @@ const useServerExtSetting = (config?: { successTip?: boolean; key?: string }) =>
     jsonSetting,
     setting,
     getExtSetting,
-    updateExtSetting
+    updateExtSetting,
+    isLoading
   };
 };
 

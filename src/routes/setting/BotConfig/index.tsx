@@ -61,14 +61,6 @@ export default function BotConfig() {
         <div className="flex flex-col gap-1">
           <h2 className="font-semibold flex gap-4 items-center dark:text-white">
             {t("manage")}
-            <a
-              href="https://doc.voce.chat/bot/bot-and-webhook"
-              target="_blank"
-              className="text-sm text-blue-400 underline-offset-1 underline"
-              rel="noopener noreferrer"
-            >
-              🔗 {t("how_to_use")}
-            </a>
           </h2>
           <p className="text-gray-400 text-xs">{t("manage_desc")}</p>
         </div>

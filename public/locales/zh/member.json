@@ -25,6 +25,8 @@
   "remove_account": "注销账号",
   "remove_account_desc": "确定永久注销该账号？",
   "remove_from_channel": "从频道移除",
+  "remove_desc": "确定将该成员从服务器删除？此操作不可撤销。",
+  "remove_from_channel_desc": "确定将该成员从频道移除？",
   "roles": "设置角色",
   "set_admin": "管理员",
   "set_normal": "普通用户",

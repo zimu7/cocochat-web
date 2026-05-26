@@ -10,7 +10,7 @@ import { useUpdateInfoMutation } from "@/app/services/user";
 
 type Props = {};
 const UserMsgEmailNotify = ({}: Props) => {
-  const [updateInfo, { isSuccess }] = useUpdateInfoMutation();
+  const [updateInfo, { isSuccess, isLoading }] = useUpdateInfoMutation();
   const { t } = useTranslation("setting");
   const { t: ct } = useTranslation();
   const { refetch } = useGetSystemCommonQuery();
@@ -37,6 +37,7 @@ const UserMsgEmailNotify = ({}: Props) => {
       title={t("overview.user_msg_notify.title")}
       desc={t("overview.user_msg_notify.desc")}
       toggler={<Toggle onClick={toggleEnable} checked={msgNotify}></Toggle>}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

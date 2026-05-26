@@ -22,7 +22,7 @@ const Index = () => {
   const { t } = useTranslation("setting", { keyPrefix: "overview.online_status" });
   const { t: ct } = useTranslation();
   const { refetch } = useGetSystemCommonQuery();
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
   useEffect(() => {
     if (isSuccess) {
       refetch();
@@ -38,6 +38,7 @@ const Index = () => {
       title={t("title")}
       desc={t("desc")}
       toggler={<Toggle onClick={handleToggle} checked={currStatus} />}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

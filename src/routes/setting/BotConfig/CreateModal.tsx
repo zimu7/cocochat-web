@@ -78,7 +78,7 @@ const CreateModal = ({ closeModal }: Props) => {
               {ct("action.cancel")}
             </Button>
             <Button disabled={!inputs.name} onClick={handleCreateBot}>
-              {isLoading ? "Creating" : ct("action.done")}
+              {isLoading ? t("creating") : ct("action.done")}
             </Button>
           </>
         }
@@ -89,41 +89,41 @@ const CreateModal = ({ closeModal }: Props) => {
           <input type="password" name="prevent_autofill_password" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
           <div className="flex flex-col items-start gap-1 w-full">
             <label htmlFor={"name"} className="text-sm text-gray-500">
-              Name
+              {t("col_name")}
             </label>
             <Input
               onChange={handleInputChange}
               value={name}
               data-name={"name"}
-              placeholder="Please input bot name"
+              placeholder={t("name_placeholder")}
               autoComplete="off"
               data-form-type="other"
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
             <label htmlFor={"password"} className="text-sm text-gray-500">
-              Password
+              {t("password")}
             </label>
             <Input
               onChange={handleInputChange}
               value={password}
               data-name={"password"}
               type="password"
-              placeholder="Please input password"
+              placeholder={t("password_placeholder")}
               autoComplete="new-password"
               data-form-type="other"
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
             <label htmlFor={"webhook_url"} className="text-sm text-gray-500">
-              Webhook URL (Optional)
+              {t("webhook_url")}
             </label>
             <Input
               onChange={handleInputChange}
               value={webhook_url}
               data-name={"webhook_url"}
               type="url"
-              placeholder="Please input webhook url"
+              placeholder={t("webhook_url_placeholder")}
             ></Input>
           </div>
         </div>

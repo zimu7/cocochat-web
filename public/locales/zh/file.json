@@ -2,5 +2,22 @@
   "from": "来自",
   "channel": "频道",
   "type": "类型",
-  "date": "日期"
+  "date": "日期",
+  "any_type": "所有类型",
+  "any_channel": "所有频道",
+  "any_time": "所有时间",
+  "doc": "文档",
+  "pdf": "PDF",
+  "image": "图片",
+  "audio": "音频",
+  "video": "视频",
+  "code": "代码片段",
+  "unknown": "未知文件",
+  "today": "今天",
+  "last_24h": "最近 24 小时",
+  "last_7d": "最近 7 天",
+  "last_30d": "最近 30 天",
+  "last_3m": "最近 3 个月",
+  "last_6m": "最近 6 个月",
+  "last_12m": "最近 12 个月"
 }

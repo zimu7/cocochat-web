@@ -17,7 +17,14 @@ import Popover from "../Popover";
 import { shallowEqual } from "react-redux";
 // import ViewPassword from "./ViewPassword";
 import UpdatePassword from "./UpdatePassword";
+import RemoveConfirmModal from "./RemoveConfirmModal";
 import NameWithRemark from "../NameWithRemark";
+
+type RemoveTarget = {
+  uid: number;
+  name: string;
+  type: "server" | "channel";
+};
 
 interface Props {
   cid?: number;
@@ -27,6 +34,7 @@ const MemberList: FC<Props> = ({ cid }) => {
   const { t } = useTranslation("member");
   const { t: ct } = useTranslation();
   const [currentUid, setCurrentUid] = useState<number | undefined>(undefined);
+  const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
   const loginUser = useAppSelector((store) => store.authData.user, shallowEqual);
   const userMap = useAppSelector((store) => store.users.byId, shallowEqual);
   const channels = useAppSelector((store) => store.channels, shallowEqual);
@@ -36,8 +44,9 @@ const MemberList: FC<Props> = ({ cid }) => {
     canUpdatePassword,
     copyEmail,
     canCopyEmail,
-    removeFromChannel,
+    canRemove,
     removeUser,
+    removeFromChannel,
     showEmailInChannel,
   } = useUserOperation({
     cid,
@@ -66,6 +75,11 @@ const MemberList: FC<Props> = ({ cid }) => {
     updateUser({ id: uid, is_admin: isAdmin });
   };
 
+  const handleRemoveConfirm = (uid: number, name: string, type: "server" | "channel") => {
+    setMorePopoverUid(undefined);
+    setRemoveTarget({ uid, name, type });
+  };
+
   const channel = cid ? channels.byId[cid] : null;
   const finalUids = channel ? (channel.is_public ? uids : channel.members) : uids;
   return (
@@ -83,10 +97,8 @@ const MemberList: FC<Props> = ({ cid }) => {
             const owner = channel && channel.owner == uid;
             const switchRoleVisible = loginUser?.is_admin && loginUser.uid !== uid && uid !== 1;
             let dotsVisible = loginUser?.is_admin;
-            const canRemove = loginUser?.is_admin && loginUser?.uid != uid && uid !== 1;
             const canRemoveFromChannel =
               channel && channel.owner == loginUser?.uid && loginUser?.uid != uid;
-
             dotsVisible = [canCopyEmail, canRemove, canRemoveFromChannel].some((i) => i);
             return (
               <li
@@ -163,7 +175,7 @@ const MemberList: FC<Props> = ({ cid }) => {
                             </li>
                           )}
                           {canRemoveFromChannel && (
-                            <li className="item danger" onClick={removeFromChannel.bind(null, uid)}>
+                            <li className="item danger" onClick={handleRemoveConfirm.bind(null, uid, name, "channel")}>
                               {t("remove_from_channel")}
                             </li>
                           )}
@@ -173,12 +185,12 @@ const MemberList: FC<Props> = ({ cid }) => {
                             </li>
                           )} */}
                           {canUpdatePassword && (
-                            <li className="item danger" onClick={setCurrentUid.bind(null, uid)}>
+                            <li className="item danger" onClick={() => { setMorePopoverUid(undefined); setCurrentUid(uid); }}>
                               {ct("action.change_pwd")}
                             </li>
                           )}
                           {canRemove && (
-                            <li className="item danger" onClick={removeUser.bind(null, uid)}>
+                            <li className="item danger" onClick={handleRemoveConfirm.bind(null, uid, name, "server")}>
                               {ct("action.remove")}
                             </li>
                           )}
@@ -198,6 +210,15 @@ const MemberList: FC<Props> = ({ cid }) => {
       </ul>
       {/* <ViewPassword uid={currentUid} onClose={setCurrentUid.bind(null, undefined)} /> */}
       <UpdatePassword uid={currentUid} onClose={setCurrentUid.bind(null, undefined)} />
+      {removeTarget && (
+        <RemoveConfirmModal
+          uid={removeTarget.uid}
+          name={removeTarget.name}
+          type={removeTarget.type}
+          cid={cid}
+          closeModal={() => setRemoveTarget(null)}
+        />
+      )}
     </>
   );
 };

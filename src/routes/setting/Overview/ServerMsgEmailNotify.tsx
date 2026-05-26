@@ -26,7 +26,7 @@ const MsgNotify = ({}: Props) => {
     (store) => store.server.msg_smtp_notify_delay_seconds ?? 0,
     shallowEqual
   );
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
   useEffect(() => {
     if (isSuccess) {
       refetch();
@@ -52,6 +52,7 @@ const MsgNotify = ({}: Props) => {
       title={t("overview.server_msg_notify.title")}
       desc={t("overview.server_msg_notify.desc")}
       toggler={<Toggle onClick={toggleEnable} checked={msgNotify}></Toggle>}
+      loading={isLoading}
     >
       <StyledRadio
         disabled={!msgNotify}

@@ -7,7 +7,7 @@ type Props = {};
 
 const WhoCanSignUpSetting = ({}: Props) => {
   const { t } = useTranslation("setting");
-  const { values: loginConfig, updateConfig: updateLoginConfig } = useConfig("login");
+  const { values: loginConfig, updateConfig: updateLoginConfig, updating } = useConfig("login");
   const handleUpdateWhoCanSignUp = (value: WhoCanSignUp) => {
     updateLoginConfig({ ...loginConfig, who_can_sign_up: value });
   };
@@ -15,7 +15,7 @@ const WhoCanSignUpSetting = ({}: Props) => {
   if (!loginConfig) return null;
   const { who_can_sign_up: whoCanSignUp } = loginConfig as LoginConfig;
   return (
-    <SettingBlock title={t("overview.sign_up.title")} desc={t("overview.sign_up.desc")}>
+    <SettingBlock title={t("overview.sign_up.title")} desc={t("overview.sign_up.desc")} loading={updating}>
       <StyledRadio
         options={[t("overview.sign_up.everyone"), t("overview.sign_up.invite")]}
         values={["EveryOne", "InvitationOnly"]}

@@ -2,5 +2,22 @@
   "from": "From",
   "channel": "Channel",
   "type": "Type",
-  "date": "Date"
+  "date": "Date",
+  "any_type": "Any Type",
+  "any_channel": "Any Channel",
+  "any_time": "Any Time",
+  "doc": "Documents",
+  "pdf": "PDFs",
+  "image": "Images",
+  "audio": "Audio",
+  "video": "Videos",
+  "code": "Code Snippets",
+  "unknown": "Unknown Files",
+  "today": "Today",
+  "last_24h": "Last 24 Hours",
+  "last_7d": "Last 7 Days",
+  "last_30d": "Last 30 Days",
+  "last_3m": "Last 3 months",
+  "last_6m": "Last 6 months",
+  "last_12m": "Last 12 months"
 }

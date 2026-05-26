@@ -17,7 +17,7 @@ const OnlyAdminCreateGroup = ({}: Props) => {
     (store) => store.server.only_admin_can_create_group ?? false,
     shallowEqual
   );
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
   useEffect(() => {
     if (isSuccess) {
       refetch();
@@ -32,6 +32,7 @@ const OnlyAdminCreateGroup = ({}: Props) => {
       title={t("overview.admin_create_group.title")}
       desc={t("overview.admin_create_group.desc")}
       toggler={<Toggle onClick={toggleEnable} checked={onlyAdminCreateGroup}></Toggle>}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

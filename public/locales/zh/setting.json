@@ -248,7 +248,13 @@
     "col_key_name": "名称",
     "col_key_value": "值",
     "col_key_create_time": "创建时间",
-    "col_key_last_used": "上次使用时间"
+    "col_key_last_used": "上次使用时间",
+    "password": "密码",
+    "webhook_url": "Webhook URL（可选）",
+    "name_placeholder": "请输入机器人名称",
+    "password_placeholder": "请输入密码",
+    "webhook_url_placeholder": "请输入 Webhook URL",
+    "creating": "创建中"
   },
   "auto_delete_msg": {
     "title": "删除我发送的消息",

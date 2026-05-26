@@ -14,6 +14,7 @@ import {
 } from "./preview";
 import { shallowEqual } from "react-redux";
 import DownloadArea from "../FileMessage/DownloadArea";
+import { getFileTypeCategory } from "@/utils";
 
 interface Data {
   file_type: string;
@@ -25,35 +26,25 @@ const renderPreview = (data: Data) => {
   const { file_type, name = "", content } = data;
   let preview: null | ReactElement = null;
 
-  const checks = {
-    image: /^image/gi,
-    audio: /^audio/gi,
-    video: /^video/gi,
-    code: /(json|javascript|java|rb|c|php|xml|css|html)$/gi,
-    doc: /^text/gi,
-    pdf: /\/pdf$/gi,
-  };
   const _arr = name.split(".");
   const _type = file_type || _arr[_arr.length - 1];
-  switch (true) {
-    case checks.image.test(_type):
-      {
-        preview = <ImagePreview url={content} />;
-      }
+  switch (getFileTypeCategory(_type)) {
+    case "image":
+      preview = <ImagePreview url={content} />;
       break;
-    case checks.pdf.test(_type):
+    case "pdf":
       preview = <PdfPreview url={content} />;
       break;
-    case checks.code.test(_type):
+    case "code":
       preview = <CodePreview url={content} />;
       break;
-    case checks.doc.test(_type):
+    case "doc":
       preview = <DocPreview url={content} />;
       break;
-    case checks.audio.test(_type):
+    case "audio":
       preview = <AudioPreview url={content} />;
       break;
-    case checks.video.test(_type):
+    case "video":
       preview = <VideoPreview url={content} />;
       break;
   }

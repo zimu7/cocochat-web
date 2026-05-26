@@ -9,17 +9,44 @@ import Filter from "./Filter";
 import Search from "./Search";
 import View from "./View";
 import { shallowEqual } from "react-redux";
+import { getFileTypeCategory } from "@/utils";
+
+const DAY = 86400 * 1000;
+
+const dateDurations: Record<string, number> = {
+  today: DAY,
+  in7d: 7 * DAY,
+  in30d: 30 * DAY,
+  in3m: 90 * DAY,
+  in12m: 365 * DAY,
+};
 
 const checkFilter = (data, filter, channelMessage) => {
   let selected = true;
-  const { mid, from_uid, properties } = data;
-  const { name: nameFilter, from: fromFilter, channel: channelFilter } = filter;
+  const { mid, from_uid, properties, created_at } = data;
+  const { name: nameFilter, from: fromFilter, channel: channelFilter, type: typeFilter, date: dateFilter } = filter;
   const name = properties ? properties.name : "";
+  const content_type = properties ? properties.content_type : "";
   if (fromFilter && fromFilter != from_uid) {
     selected = false;
   }
   if (channelFilter && channelMessage[channelFilter].findIndex((id) => id == mid) == -1) {
     selected = false;
+  }
+  if (typeFilter) {
+    const category = getFileTypeCategory(content_type, name);
+    if (category !== typeFilter && !(typeFilter === "doc" && category === "code")) {
+      selected = false;
+    }
+  }
+  if (dateFilter) {
+    const duration = dateDurations[dateFilter];
+    if (duration && created_at) {
+      const now = Date.now();
+      if (now - created_at > duration) {
+        selected = false;
+      }
+    }
   }
   if (nameFilter) {
     let str = ["", ...nameFilter.toLowerCase(), ""].join(".*");

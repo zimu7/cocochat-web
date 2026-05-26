@@ -7,9 +7,9 @@ import { useAppSelector } from "@/app/store";
 import ArrowDown from "@/assets/icons/arrow.down.svg";
 import Popover from "@/components/Popover";
 import FilterChannel from "./Channel";
-import FilterDate, { Dates } from "./Date";
+import FilterDate, { DateKeys } from "./Date";
 // import FilterFrom from "./From";
-import FilterType, { FileTypes } from "./Type";
+import FilterType, { FileTypeKeys } from "./Type";
 import { shallowEqual } from "react-redux";
 
 const getClass = (selected: boolean) => {
@@ -23,10 +23,10 @@ const getClass = (selected: boolean) => {
 export default function Filter({ filter, updateFilter }) {
   const { t } = useTranslation("file");
   const [filtersVisible, setFiltersVisible] = useState({
-    gid: false,
-    creation_time_type: false,
+    channel: false,
+    date: false,
     uid: false,
-    file_type: false,
+    type: false,
   });
 
   const toggleFilterVisible = (obj: any) => {
@@ -48,11 +48,11 @@ export default function Filter({ filter, updateFilter }) {
   const userMap = useAppSelector((store) => store.users.byId, shallowEqual);
   const channelMap = useAppSelector((store) => store.channels.byId, shallowEqual);
 
-  const { uid, gid, file_type, creation_time_type } = filter;
+  const { uid, channel, type, date } = filter;
   const {
-    gid: channelVisible,
-    creation_time_type: dateVisible,
-    file_type: typeVisible,
+    channel: channelVisible,
+    date: dateVisible,
+    type: typeVisible,
     uid: fromVisible,
   } = filtersVisible;
 
@@ -82,43 +82,43 @@ export default function Filter({ filter, updateFilter }) {
       </Popover> */}
       <Popover
         open={channelVisible}
-        onOpenChange={(open) => toggleFilterVisible({ gid: open })}
+        onOpenChange={(open) => toggleFilterVisible({ channel: open })}
         placement="bottom-start"
-        content={<FilterChannel select={filter.gid} updateFilter={handleUpdateFilter} />}
+        content={<FilterChannel select={filter.channel} updateFilter={handleUpdateFilter} />}
       >
-        <div className={getClass(gid)} onClick={toggleFilterVisible.bind(null, { gid: true })}>
-          <span className="txt">{gid ? `In ${channelMap[gid].name}` : t("channel")}</span>
+        <div className={getClass(channel)} onClick={toggleFilterVisible.bind(null, { channel: true })}>
+          <span className="txt">{channel ? `In ${channelMap[channel].name}` : t("channel")}</span>
           <ArrowDown className="dark:stroke-gray-100" />
         </div>
       </Popover>
       <Popover
         open={typeVisible}
-        onOpenChange={(open) => toggleFilterVisible({ file_type: open })}
+        onOpenChange={(open) => toggleFilterVisible({ type: open })}
         placement="bottom-start"
-        content={<FilterType select={filter.file_type} updateFilter={handleUpdateFilter} />}
+        content={<FilterType select={filter.type} updateFilter={handleUpdateFilter} />}
       >
         <div
-          className={getClass(file_type)}
-          onClick={toggleFilterVisible.bind(null, { file_type: true })}
+          className={getClass(type)}
+          onClick={toggleFilterVisible.bind(null, { type: true })}
         >
-          <span className="txt">{file_type ? FileTypes[file_type].title : t("type")}</span>
+          <span className="txt">{type ? t(FileTypeKeys[type]) : t("type")}</span>
           <ArrowDown className="dark:stroke-gray-100" />
         </div>
       </Popover>
       <Popover
         open={dateVisible}
-        onOpenChange={(open) => toggleFilterVisible({ creation_time_type: open })}
+        onOpenChange={(open) => toggleFilterVisible({ date: open })}
         placement="bottom-start"
         content={
-          <FilterDate select={filter.creation_time_type} updateFilter={handleUpdateFilter} />
+          <FilterDate select={filter.date} updateFilter={handleUpdateFilter} />
         }
       >
         <div
-          className={getClass(creation_time_type)}
-          onClick={toggleFilterVisible.bind(null, { creation_time_type: true })}
+          className={getClass(date)}
+          onClick={toggleFilterVisible.bind(null, { date: true })}
         >
           <span className="txt">
-            {creation_time_type ? Dates[creation_time_type].title : t("date")}
+            {date ? t(DateKeys[date]) : t("date")}
           </span>
           <ArrowDown className="dark:stroke-gray-100" />
         </div>

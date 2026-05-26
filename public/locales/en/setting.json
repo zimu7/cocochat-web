@@ -251,7 +251,13 @@
     "col_key_name": "Name",
     "col_key_value": "Key",
     "col_key_create_time": "Created At",
-    "col_key_last_used": "Last Used"
+    "col_key_last_used": "Last Used",
+    "password": "Password",
+    "webhook_url": "Webhook URL (Optional)",
+    "name_placeholder": "Please input bot name",
+    "password_placeholder": "Please input password",
+    "webhook_url_placeholder": "Please input webhook url",
+    "creating": "Creating"
   },
   "auto_delete_msg": {
     "title": "Delete messages sent by myself after certain time period. ",

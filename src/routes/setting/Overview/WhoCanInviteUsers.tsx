@@ -7,7 +7,7 @@ import Toggle from "@/components/styled/Toggle";
 type Props = {};
 
 const WhoCanInviteUsers = ({}: Props) => {
-  const { updateExtSetting, getExtSetting } = useServerExtSetting();
+  const { updateExtSetting, getExtSetting, isLoading } = useServerExtSetting();
   const { t } = useTranslation("setting");
   const adminOnlyCanInvite = getExtSetting(KEY_ADMIN_ONLY_INVITE);
   const handleToggle = () => {
@@ -18,6 +18,7 @@ const WhoCanInviteUsers = ({}: Props) => {
       title={t("overview.admin_only_can_invite.title")}
       desc={t("overview.admin_only_can_invite.desc")}
       toggler={<Toggle onClick={handleToggle} checked={adminOnlyCanInvite} />}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

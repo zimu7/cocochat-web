@@ -10,6 +10,17 @@ import Filter from "./Filter";
 import View from "./View";
 import { useLazyGetFilesQuery } from "@/app/services/server";
 import { shallowEqual } from "react-redux";
+import { getFileTypeCategory } from "@/utils";
+
+const DAY = 86400 * 1000;
+
+const dateDurations: Record<string, number> = {
+  Day1: DAY,
+  Day7: 7 * DAY,
+  Day30: 30 * DAY,
+  Day90: 90 * DAY,
+  Day180: 180 * DAY,
+};
 
 function Files() {
   const [getFiles, { data, isLoading }] = useLazyGetFilesQuery();
@@ -38,10 +49,26 @@ function Files() {
     getFiles({ ..._f, page_size: 1000 });
   }, [filter]);
   if (!data) return null;
-  // return null;
-  const nonExpiredFiles = [
-    ...data.filter((item) => !item.expired).sort((a, b) => b.created_at - a.created_at),
-  ];
+
+  const { file_type: typeFilter, creation_time_type: dateFilter } = filter;
+  const nonExpiredFiles = data
+    .filter((item) => !item.expired)
+    .filter((item) => {
+      if (!typeFilter) return true;
+      const props = item.properties ? JSON.parse(item.properties) : {};
+      const category = getFileTypeCategory(props.content_type, props.name);
+      if (category === typeFilter.toLowerCase()) return true;
+      if (typeFilter === "Doc" && category === "code") return true;
+      return false;
+    })
+    .filter((item) => {
+      if (!dateFilter) return true;
+      const duration = dateDurations[dateFilter];
+      if (!duration || !item.created_at) return true;
+      const now = Date.now();
+      return now - item.created_at <= duration;
+    })
+    .sort((a, b) => b.created_at - a.created_at);
   console.log({ view });
   return (
     <div className="h-screen md:overflow-y-scroll flex flex-col items-start my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-gray-700">

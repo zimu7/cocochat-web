@@ -16,6 +16,7 @@ const UpdatePassword = ({ uid, onClose }: Props) => {
   const [pwd, setPwd] = useState("");
   const { updatePassword } = useUserOperation({ uid });
   const { t: ct } = useTranslation();
+  const { t } = useTranslation("member");
   const handleUpdate = () => {
     if (pwd.length < 6) {
       toast.error(ct("error.min_length_6"));
@@ -30,17 +31,18 @@ const UpdatePassword = ({ uid, onClose }: Props) => {
   if (!uid) return null;
   return (
     <Modal>
-      <div className="flex flex-col gap-3 py-4 px-6 rounded-md bg-slate-100 dark:bg-slate-900 relative">
+      <div className="flex flex-col gap-3 py-8 px-12 rounded-md bg-slate-100 dark:bg-slate-900 relative min-w-[400px]">
+        <h2 className="text-lg font-bold dark:text-slate-200">{t("change_pwd")}</h2>
         <label htmlFor="pwd" className="dark:text-slate-200">
-          Password:
+          {t("new_pwd")}:
         </label>
-        <Input id="pwd" value={pwd} onChange={handleChange} placeholder="Input New Password" />
+        <Input id="pwd" value={pwd} onChange={handleChange} placeholder={t("new_pwd")} />
         <div className="flex items-center gap-2">
           <StyledButton disabled={!pwd} className="small" onClick={handleUpdate}>
-            Update
+            {ct("action.update")}
           </StyledButton>
           <StyledButton className="small cancel" onClick={onClose}>
-            Close
+            {ct("action.close")}
           </StyledButton>
         </div>
       </div>

@@ -19,7 +19,7 @@ const WebClientAutoUpdate = () => {
   const { t } = useTranslation("setting", { keyPrefix: "overview.webclient_auto_update" });
   const { t: ct } = useTranslation();
   const { refetch } = useGetSystemCommonQuery();
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
   useEffect(() => {
     if (isSuccess) {
       refetch();
@@ -34,6 +34,7 @@ const WebClientAutoUpdate = () => {
       title={t("title")}
       desc={t("desc")}
       toggler={<Toggle onClick={handleToggle} checked={currStatus} />}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

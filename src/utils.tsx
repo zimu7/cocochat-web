@@ -212,37 +212,59 @@ export function sliceFile(file: File | null, chunksAmount: number) {
   }
   return chunks;
 }
-export const getFileIcon = (type: string, name = "", className = "icon") => {
-  let icon = null;
-  const checks = {
-    image: /^image/gi,
-    audio: /^audio/gi,
-    video: /^video/gi,
-    code: /(json|javascript|java|rb|c|php|xml|css|html)$/gi,
-    doc: /^text/gi,
-    pdf: /\/pdf$/gi,
-  };
+const fileTypeChecks = {
+  image: /^image/i,
+  audio: /^audio/i,
+  video: /^video/i,
+  code: /(json|javascript|java|rb|c|php|xml|css|html)$/i,
+  doc: /^text/i,
+  pdf: /\/pdf$/i,
+};
+
+const fileTypeExtChecks = {
+  image: /\.(jpe?g|png|gif|bmp|ico|svg|tiff?|webp|heic|avif)$/i,
+  audio: /\.(mp3|wav|ogg|flac|aac|m4a|wma)$/i,
+  video: /\.(mp4|avi|mov|wmv|mkv|flv|webm|m4v|3gp)$/i,
+  code: /\.(json|js|jsx|ts|tsx|java|rb|c|cpp|h|php|xml|css|html|py|go|rs|sh|yaml|yml|toml|md|sql)$/i,
+  doc: /\.(txt|rtf|csv|log|ini|conf|cfg)$/i,
+  pdf: /\.pdf$/i,
+};
+
+export const getFileTypeCategory = (type: string, name = ""): string => {
   const _arr = (name ?? "").split(".");
   const _type = type || _arr[_arr.length - 1];
-  switch (true) {
-    case checks.image.test(_type):
-      {
-        icon = <IconImage className={className} />;
-      }
+  for (const [category, regex] of Object.entries(fileTypeChecks)) {
+    if (regex.test(_type)) return category;
+  }
+  if (name) {
+    for (const [category, regex] of Object.entries(fileTypeExtChecks)) {
+      if (regex.test(name)) return category;
+    }
+  }
+  return "unknown";
+};
+
+export const getFileIcon = (type: string, name = "", className = "icon") => {
+  let icon = null;
+  const _arr = (name ?? "").split(".");
+  const _type = type || _arr[_arr.length - 1];
+  switch (getFileTypeCategory(_type)) {
+    case "image":
+      icon = <IconImage className={className} />;
       break;
-    case checks.pdf.test(_type):
+    case "pdf":
       icon = <IconPdf className={className} />;
       break;
-    case checks.code.test(_type):
+    case "code":
       icon = <IconCode className={className} />;
       break;
-    case checks.doc.test(_type):
+    case "doc":
       icon = <IconDoc className={className} />;
       break;
-    case checks.audio.test(_type):
+    case "audio":
       icon = <IconAudio className={className} />;
       break;
-    case checks.video.test(_type):
+    case "video":
       icon = <IconVideo className={className} />;
       break;
     default:

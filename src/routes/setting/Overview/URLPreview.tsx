@@ -7,7 +7,7 @@ import Toggle from "@/components/styled/Toggle";
 type Props = {};
 
 const EnableMsgURLPreview = ({}: Props) => {
-  const { updateExtSetting, getExtSetting } = useServerExtSetting();
+  const { updateExtSetting, getExtSetting, isLoading } = useServerExtSetting();
   const { t } = useTranslation("setting");
   const enable = getExtSetting(KEY_MSG_URL_PREVIEW);
   const handleToggle = () => {
@@ -18,6 +18,7 @@ const EnableMsgURLPreview = ({}: Props) => {
       title={t("overview.enable_msg_url_preview.title")}
       desc={t("overview.enable_msg_url_preview.desc")}
       toggler={<Toggle onClick={handleToggle} checked={enable} />}
+      loading={isLoading}
     ></SettingBlock>
   );
 };

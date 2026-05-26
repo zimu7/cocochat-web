@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import CheckSign from "@/assets/icons/check.sign.svg";
 import IconAudio from "@/assets/icons/file.audio.svg";
@@ -7,33 +8,28 @@ import IconImage from "@/assets/icons/file.image.svg";
 import IconPdf from "@/assets/icons/file.pdf.svg";
 import IconVideo from "@/assets/icons/file.video.svg";
 
-export const FileTypes = {
-  Doc: {
-    title: "Documents",
-    icon: <IconDoc className="w-4 h-auto" />,
-  },
-  PDF: {
-    title: "PDFs",
-    icon: <IconPdf className="w-4 h-auto" />,
-  },
-  Image: {
-    title: "Images",
-    icon: <IconImage className="w-4 h-auto" />,
-  },
-  Audio: {
-    title: "Audio",
-    icon: <IconAudio className="w-4 h-auto" />,
-  },
-  Video: {
-    title: "Videos",
-    icon: <IconVideo className="w-4 h-auto" />,
-  },
+export const FileTypeIcons = {
+  Doc: <IconDoc className="w-4 h-auto" />,
+  PDF: <IconPdf className="w-4 h-auto" />,
+  Image: <IconImage className="w-4 h-auto" />,
+  Audio: <IconAudio className="w-4 h-auto" />,
+  Video: <IconVideo className="w-4 h-auto" />,
 };
+
+export const FileTypeKeys: Record<string, string> = {
+  Doc: "doc",
+  PDF: "pdf",
+  Image: "image",
+  Audio: "audio",
+  Video: "video",
+};
+
 type Props = {
   select: string;
   updateFilter: (param: { file_type?: string }) => void;
 };
 const Type: FC<Props> = ({ select = "", updateFilter }) => {
+  const { t } = useTranslation("file");
   const handleClick = (file_type?: string) => {
     updateFilter({ file_type });
   };
@@ -45,17 +41,17 @@ const Type: FC<Props> = ({ select = "", updateFilter }) => {
           className="relative cursor-pointer flex items-center gap-4 text-gray-500 dark:text-gray-300 font-semibold text-sm"
           onClick={handleClick.bind(null, "")}
         >
-          Any Type
+          {t("any_type")}
           {!select && <CheckSign className="absolute right-0 top-1/2 -translate-y-1/2" />}
         </li>
-        {Object.entries(FileTypes).map(([type, { title, icon }]) => {
+        {Object.entries(FileTypeKeys).map(([type, tKey]) => {
           return (
             <li
-              key={title}
+              key={type}
               className="relative cursor-pointer flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300 font-semibold"
               onClick={handleClick.bind(null, type)}
             >
-              {icon} {title}
+              {FileTypeIcons[type]} {t(tKey)}
               {select == type && (
                 <CheckSign className="absolute right-0 top-1/2 -translate-y-1/2" />
               )}

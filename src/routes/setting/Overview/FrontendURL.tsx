@@ -35,7 +35,7 @@ const Index = () => {
   }, [getUrlSuccess, data]);
   // if(!fetch)
   return (
-    <SettingBlock title={t("overview.url.title")} desc={t("overview.url.desc")}>
+    <SettingBlock title={t("overview.url.title")} desc={t("overview.url.desc")} loading={isLoading}>
       <div className="flex items-center gap-4 mt-2">
         <StyledInput placeholder="frontend url" value={url} onChange={handleChange} />
         <StyledButton disabled={!url || isLoading} className="small" onClick={handleUpdate}>

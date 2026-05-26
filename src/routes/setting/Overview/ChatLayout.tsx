@@ -23,7 +23,7 @@ const Index = () => {
   const { t } = useTranslation("setting", { keyPrefix: "overview.chat_layout" });
   const { t: ct } = useTranslation();
   const { refetch } = useGetSystemCommonQuery();
-  const [updateSetting, { isSuccess }] = useUpdateSystemCommonMutation();
+  const [updateSetting, { isSuccess, isLoading }] = useUpdateSystemCommonMutation();
   useEffect(() => {
     if (isSuccess) {
       refetch();
@@ -35,7 +35,7 @@ const Index = () => {
   };
   // if (!loadSuccess) return null;
   return (
-    <SettingBlock title={t("title")} desc={t("desc")}>
+    <SettingBlock title={t("title")} desc={t("desc")} loading={isLoading}>
       <StyledRadio
         options={[t("left"), t("self_right")]}
         values={["Left", "SelfRight"]}

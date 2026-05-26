@@ -7,7 +7,7 @@ import { LoginConfig } from "@/types/server";
 type Props = {};
 
 const GuestMode = ({}: Props) => {
-  const { values: loginConfig, updateConfig: updateLoginConfig } = useConfig("login");
+  const { values: loginConfig, updateConfig: updateLoginConfig, updating } = useConfig("login");
 
   const { t } = useTranslation("setting");
   const handleGuestToggle = (v: boolean) => {
@@ -20,6 +20,7 @@ const GuestMode = ({}: Props) => {
       title={t("overview.guest_mode.title")}
       desc={t("overview.guest_mode.desc")}
       toggler={<Toggle onClick={handleGuestToggle.bind(null, !guest)} checked={guest} />}
+      loading={updating}
     ></SettingBlock>
   );
 };

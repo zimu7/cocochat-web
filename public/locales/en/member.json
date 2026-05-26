@@ -25,6 +25,8 @@
   "remove_account": "Remove account",
   "remove_account_desc": "Are you sure remove this account?",
   "remove_from_channel": "Remove from channel",
+  "remove_desc": "Are you sure you want to remove this member from the server? This action cannot be undone.",
+  "remove_from_channel_desc": "Are you sure you want to remove this member from the channel?",
   "roles": "Roles",
   "set_admin": "Admin",
   "set_normal": "User",
