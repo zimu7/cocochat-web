@@ -71,15 +71,15 @@ function Files() {
     .sort((a, b) => b.created_at - a.created_at);
   console.log({ view });
   return (
-    <div className="h-screen md:overflow-y-scroll flex flex-col items-start my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-gray-700">
+    <div className="h-screen max-w-full overflow-hidden flex flex-col my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-gray-700">
       {/* <Search value={filter.name} updateSearchValue={handleUpdateSearch} /> */}
-      <div className="flex justify-between w-full px-4 py-5">
+      <div className="flex justify-between w-full px-4 py-5 shrink-0">
         <Filter filter={filter} updateFilter={updateFilter} />
         <View view={view} />
       </div>
       <div
         className={clsx(
-          `h-full w-fit px-4 overflow-y-scroll no-scrollbar gap-4`,
+          `flex-1 min-h-0 min-w-0 px-4 overflow-y-auto overflow-x-hidden no-scrollbar gap-4`,
           view == "item" && "flex flex-col",
           view == "grid" && "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
         )}
@@ -92,20 +92,18 @@ function Files() {
             thumbnail || content
           )}`;
           return (
-            // <div key={mid} className="grid-box mb-2">
-            <FileBox
-              cla
-              preview={view == "grid"}
-              flex={view == "item"}
-              key={mid}
-              file_type={content_type}
-              content={url}
-              created_at={created_at}
-              from_uid={from_uid}
-              size={size}
-              name={name}
-            />
-            // </div>
+            <div key={mid} className="min-w-0">
+              <FileBox
+                preview={view == "grid"}
+                flex={view == "item"}
+                file_type={content_type}
+                content={url}
+                created_at={created_at}
+                from_uid={from_uid}
+                size={size}
+                name={name}
+              />
+            </div>
           );
         })}
       </div>

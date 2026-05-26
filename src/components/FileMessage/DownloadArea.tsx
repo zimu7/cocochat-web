@@ -10,7 +10,7 @@ type Props = {
 const DownloadArea = ({ copyLink, downloadLink }: Props) => {
   const { copy, copied } = useCopy();
   return (
-    <div className="flex flex-col-reverse gap-1.5 items-center">
+    <div className="flex flex-col-reverse gap-1.5 items-center shrink-0">
       <button
         className="hidden md:block whitespace-nowrap"
         disabled={copied}

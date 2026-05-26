@@ -137,7 +137,7 @@ function HomePage() {
             <Menu />
           </div>
         )}
-        <div className="h-full flex flex-col w-full">
+        <div className="h-full flex flex-col w-full min-w-0 overflow-hidden">
           <Outlet />
         </div>
       </div>

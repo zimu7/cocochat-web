@@ -61,7 +61,7 @@ const checkFilter = (data, filter, channelMessage) => {
 function ResourceManagement() {
   const { isExpired } = useExpiredResMap();
   const [filter, setFilter] = useState({});
-  const view = useAppSelector((store) => store.ui.fileListView.view, shallowEqual);
+  const view = useAppSelector((store) => store.ui.fileListView, shallowEqual);
   const message = useAppSelector((store) => store.message, shallowEqual);
   const fileMsgs = useAppSelector((store) => store.fileMessage, shallowEqual);
   const channelMessage = useAppSelector((store) => store.channelMessage, shallowEqual);

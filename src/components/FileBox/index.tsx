@@ -108,13 +108,13 @@ const FileBox: FC<Props> = ({
   return (
     <div
       className={clsx(
-        `rounded-md border border-solid border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-gray-900`,
-        flex ? "w-full max-w-3xl" : "w-72 md:w-[370px]",
-        withPreview ? "relative overflow-hidden h-[281px]" : "h-[66px] ",
+        `rounded-md border border-solid border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-gray-900 overflow-hidden`,
+        flex ? "w-full max-w-3xl" : "w-full min-w-0",
+        withPreview ? "relative h-[281px]" : "h-[66px] ",
         file_type.startsWith("audio") && "h-[125px]"
       )}
     >
-      <div className="w-full p-2 flex items-center justify-between gap-2">
+      <div className="w-full min-w-0 p-2 flex items-center justify-between gap-2">
         {icon}
         <div className="flex flex-col gap-1 w-full overflow-hidden">
           <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 truncate">
