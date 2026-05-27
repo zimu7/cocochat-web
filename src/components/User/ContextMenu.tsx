@@ -2,8 +2,10 @@ import { FC, ReactElement, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useUserOperation from "@/hooks/useUserOperation";
+import { useAppSelector } from "@/app/store";
 import ContextMenu, { ContextMenuPrimitive, Item } from "../ContextMenu";
 import NicknameModal from "../NicknameModal";
+import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
 
 interface Props {
   enable?: boolean;
@@ -14,8 +16,13 @@ interface Props {
 
 const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
   const [remarkVisible, setRemarkVisible] = useState(false);
+  const [removeTarget, setRemoveTarget] = useState<{
+    uid: number;
+    name: string;
+  } | null>(null);
   const { t } = useTranslation("member");
   const { t: chatTran } = useTranslation("chat");
+  const user = useAppSelector((store) => store.users.byId[uid]);
   const {
     blockThisContact,
     removeFromContact,
@@ -27,7 +34,6 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
     canBlock,
     canRemoveFromChannel,
     removeFromChannel,
-    removeUser,
     isAdmin,
     canUpdateRole,
     updateRole,
@@ -96,7 +102,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                   canRemove && {
                     danger: true,
                     title: t("remove"),
-                    handler: removeUser,
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "" }),
                   },
                 ].filter(Boolean) as Item[]
               }
@@ -104,6 +110,14 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
           </ContextMenuPrimitive.Content>
         </ContextMenuPrimitive.Portal>
       </ContextMenuPrimitive.Root>
+      {removeTarget && (
+        <RemoveConfirmModal
+          uid={removeTarget.uid}
+          name={removeTarget.name}
+          type="server"
+          closeModal={() => setRemoveTarget(null)}
+        />
+      )}
     </>
   );
 };

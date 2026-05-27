@@ -5,8 +5,8 @@ import ManageMembers from "@/components/ManageMembers";
 import Version from "@/components/Version";
 // import APIConfig from "./APIConfig";
 import APIDocument from "./APIDocument";
-import BotConfig from "./BotConfig";
-import Logins from "./config/Logins";
+// import BotConfig from "./BotConfig";
+// import Logins from "./config/Logins";
 import DataManagement from "./DataManagement";
 import MyAccount from "./MyAccount";
 import Overview from "./Overview";
@@ -36,25 +36,21 @@ const navs = [
       },
     ],
   },
-  {
-    name: "config",
-    items: [
-      {
-        name: "bot",
-        component: <BotConfig />,
-        admin: true,
-      },
-      {
-        name: "login_method",
-        component: <Logins />,
-      },
-      // {
-      //   name: "third_app",
-      //   component: <APIConfig />,
-      // },
-    ],
-    admin: true,
-  },
+  // {
+  //   name: "config",
+  //   items: [
+  //     {
+  //       name: "bot",
+  //       component: <BotConfig />,
+  //       admin: true,
+  //     },
+  //     {
+  //       name: "login_method",
+  //       component: <Logins />,
+  //     },
+  //   ],
+  //   admin: true,
+  // },
   {
     name: "about",
     items: [

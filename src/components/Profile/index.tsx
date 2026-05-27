@@ -11,6 +11,7 @@ import Avatar from "../Avatar";
 import Popover from "../Popover";
 import ContextMenu, { Item } from "../ContextMenu";
 import { shallowEqual } from "react-redux";
+import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
 import Remark from "./remark";
 import NicknameModal from "../NicknameModal";
 
@@ -25,6 +26,10 @@ interface Props {
 const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => {
   const [remarkVisible, setRemarkVisible] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [removeTarget, setRemoveTarget] = useState<{
+    uid: number;
+    name: string;
+  } | null>(null);
   const { t } = useTranslation("member");
   const { t: chatTrans } = useTranslation("chat");
   const { t: ct } = useTranslation();
@@ -36,7 +41,6 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => 
     removeFromChannel,
     canRemoveFromChannel,
     canRemove,
-    removeUser,
     isAdmin,
     canUpdateRole,
     updateRole,
@@ -140,7 +144,7 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => 
                       },
                       canRemoveFromServer && {
                         title: t("remove"),
-                        handler: removeUser,
+                        handler: () => setRemoveTarget({ uid, name }),
                         danger: true,
                       },
                     ].filter(Boolean) as Item[]
@@ -156,6 +160,14 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => 
           </ul>
         )}
       </div>
+      {removeTarget && (
+        <RemoveConfirmModal
+          uid={removeTarget.uid}
+          name={removeTarget.name}
+          type="server"
+          closeModal={() => setRemoveTarget(null)}
+        />
+      )}
     </>
   );
 };
