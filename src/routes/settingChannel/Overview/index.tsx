@@ -17,6 +17,7 @@ import Label from "@/components/styled/Label";
 import Radio from "@/components/styled/Radio";
 import Textarea from "@/components/styled/Textarea";
 import IconChannel from "@/assets/icons/channel.svg";
+import AutoDeleteMessages from "@/components/AutoDeleteMessages";
 import { shallowEqual } from "react-redux";
 // import ShowEmail from "./ShowEmail";
 // import DMMember from "./DMMember";
@@ -142,6 +143,7 @@ export default function Overview({ id = 0 }) {
             />
           </div>
         )}
+        {!readOnly && loginUser.is_admin && <AutoDeleteMessages id={id} />}
         {/* {!readOnly && loginUser.is_admin && (
           <OnlyOwnerCanSendMsg id={id} only_owner_can_send_msg={only_owner_can_send_msg} />
         )}

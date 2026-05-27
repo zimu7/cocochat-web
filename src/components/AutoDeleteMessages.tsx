@@ -9,6 +9,7 @@ import { ChatContext } from "../types/common";
 import SaveTip from "./SaveTip";
 import StyledButton from "./styled/Button";
 import StyledRadio from "./styled/Radio";
+import Label from "./styled/Label";
 import { shallowEqual } from "react-redux";
 
 type Props = {
@@ -74,11 +75,9 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
   const originalVal = setting?.expires_in ?? 0;
   const showClear = type == "channel" && (channel?.owner == loginUser?.uid || loginUser?.is_admin);
   return (
-    <section className="max-w-[512px] h-full relative">
-      <div className="text-sm">
-        <h2 className="dark:text-white">{t("title")}</h2>
-        <p className="text-gray-400 text-xs">{t("desc")}</p>
-      </div>
+    <section className="w-full max-w-[512px] h-full relative">
+      <Label>{t("title")}</Label>
+      <p className="text-gray-400 text-xs">{t("desc")}</p>
       <div className="mt-4">
         <StyledRadio
           options={options.map(({ title }) => title)}
