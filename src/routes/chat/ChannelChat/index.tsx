@@ -17,6 +17,7 @@ import AnnouncementModal from "@/components/AnnouncementModal";
 import IconFav from "@/assets/icons/bookmark.svg";
 import IconPeople from "@/assets/icons/people.svg";
 import IconPin from "@/assets/icons/pin.svg";
+import useFavMessage from "@/hooks/useFavMessage";
 import FavList from "../FavList";
 import Layout from "../Layout";
 import { VirtualMessageFeedHandle } from "../Layout/VirtualMessageFeed";
@@ -128,6 +129,8 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
   const memberIds = is_public ? userIds : members.slice(0).sort((n) => (n == owner ? -1 : 0));
   const addVisible = loginUser?.is_admin || owner == loginUser?.uid;
   const pinCount = data?.pinned_messages?.length || 0;
+  const { favorites } = useFavMessage({ cid });
+  const favCount = favorites.length;
   const toolClass = `relative cursor-pointer hidden md:block`;
   const onlyAdminCanSeeMembers = getExtSetting(KEY_ADMIN_SEE_CHANNEL_MEMBERS);
   const canViewMembers = loginUser?.is_admin ? true : !onlyAdminCanSeeMembers;
@@ -163,6 +166,11 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                 content={<FavList cid={cid} />}
               >
                 <li className={`${toolClass}`}>
+                  {favCount > 0 ? (
+                    <span className="absolute -top-2 -right-2 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
+                      {favCount}
+                    </span>
+                  ) : null}
                   <IconFav className="fill-gray-500" />
                 </li>
               </Popover>

@@ -8,6 +8,7 @@ import Popover from "@/components/Popover";
 import User from "@/components/User";
 import MessageSearch from "@/components/MessageSearch";
 import FavIcon from "@/assets/icons/bookmark.svg";
+import useFavMessage from "@/hooks/useFavMessage";
 import FavList from "../FavList";
 import Layout from "../Layout";
 import { VirtualMessageFeedHandle } from "../Layout/VirtualMessageFeed";
@@ -33,6 +34,9 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
     feedRef.current?.scrollToMessage(mid);
   };
   
+  const { favorites } = useFavMessage({ uid });
+  const favCount = favorites.length;
+
   if (!currUser) return null;
   return (
     <Layout
@@ -49,6 +53,11 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
               content={<FavList uid={uid} />}
             >
               <li className={`relative cursor-pointer fav`}>
+                {favCount > 0 ? (
+                  <span className="absolute -top-2 -right-2 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
+                    {favCount}
+                  </span>
+                ) : null}
                 <FavIcon className="fill-gray-500" />
               </li>
             </Popover>
