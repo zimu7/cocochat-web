@@ -31,6 +31,7 @@
   "set_admin": "管理员",
   "set_normal": "普通用户",
   "search_not_found": "用户不存在，或者不允许搜索",
+  "ok": "确定",
   "search_by_id": "用户ID",
   "search_by_id_ph": "请输入用户ID",
   "search_by_email": "用户邮箱",

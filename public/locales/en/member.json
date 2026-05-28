@@ -32,6 +32,7 @@
   "set_normal": "User",
 
   "search_not_found": "Not found, or this user is not allowed to be searched.",
+  "ok": "OK",
   "search_by_id": "Search by ID",
   "search_by_id_ph": "Input user ID",
   "search_by_email": "Search by email",

@@ -138,7 +138,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
                 {t("search_not_found", { ns: "member" })}
               </span>
               <StyledButton className="mini" onClick={resetInput}>
-                Ok
+                {t("ok", { ns: "member" })}
               </StyledButton>
             </div>
           )}
@@ -178,7 +178,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
                   {t("search_not_found", { ns: "member" })}
                 </span>
                 <StyledButton className="mini" onClick={resetInput}>
-                  Ok
+                  {t("ok", { ns: "member" })}
                 </StyledButton>
               </div>
             )
