@@ -158,7 +158,7 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
                 className="text-gray-600 dark:text-gray-300 rounded p-2 pl-9 border border-solid border-gray-300 w-full bg-transparent"
                 onChange={handleNameInput}
                 value={name}
-                placeholder="new channel"
+                placeholder={t("channel_name")}
               />
               <ChannelIcon
                 personal={!is_public}
