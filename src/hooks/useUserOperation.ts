@@ -138,7 +138,7 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     isAdmin: !!user?.is_admin,
     updateRole,
     updatePassword,
-    canUpdateRole: loginUserIsAdmin && loginUid != uid && uid != 1,
+    canUpdateRole: loginUserIsAdmin && loginUid != uid && uid != 1 && !user?.is_bot,
     removeFromContact,
     canBlock,
     canRemoveFromContact,
