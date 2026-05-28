@@ -21,14 +21,16 @@ interface Props {
   cid?: number;
   onClose?: () => void;
   onRemark?: () => void;
+  onRemove?: (target: { uid: number; name: string; type: "server" | "channel" }) => void;
 }
 
-const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => {
+const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark, onRemove }) => {
   const [remarkVisible, setRemarkVisible] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [removeTarget, setRemoveTarget] = useState<{
     uid: number;
     name: string;
+    type: "server" | "channel";
   } | null>(null);
   const { t } = useTranslation("member");
   const { t: chatTrans } = useTranslation("chat");
@@ -140,11 +142,27 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => 
                       canRemoveFromChannel && {
                         title: t("remove_from_channel"),
                         danger: true,
-                        handler: removeFromChannel,
+                        handler: () => {
+                          setMoreOpen(false);
+                          if (onRemove) {
+                            onClose?.();
+                            onRemove({ uid, name, type: "channel" });
+                          } else {
+                            setRemoveTarget({ uid, name, type: "channel" });
+                          }
+                        },
                       },
                       canRemoveFromServer && {
                         title: t("remove"),
-                        handler: () => setRemoveTarget({ uid, name }),
+                        handler: () => {
+                          setMoreOpen(false);
+                          if (onRemove) {
+                            onClose?.();
+                            onRemove({ uid, name, type: "server" });
+                          } else {
+                            setRemoveTarget({ uid, name, type: "server" });
+                          }
+                        },
                         danger: true,
                       },
                     ].filter(Boolean) as Item[]
@@ -164,7 +182,8 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark }) => 
         <RemoveConfirmModal
           uid={removeTarget.uid}
           name={removeTarget.name}
-          type="server"
+          type={removeTarget.type}
+          cid={cid}
           closeModal={() => setRemoveTarget(null)}
         />
       )}

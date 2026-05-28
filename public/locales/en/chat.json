@@ -30,6 +30,8 @@
   "enable_smtp": "Enable SMTP First",
   "send_invite_link": "Or Send invite link to your friends",
   "no_invitable_members": "No invitable members",
+  "add_to": "Add to",
+  "adding_to": "Adding to",
   "share_invite_link": "Share this link to invite people to this server.",
   "invite_link_faq": "Incorrect Invite Link?",
   "invite_link_edit": "Edit invite link",

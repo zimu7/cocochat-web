@@ -10,6 +10,7 @@ import Profile from "../Profile";
 import Popover from "../Popover";
 import ContextMenu from "./ContextMenu";
 import NicknameModal from "../NicknameModal";
+import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
 import { shallowEqual } from "react-redux";
 import { cn } from "@/utils";
 import NameWithRemark from "../NameWithRemark";
@@ -120,6 +121,11 @@ const User: FC<Props> = ({
     );
   const [profileOpen, setProfileOpen] = useState(false);
   const [remarkVisible, setRemarkVisible] = useState(false);
+  const [removeTarget, setRemoveTarget] = useState<{
+    uid: number;
+    name: string;
+    type: "server" | "channel";
+  } | null>(null);
 
   return (
     <>
@@ -133,7 +139,7 @@ const User: FC<Props> = ({
           open={profileOpen}
           onOpenChange={setProfileOpen}
           placement="left"
-          content={<Profile uid={uid} type="card" cid={cid} onClose={() => setProfileOpen(false)} onRemark={() => { setProfileOpen(false); setRemarkVisible(true); }} />}
+          content={<Profile uid={uid} type="card" cid={cid} onClose={() => setProfileOpen(false)} onRemark={() => { setProfileOpen(false); setRemarkVisible(true); }} onRemove={(target) => setRemoveTarget(target)} />}
         >
         <div
           className={containerClass}
@@ -163,6 +169,15 @@ const User: FC<Props> = ({
         </div>
       </Popover>
     </ContextMenu>
+    {removeTarget && (
+      <RemoveConfirmModal
+        uid={removeTarget.uid}
+        name={removeTarget.name}
+        type={removeTarget.type}
+        cid={cid}
+        closeModal={() => setRemoveTarget(null)}
+      />
+    )}
     </>
   );
 };

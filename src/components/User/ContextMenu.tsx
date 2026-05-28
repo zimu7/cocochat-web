@@ -19,6 +19,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
   const [removeTarget, setRemoveTarget] = useState<{
     uid: number;
     name: string;
+    type: "server" | "channel";
   } | null>(null);
   const { t } = useTranslation("member");
   const { t: chatTran } = useTranslation("chat");
@@ -87,7 +88,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                   canRemoveFromChannel && {
                     danger: true,
                     title: t("remove_from_channel"),
-                    handler: removeFromChannel,
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "channel" }),
                   },
                   canRemoveFromContact && {
                     danger: true,
@@ -102,7 +103,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                   canRemove && {
                     danger: true,
                     title: t("remove"),
-                    handler: () => setRemoveTarget({ uid, name: user?.name || "" }),
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "server" }),
                   },
                 ].filter(Boolean) as Item[]
               }
@@ -114,7 +115,8 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
         <RemoveConfirmModal
           uid={removeTarget.uid}
           name={removeTarget.name}
-          type="server"
+          type={removeTarget.type}
+          cid={cid}
           closeModal={() => setRemoveTarget(null)}
         />
       )}
