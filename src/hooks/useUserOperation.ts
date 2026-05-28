@@ -121,9 +121,13 @@ const useUserOperation = ({ uid, cid }: IProps) => {
   const canDeleteChannel = !!cid && !channel?.is_public && loginUserIsAdmin;
   const canRemoveFromChannel =
     !!cid &&
-    !channel?.is_public &&
-    (loginUserIsAdmin || channel?.owner == loginUid) &&
-    uid != channel?.owner;
+    !!uid &&
+    !!channel &&
+    !channel.is_public &&
+    !user?.is_bot &&
+    (loginUserIsAdmin || channel.owner == loginUid) &&
+    uid != channel.owner &&
+    uid != loginUid;
   const canRemove: boolean = loginUserIsAdmin && loginUid != uid && !cid && uid !== 1;
   const canBlock: boolean = loginUid != uid;
   const canRemoveFromContact: boolean = loginUid != uid;

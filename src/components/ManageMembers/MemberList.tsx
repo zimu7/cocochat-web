@@ -98,7 +98,12 @@ const MemberList: FC<Props> = ({ cid }) => {
             const switchRoleVisible = loginUser?.is_admin && loginUser.uid !== uid && uid !== 1;
             let dotsVisible = loginUser?.is_admin;
             const canRemoveFromChannel =
-              channel && channel.owner == loginUser?.uid && loginUser?.uid != uid;
+              !!channel &&
+              !channel.is_public &&
+              !currUser.is_bot &&
+              (loginUser?.is_admin || channel.owner == loginUser?.uid) &&
+              uid != channel.owner &&
+              uid != loginUser?.uid;
             dotsVisible = [canCopyEmail, canRemove, canRemoveFromChannel].some((i) => i);
             return (
               <li
