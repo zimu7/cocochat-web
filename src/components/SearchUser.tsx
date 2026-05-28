@@ -32,7 +32,8 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
     email: "",
     name: ""
   });
-  const [searchUser, { data, isSuccess, isLoading, reset }] = useSearchUserMutation();
+  const [searchUser, { data, isSuccess, isError, error, isLoading, reset }] =
+    useSearchUserMutation();
   const handleInput = (evt: ChangeEvent<HTMLInputElement>) => {
     const tmp = {
       [type]: evt.target.value
@@ -62,6 +63,15 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
   const handleSendMsg = () => {
     if (!data) return;
     navigateTo(`/chat/dm/${data.uid}`);
+  };
+  const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {
+    if (evt.key === "Enter") {
+      evt.preventDefault();
+      const currInput = input[type];
+      if (currInput) {
+        searchUser({ search_type: type, keyword: currInput });
+      }
+    }
   };
   const handleChangeKeyword = (type: Type) => {
     setType(type);
@@ -117,9 +127,21 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
                 : t("search_by_name_ph", { ns: "member" })
             }...`}
             onChange={handleInput}
+            onKeyDown={handleKeyDown}
           />
+          <button type="submit" className="hidden" />
         </form>
         <div className="min-h-[280px] flex-center pb-10">
+          {isError && (
+            <div className="w-full h-full text-center flex flex-col gap-3 items-center">
+              <span className="text-sm text-red-500">
+                {t("search_not_found", { ns: "member" })}
+              </span>
+              <StyledButton className="mini" onClick={resetInput}>
+                Ok
+              </StyledButton>
+            </div>
+          )}
           {isSuccess ? (
             data ? (
               <div className="flex flex-col items-center pt-10">

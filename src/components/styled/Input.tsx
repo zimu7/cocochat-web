@@ -24,6 +24,7 @@ interface Props
       | "minLength"
       | "spellCheck"
       | "autoComplete"
+      | "onKeyDown"
     >,
     HTMLInputElement
   > {
