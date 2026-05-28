@@ -182,4 +182,4 @@ const User: FC<Props> = ({
   );
 };
 
-export default memo(User, (prev, next) => prev.uid == next.uid);
+export default memo(User, (prev, next) => prev.uid == next.uid && prev.cid == next.cid);
