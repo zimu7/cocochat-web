@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState, useMemo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { shallowEqual, useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -25,7 +25,6 @@ import Members from "./Members";
 import PinList from "./PinList";
 import { KEY_ADMIN_SEE_CHANNEL_MEMBERS } from "@/app/config";
 import useServerExtSetting from "@/hooks/useServerExtSetting";
-import { compareVersion } from "@/utils";
 
 type Props = {
   cid?: number;
@@ -42,16 +41,9 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
   const visibleAside = useAppSelector((store) => store.footprint.channelAsides[cid], shallowEqual);
   const userIds = useAppSelector((store) => store.users.ids, shallowEqual);
   const data = useAppSelector((store) => store.channels.byId[cid], shallowEqual);
-  const currentVersion = useAppSelector((store) => store.server.version, shallowEqual);
-
-  // Check if server version supports announcements
-  const isAnnouncementSupported = useMemo(() => {
-    return currentVersion && compareVersion(currentVersion, "0.5.13") >= 0;
-  }, [currentVersion]);
-
-  // Announcement state - only fetch if version is supported
+  // Announcement state
   const { data: announcementResponse } = useGetGroupAnnouncementQuery(cid, {
-    skip: !cid || !isAnnouncementSupported,
+    skip: !cid,
   });
   const announcement = announcementResponse?.announcement;
   const [showModal, setShowModal] = useState(false);
