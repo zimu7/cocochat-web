@@ -50,7 +50,7 @@ const AutoDeleteFiles = () => {
       {selected !== currStatus && (
         <Modal id="modal-modal">
           <StyledModal
-            title={"Are you sure?"}
+            title={t("confirm_title")}
             description={selected == "Off" ? "" : t("confirm_desc")}
             buttons={
               <>
@@ -58,7 +58,7 @@ const AutoDeleteFiles = () => {
                   {ct("action.cancel")}
                 </Button>
                 <Button onClick={handleUpdate} className="danger">
-                  {isLoading ? "Updating" : ct("action.yes")}
+                  {isLoading ? t("updating") : ct("action.yes")}
                 </Button>
               </>
             }

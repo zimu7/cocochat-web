@@ -182,7 +182,9 @@
     "auto_delete_file": {
       "title": "定时删除文件数据",
       "desc": "请选择定时文件数据的周期",
+      "confirm_title": "确定吗？",
       "confirm_desc": "所有在此之前的文件数据都将删除",
+      "updating": "更新中...",
       "off": "关闭",
       "day1": "1 天",
       "day7": "7 天",

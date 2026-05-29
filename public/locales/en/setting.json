@@ -185,7 +185,9 @@
     "auto_delete_file": {
       "title": "Auto-delete File Data",
       "desc": "Set expire time for all file data of this server.",
+      "confirm_title": "Are you sure?",
       "confirm_desc": "All files older than the set time will be deleted.",
+      "updating": "Updating...",
       "off": "Off",
       "day1": "1 Day",
       "day7": "7 Days",
