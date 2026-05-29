@@ -11,7 +11,7 @@ import Avatar from "../Avatar";
 import Popover from "../Popover";
 import ContextMenu, { Item } from "../ContextMenu";
 import { shallowEqual } from "react-redux";
-import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
+import RemoveConfirmModal from "../RemoveConfirmModal";
 import Remark from "./remark";
 import NicknameModal from "../NicknameModal";
 

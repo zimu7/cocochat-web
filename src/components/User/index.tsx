@@ -10,7 +10,7 @@ import Profile from "../Profile";
 import Popover from "../Popover";
 import ContextMenu from "./ContextMenu";
 import NicknameModal from "../NicknameModal";
-import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
+import RemoveConfirmModal from "../RemoveConfirmModal";
 import { shallowEqual } from "react-redux";
 import { cn } from "@/utils";
 import NameWithRemark from "../NameWithRemark";

@@ -5,7 +5,7 @@ import useUserOperation from "@/hooks/useUserOperation";
 import { useAppSelector } from "@/app/store";
 import ContextMenu, { ContextMenuPrimitive, Item } from "../ContextMenu";
 import NicknameModal from "../NicknameModal";
-import RemoveConfirmModal from "../ManageMembers/RemoveConfirmModal";
+import RemoveConfirmModal from "../RemoveConfirmModal";
 
 interface Props {
   enable?: boolean;

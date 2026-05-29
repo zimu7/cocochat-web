@@ -8,7 +8,7 @@ import { shallowEqual } from "react-redux";
 interface Props {
   cid?: number;
 }
-const ManageMembers: FC<Props> = ({ cid }) => {
+const ChannelMembers: FC<Props> = ({ cid }) => {
   const { t } = useTranslation("member");
   const isAdmin = useAppSelector((store) => store.authData.user?.is_admin, shallowEqual);
 
@@ -23,4 +23,4 @@ const ManageMembers: FC<Props> = ({ cid }) => {
     </section>
   );
 };
-export default ManageMembers;
+export default ChannelMembers;

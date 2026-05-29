@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-import ManageMembers from "@/components/ManageMembers";
+import ChannelMembers from "@/components/ChannelMembers";
 import Overview from "./Overview";
 import Announcement from "./Announcement";
 
@@ -37,7 +37,7 @@ const useNavs = (cid: number): Nav[] => {
         {
           name: "members",
           title: t("nav.members"),
-          component: <ManageMembers cid={cid} />
+          component: <ChannelMembers cid={cid} />
         }
       ]
     }

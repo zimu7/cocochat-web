@@ -17,7 +17,7 @@ import Popover from "../Popover";
 import { shallowEqual } from "react-redux";
 // import ViewPassword from "./ViewPassword";
 import UpdatePassword from "./UpdatePassword";
-import RemoveConfirmModal from "./RemoveConfirmModal";
+import RemoveConfirmModal from "../RemoveConfirmModal";
 import NameWithRemark from "../NameWithRemark";
 
 type RemoveTarget = {
