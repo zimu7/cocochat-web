@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useNavigate } from "react-router-dom";
 import Linkify from "linkify-react";
@@ -15,7 +15,7 @@ import UsersModal from "./UsersModal";
 import { shallowEqual } from "react-redux";
 import { KEY_ADMIN_ONLY_INVITE } from "../app/config";
 import useServerExtSetting from "../hooks/useServerExtSetting";
-import { compareVersion } from "@/utils";
+
 
 interface Props {
   type?: "chat" | "user";
@@ -46,12 +46,6 @@ const BlankPlaceholder: FC<Props> = ({ type = "chat" }) => {
   };
   const chatTip = type == "chat" ? t("start_by_channel") : t("start_by_dm");
   const chatHandler = type == "chat" ? toggleChannelModalVisible : toggleUserListVisible;
-
-  const currentVersion = useAppSelector((store) => store.server.version, shallowEqual);
-  const showVoceSpace = useMemo(
-    () => compareVersion(currentVersion, "0.5.6") >= 0,
-    [currentVersion],
-  );
 
   return (
     <>

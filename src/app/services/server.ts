@@ -4,7 +4,7 @@ import { Channel } from "@/types/channel";
 import { ContentTypeKey } from "@/types/message";
 import { CreateAdminDTO, LoginConfig, Server, SystemCommon } from "@/types/server";
 import { User } from "@/types/user";
-import { compareVersion, encodeBase64 } from "@/utils";
+import { encodeBase64 } from "@/utils";
 import BASE_URL, { ContentTypes, KEY_SERVER_VERSION } from "../config";
 import { updateInfo } from "../slices/server";
 import { RootState } from "../store";
@@ -140,10 +140,7 @@ export const serverApi = createApi({
     updateServer: builder.mutation<void, Partial<Server>>({
       query: (data) => ({
         url: "admin/system/organization",
-        method:
-          compareVersion(localStorage.getItem(KEY_SERVER_VERSION) ?? "", "0.3.8") > 0
-            ? "PUT"
-            : "POST",
+        method: "PUT",
         body: data,
       }),
       async onQueryStarted(data, { dispatch, queryFulfilled, getState }) {

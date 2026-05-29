@@ -8,7 +8,7 @@ import Meta from "@/components/Meta";
 import RequireAuth from "@/components/RequireAuth";
 import RequireNoAuth from "@/components/RequireNoAuth";
 import RequireSingleTab from "@/components/RequireSingleTab";
-import { compareVersion } from "@/utils";
+
 import store, { useAppSelector } from "../app/store";
 import NotFoundPage from "./404";
 import InvitePrivate from "./invitePrivate";
@@ -29,7 +29,7 @@ const OnboardingPage = lazy(() => import("./onboarding"));
 const SettingChannelPage = lazy(() => import("./settingChannel"));
 const SettingDMPage = lazy(() => import("./settingDM"));
 const SettingPage = lazy(() => import("./setting"));
-const ResourceManagement = lazy(() => import("./resources"));
+
 const FilesPage = lazy(() => import("./files"));
 const GuestLogin = lazy(() => import("./guest"));
 const ChatPage = lazy(() => import("./chat"));
@@ -38,7 +38,6 @@ const HomePage = lazy(() => import("./home"));
 let toastId: string;
 const PageRoutes = () => {
   const guestMode = useAppSelector((store) => store.server.loginConfig?.guest, shallowEqual);
-  const version = useAppSelector((store) => store.server.version, shallowEqual);
   const online = useAppSelector((store) => store.ui.online, shallowEqual);
   // 初始化元信息
   usePrefetchData();
@@ -276,7 +275,7 @@ const PageRoutes = () => {
             path="files"
             element={
               <LazyIt key="files">
-                {compareVersion(version, "0.3.11") > -1 ? <FilesPage /> : <ResourceManagement />}
+                <FilesPage />
               </LazyIt>
             }
           ></Route>
