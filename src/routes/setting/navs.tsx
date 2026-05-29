@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "@/app/store";
-import NotFound from "@/components/NotFound";
+import ManageMembers from "./ManageMembers";
 import Version from "@/components/Version";
 // import APIConfig from "./APIConfig";
 import APIDocument from "./APIDocument";
@@ -30,8 +30,8 @@ const navs = [
         component: <MyAccount />,
       },
       {
-        name: "members",
-        component: <NotFound />,
+        name: "member_management",
+        component: <ManageMembers />,
         admin: true,
       },
     ],
