@@ -1,5 +1,6 @@
 {
   "title": "Settings",
+  "dm_setting": "DM Setting",
   "save_change": "Save Changes",
   "reset": "Reset",
   "save_tip": "You have unsaved changes!",

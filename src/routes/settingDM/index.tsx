@@ -11,7 +11,7 @@ import { shallowEqual } from "react-redux";
 let from: string = "";
 
 export default function DMSetting() {
-  // const { t } = useTranslation("setting");
+  const { t } = useTranslation("setting");
   const { t: ct } = useTranslation();
   const { uid = 0, nav: navKey } = useParams();
   const isAdmin = useAppSelector((store) => store.authData.user?.is_admin, shallowEqual);
@@ -41,7 +41,7 @@ export default function DMSetting() {
         pathPrefix={`/setting/dm/${uid}`}
         nav={currNav}
         closeModal={close}
-        title="DM Setting"
+        title={t("dm_setting")}
         navs={navs}
         dangers={
           isAdmin

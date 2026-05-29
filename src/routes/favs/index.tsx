@@ -155,7 +155,7 @@ function FavsPage() {
                 </>
               ) : (
                 <>
-                  From{" "}
+                  {t("from")}{" "}
                   <strong className="font-bold text-gray-800 dark:text-gray-100">
                     {userData[uid]?.name}
                   </strong>

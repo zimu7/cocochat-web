@@ -9,6 +9,7 @@ import pictureIcon from "@/assets/icons/picture.svg?url";
 import LinkifyText from "../LinkifyText";
 import MarkdownRender from "../MarkdownRender";
 import { shallowEqual } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const renderContent = (data: MessagePayload) => {
   const { content_type, content, thumbnail = "", properties } = data;
@@ -69,6 +70,7 @@ export default function Replying({
   id: number;
   mid: number;
 }) {
+  const { t } = useTranslation("common");
   const { removeReplying } = useSendMessage({ to: id, context });
   const usersData = useAppSelector((store) => store.users.byId, shallowEqual);
   const msg = useAppSelector((store) => store.message[mid], shallowEqual);
@@ -82,7 +84,7 @@ export default function Replying({
   return (
     <div className="reply bg-gray-100 dark:bg-gray-900 z-[999] flex flex-col md:flex-row items-start justify-start gap-4 rounded-t-lg w-full px-4 py-3 text-sm">
       <div className="whitespace-nowrap text-gray-400 ">
-        Replying to <span className="font-bold text-gray-600 dark:text-gray-400">{user?.name}</span>
+        {t("replying_to")} <span className="font-bold text-gray-600 dark:text-gray-400">{user?.name}</span>
       </div>
       <div className="text-gray-500 overflow-hidden pr-7 ">{renderContent(msg)}</div>
       <button className="absolute top-4 right-4 cursor-pointer" onClick={removeReply}>
