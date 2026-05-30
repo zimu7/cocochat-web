@@ -126,6 +126,6 @@ const usersSlice = createSlice({
   }
 });
 
-export const { updateContactStatus, resetUsers, fillUsers, updateUsersByLogs, updateUsersStatus, updateUserField } =
+export const { updateContactStatus, resetUsers, fillUsers, updateUsersByLogs, updateUsersStatus, updateUserField, removeUser } =
   usersSlice.actions;
 export default usersSlice.reducer;
