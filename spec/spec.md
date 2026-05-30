@@ -1,6 +1,13 @@
 
 
-## 33 频道设置与成员管理优化
+## 32 管理密钥弹框优化
+
+1. 已有密钥列表靠左展示，密钥名称 label 颜色改为与已有密钥 title 一致的 `text-gray-700 dark:text-gray-300`，已有密钥 title 上方增加 `mt-4` 间距。
+2. 修复复制密钥双重提示：`ManageAPIKeysModal.tsx` 中 `useCopy` hook 已自带 toast 提示，移除 `handleCopyAndClose` 中重复的 `toast.success(ct("tip.copied"))`。
+
+
+
+## 31 频道设置与成员管理优化
 
 1. 离开频道弹框国际化：`LeaveConfirmModal.tsx` 和 `TransferOwnerModal.tsx` 中硬编码的英文替换为 i18n 翻译项（Leave/Leaving/Next/Transfer Ownership/Assign and Leave 等），新增 `channel.leaving`、`channel.next`、`channel.transfer_ownership`、`channel.cannot_be_undone`、`channel.assigning`、`channel.assign_and_leave` 翻译 key，复用已有 `channel.leave`。
 2. 清除频道消息弹框：`AutoDeleteMessages.tsx` 中浏览器原生 `confirm()` 替换为系统通用 `Modal` + `StyledModal` 确认弹框，复用已有翻译项。
@@ -8,11 +15,19 @@
 4. 头像上传大小校验：`AvatarUploader.tsx` 添加 >1MB 校验，超限 toast 提示"头像图片最大为1M，请重新选择"，新增 `tip.avatar_too_large` 翻译 key。
 5. 成员列表头像放大：`ManageMembers/index.tsx` 头像从 36x36 调整为 48x48，用 CSS `w-[48px] h-[48px] object-cover` 确保圆形不变形。
 
-## 32 去掉api-doc页面没有什么用
+
+
+## 30 去掉api-doc页面没有什么用
+
+去掉api-doc相关的页面，没啥用。
 
 
 
 ## 29 优化频道从公共到私有切换的逻辑
+
+优化频道从公共到私有的切换逻辑。
+
+
 
 ## 28 去掉所有关于服务端版本的比较
 

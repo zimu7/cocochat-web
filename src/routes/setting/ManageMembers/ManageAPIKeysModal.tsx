@@ -42,7 +42,6 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
   const handleCopyAndClose = () => {
     if (createdKey) {
       copy(createdKey);
-      toast.success(ct("tip.copied"));
     }
     setShowCreatedKey(false);
   };
@@ -105,7 +104,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
           <div className="flex flex-col gap-4 w-full">
             {/* Add new key */}
             <div className="flex flex-col gap-1 w-full">
-              <label className="text-xs text-gray-400 font-semibold text-left">{t("key_name")}</label>
+              <label className="text-xs text-gray-700 dark:text-gray-300 font-semibold text-left">{t("key_name")}</label>
               <div className="flex gap-2">
                 <Input
                   value={newKeyName}
@@ -124,9 +123,9 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
             </div>
 
             {/* Existing keys list */}
-            <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col gap-2 w-full items-start mt-4">
               <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{t("existing_keys")}</span>
-              <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full">
+              <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full text-left">
                 <table className="w-full font-mono">
                 <thead>
                   <tr>
