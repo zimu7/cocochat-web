@@ -57,10 +57,9 @@ export const channelApi = createApi({
       async onQueryStarted({ id, is_public, members }, { dispatch, queryFulfilled, getState }) {
         try {
           await queryFulfilled;
-          // 后面有可能删掉的临时逻辑：及时更新members
           const userIds = (getState() as RootState).users.ids;
           const mbs = is_public ? [] : members ?? userIds;
-          dispatch(updateChannel({ gid: id, members: mbs }));
+          dispatch(updateChannel({ gid: id, is_public, members: mbs }));
         } catch {
           console.error("channel update failed");
         }
