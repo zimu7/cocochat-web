@@ -2,7 +2,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
-import { useCreateUserMutation, useUpdateAvatarByAdminMutation } from "@/app/services/user";
+import { useCreateUserMutation, useUpdateAvatarByAdminMutation, useUpdateUserMutation } from "@/app/services/user";
+import { StoredUser } from "@/app/slices/users";
 import AvatarUploader from "@/components/AvatarUploader";
 import Modal from "@/components/Modal";
 import Button from "@/components/styled/Button";
@@ -20,22 +21,31 @@ interface FormState {
 
 type Props = {
   closeModal: () => void;
+  user?: StoredUser;
 };
 
-const CreateUserModal = ({ closeModal }: Props) => {
+const UserFormModal = ({ closeModal, user }: Props) => {
   const { t, i18n } = useTranslation("member");
   const { t: ct } = useTranslation();
-  const [createUser, { isSuccess, isLoading, error }] = useCreateUserMutation();
+  const isEdit = !!user;
+
+  const [createUser, { isSuccess: createSuccess, isLoading: createLoading, error: createError }] = useCreateUserMutation();
+  const [updateUser, { isSuccess: updateSuccess, isLoading: updateLoading, error: updateError }] = useUpdateUserMutation();
   const [updateAvatarByAdmin] = useUpdateAvatarByAdminMutation();
+
+  const isSuccess = isEdit ? updateSuccess : createSuccess;
+  const isLoading = isEdit ? updateLoading : createLoading;
+  const error = isEdit ? updateError : createError;
+
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar || "");
   const [inputs, setInputs] = useState<FormState>({
-    name: "",
-    email: "",
+    name: user?.name || "",
+    email: user?.email || "",
     password: "",
     confirmPassword: "",
-    isAdmin: false,
-    isBot: false,
+    isAdmin: user?.is_admin || false,
+    isBot: !!user?.is_bot || false,
   });
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +94,33 @@ const CreateUserModal = ({ closeModal }: Props) => {
     }
   };
 
+  const handleUpdate = async () => {
+    if (!inputs.name.trim() || !inputs.email.trim()) {
+      toast.error(`${t("username")} & ${t("email")} required`);
+      return;
+    }
+    if (inputs.password && inputs.password !== inputs.confirmPassword) {
+      toast.error(ct("error.not_same_new_password"));
+      return;
+    }
+    const updateData: Record<string, unknown> = {
+      id: user!.uid,
+      name: inputs.name.trim(),
+      email: inputs.email.trim(),
+      is_admin: inputs.isAdmin,
+      is_bot: inputs.isBot,
+    };
+    if (inputs.password) {
+      updateData.password = inputs.password;
+    }
+    await updateUser(updateData);
+    if (avatarFile) {
+      await updateAvatarByAdmin({ uid: user!.uid, file: avatarFile });
+    }
+  };
+
+  const handleSubmit = isEdit ? handleUpdate : handleCreate;
+
   useEffect(() => {
     if (error) {
       switch ("status" in error && error.status) {
@@ -108,19 +145,23 @@ const CreateUserModal = ({ closeModal }: Props) => {
   const inputClass = "my-2 w-full flex flex-col items-start gap-1";
   const labelClass = "text-gray-400 font-semibold text-xs";
 
+  const isDisabled = isEdit
+    ? !name.trim() || !email.trim() || (!!password && password !== confirmPassword)
+    : !name.trim() || !email.trim() || !password || password !== confirmPassword;
+
   return (
     <Modal id="modal-modal">
       <StyledModal
-        title={t("add_user")}
-        description={t("add_user_desc")}
+        title={isEdit ? t("edit_user") : t("add_user")}
+        description={isEdit ? t("edit_user_desc") : t("add_user_desc")}
         buttons={
           <>
             <Button className="cancel" onClick={closeModal}>
               {ct("action.cancel")}
             </Button>
             <Button
-              disabled={!name.trim() || !email.trim() || !password || password !== confirmPassword}
-              onClick={handleCreate}
+              disabled={isDisabled}
+              onClick={handleSubmit}
             >
               {isLoading ? "..." : ct("action.done")}
             </Button>
@@ -171,7 +212,7 @@ const CreateUserModal = ({ closeModal }: Props) => {
               value={password}
               data-name="password"
               onChange={handleInputChange}
-              placeholder={t("password_placeholder")}
+              placeholder={isEdit ? t("password_placeholder_edit") : t("password_placeholder")}
               type="password"
               autoComplete="new-password"
               data-form-type="other"
@@ -223,4 +264,4 @@ const CreateUserModal = ({ closeModal }: Props) => {
   );
 };
 
-export default CreateUserModal;
+export default UserFormModal;

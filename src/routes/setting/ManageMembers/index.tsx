@@ -3,14 +3,14 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 import { useUpdateUserMutation } from "@/app/services/user";
+import { StoredUser, removeUser } from "@/app/slices/users";
 import { useAppSelector, useAppDispatch } from "@/app/store";
-import { removeUser } from "@/app/slices/users";
 import Avatar from "@/components/Avatar";
 import Button from "@/components/styled/Button";
 import Input from "@/components/styled/Input";
 import IconAdmin from "@/assets/icons/owner.svg";
 import IconBot from "@/assets/icons/bot.svg";
-import CreateUserModal from "./CreateUserModal";
+import UserFormModal from "./CreateUserModal";
 import ResetPasswordModal from "./ResetPasswordModal";
 import ManageAPIKeysModal from "./ManageAPIKeysModal";
 import DeleteUserModal from "./DeleteUserModal";
@@ -28,6 +28,7 @@ export default function ManageMembers() {
   const [updateUser] = useUpdateUserMutation();
 
   const [createModalVisible, setCreateModalVisible] = useState(false);
+  const [editTarget, setEditTarget] = useState<StoredUser | null>(null);
   const [resetPwdTarget, setResetPwdTarget] = useState<UserTarget | null>(null);
   const [apiKeysTarget, setApiKeysTarget] = useState<number | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<UserTarget | null>(null);
@@ -69,6 +70,7 @@ export default function ManageMembers() {
   };
 
   const toggleCreateModal = () => setCreateModalVisible((prev) => !prev);
+  const toggleEditModal = (user?: StoredUser) => setEditTarget(user || null);
   const toggleResetPwdModal = (target?: UserTarget) => setResetPwdTarget(target || null);
   const toggleApiKeysModal = (uid?: number) => setApiKeysTarget(uid || null);
   const toggleDeleteModal = (target?: UserTarget) => setDeleteTarget(target || null);
@@ -178,6 +180,12 @@ export default function ManageMembers() {
                       <div className="flex items-center gap-2">
                         <Button
                           className="mini ghost"
+                          onClick={() => toggleEditModal(user)}
+                        >
+                          {ct("action.edit")}
+                        </Button>
+                        <Button
+                          className="mini ghost"
                           onClick={() => toggleResetPwdModal({ uid, name })}
                         >
                           {t("reset_password")}
@@ -218,7 +226,10 @@ export default function ManageMembers() {
       </div>
 
       {createModalVisible && (
-        <CreateUserModal closeModal={toggleCreateModal} />
+        <UserFormModal closeModal={toggleCreateModal} />
+      )}
+      {editTarget && (
+        <UserFormModal closeModal={() => toggleEditModal()} user={editTarget} />
       )}
       {resetPwdTarget && (
         <ResetPasswordModal
