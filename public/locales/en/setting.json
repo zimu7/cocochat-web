@@ -32,7 +32,13 @@
   "channel": {
     "channel_settings": "Channel Settings",
     "leave": "Leave Channel",
+    "leaving": "Leaving",
+    "next": "Next",
     "leave_desc": "Are you sure want to leave this channel?",
+    "transfer_ownership": "Transfer Ownership",
+    "cannot_be_undone": "This cannot be undone.",
+    "assigning": "Assigning",
+    "assign_and_leave": "Assign and Leave",
     "transfer_desc": "You need to transfer your channel ownership to someone else before leaving the channel.",
     "delete": "Delete Channel",
     "delete_desc": "Are you sure want to delete this channel?",

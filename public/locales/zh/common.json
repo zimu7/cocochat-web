@@ -94,6 +94,7 @@
     "send_msg_failed": "发送消息失败",
     "only_text_reply": "回复消息时仅支持纯文本",
     "api_key_copied": "API Key 已复制",
+    "avatar_too_large": "头像图片最大为1M，请重新选择。",
     "esc_to": "按 Esc ",
     "enter_to": "按 Enter "
   },

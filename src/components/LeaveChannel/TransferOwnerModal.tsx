@@ -17,7 +17,8 @@ interface Props {
 }
 
 const TransferOwnerModal: FC<Props> = ({ id, closeModal, withLeave = true }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("setting");
+  const { t: ct } = useTranslation();
   const {
     transferOwner,
     otherMembers,
@@ -44,7 +45,7 @@ const TransferOwnerModal: FC<Props> = ({ id, closeModal, withLeave = true }) => 
 
   useEffect(() => {
     if (transferSuccess && leaveSuccess) {
-      toast.success(t("tip.leave_channel_success"));
+      toast.success(ct("tip.leave_channel_success"));
       closeModal();
       navigateTo("/chat");
     }
@@ -56,15 +57,15 @@ const TransferOwnerModal: FC<Props> = ({ id, closeModal, withLeave = true }) => 
     <Modal id="modal-modal">
       <StyledModal
         compact
-        title="Transfer Ownership"
-        description={"This cannot be undone."}
+        title={t("channel.transfer_ownership")}
+        description={t("channel.cannot_be_undone")}
         buttons={
           <>
             <Button onClick={closeModal.bind(null, undefined)} className="cancel">
-              {t("action.cancel")}
+              {ct("action.cancel")}
             </Button>
             <Button disabled={!uid} onClick={handleTransferAndLeave} className="danger">
-              {operating ? "Assigning" : `Assign and Leave`}
+              {operating ? t("channel.assigning") : t("channel.assign_and_leave")}
             </Button>
           </>
         }

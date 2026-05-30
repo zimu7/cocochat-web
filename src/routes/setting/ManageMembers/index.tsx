@@ -136,12 +136,12 @@ export default function ManageMembers() {
                     <td className={tdClass}>
                       <div className="flex items-center gap-2">
                         <Avatar
-                          width={36}
-                          height={36}
+                          width={48}
+                          height={48}
                           src={avatar}
                           name={name}
                           alt="avatar"
-                          className="rounded-full"
+                          className="rounded-full object-cover w-[48px] h-[48px]"
                         />
                         <div>
                           <div className="flex items-center gap-1">

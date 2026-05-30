@@ -6,8 +6,10 @@ import { useUpdateAutoDeleteMsgMutation } from "@/app/services/user";
 import { useLazyClearChannelMessageQuery } from "../app/services/channel";
 import { useAppSelector } from "../app/store";
 import { ChatContext } from "../types/common";
+import Modal from "./Modal";
 import SaveTip from "./SaveTip";
 import StyledButton from "./styled/Button";
+import StyledModal from "./styled/Modal";
 import StyledRadio from "./styled/Radio";
 import Label from "./styled/Label";
 import { shallowEqual } from "react-redux";
@@ -34,6 +36,7 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
   const [clearMessage, { isSuccess: clearSuccess }] = useLazyClearChannelMessageQuery();
 
   const [value, setValue] = useState<number>(setting?.expires_in ?? 0);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const { t } = useTranslation("setting", { keyPrefix: "auto_delete_msg" });
   const { t: ct } = useTranslation();
   const options = [
@@ -68,9 +71,11 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
     }
   }, [clearSuccess]);
   const handleClear = () => {
-    if (confirm("are you sure?")) {
-      clearMessage(id);
-    }
+    setShowClearConfirm(true);
+  };
+  const handleConfirmClear = () => {
+    clearMessage(id);
+    setShowClearConfirm(false);
   };
   const originalVal = setting?.expires_in ?? 0;
   const showClear = type == "channel" && (channel?.owner == loginUser?.uid || loginUser?.is_admin);
@@ -99,6 +104,25 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
             </StyledButton>
           </div>
         </>
+      )}
+      {showClearConfirm && (
+        <Modal id="modal-modal">
+          <StyledModal
+            compact
+            title={t("clear_title")}
+            description={t("clear_desc")}
+            buttons={
+              <>
+                <StyledButton onClick={() => setShowClearConfirm(false)} className="cancel">
+                  {ct("action.cancel")}
+                </StyledButton>
+                <StyledButton onClick={handleConfirmClear} className="danger">
+                  {ct("action.remove")}
+                </StyledButton>
+              </>
+            }
+          ></StyledModal>
+        </Modal>
       )}
     </section>
   );

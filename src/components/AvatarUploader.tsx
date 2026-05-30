@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useState } from "react";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 
@@ -33,6 +34,10 @@ const AvatarUploader: FC<Props> = ({
     if (uploading) return;
     if (!evt.target.files) return;
     const [file] = Array.from(evt.target.files);
+    if (file.size > 1024 * 1024) {
+      toast.error(t("tip.avatar_too_large"));
+      return;
+    }
     setUploading(true);
     if (uid) {
       await uploadImage({ uid, file });

@@ -41,11 +41,11 @@ const LeaveConfirmModal: FC<Props> = ({ id, closeModal, handleNextStep }) => {
             </Button>
             {isOwner ? (
               <Button onClick={handleNextStep} className="main">
-                Next
+                {t("channel.next")}
               </Button>
             ) : (
               <Button onClick={leaveChannel} className="danger">
-                {leaving ? "Leaving" : `Leave`}
+                {leaving ? t("channel.leaving") : t("channel.leave")}
               </Button>
             )}
           </>

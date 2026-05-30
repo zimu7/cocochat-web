@@ -1,6 +1,14 @@
 
 
-## 30 去掉api-doc页面没有什么用
+## 33 频道设置与成员管理优化
+
+1. 离开频道弹框国际化：`LeaveConfirmModal.tsx` 和 `TransferOwnerModal.tsx` 中硬编码的英文替换为 i18n 翻译项（Leave/Leaving/Next/Transfer Ownership/Assign and Leave 等），新增 `channel.leaving`、`channel.next`、`channel.transfer_ownership`、`channel.cannot_be_undone`、`channel.assigning`、`channel.assign_and_leave` 翻译 key，复用已有 `channel.leave`。
+2. 清除频道消息弹框：`AutoDeleteMessages.tsx` 中浏览器原生 `confirm()` 替换为系统通用 `Modal` + `StyledModal` 确认弹框，复用已有翻译项。
+3. 设置导航"概况"改为"系统概况"：仅修改 `zh/setting.json` 中 `nav.overview`，英文不变。
+4. 头像上传大小校验：`AvatarUploader.tsx` 添加 >1MB 校验，超限 toast 提示"头像图片最大为1M，请重新选择"，新增 `tip.avatar_too_large` 翻译 key。
+5. 成员列表头像放大：`ManageMembers/index.tsx` 头像从 36x36 调整为 48x48，用 CSS `w-[48px] h-[48px] object-cover` 确保圆形不变形。
+
+## 32 去掉api-doc页面没有什么用
 
 
 

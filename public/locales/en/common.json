@@ -94,6 +94,7 @@
     "send_msg_failed": "Send Message Failed",
     "only_text_reply": "Only text is supported when replying a message",
     "api_key_copied": "API Key Copied",
+    "avatar_too_large": "Avatar image must be smaller than 1MB. Please select another one.",
     "esc_to": "esc to",
     "enter_to": "enter to"
   },
