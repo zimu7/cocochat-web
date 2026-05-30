@@ -16,6 +16,7 @@
   "manage_members": "Manage Contacts",
   "manage_tip": "Disabling your account means you can recover it at any time after taking this action.",
   "admin": "Admin",
+  "bot": "Bot",
   "user": "User",
   "copy_email": "Copy email",
   "send_msg": "Send message",
@@ -59,6 +60,7 @@
   "search_placeholder": "Search by username or email",
   "search_empty": "No members match the search query",
   "set_as_admin": "Set as Admin",
+  "set_as_bot": "Set as Bot",
   "operations": "Actions",
   "key_name_placeholder": "Key name"
 }

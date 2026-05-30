@@ -9,6 +9,7 @@ import Avatar from "@/components/Avatar";
 import Button from "@/components/styled/Button";
 import Input from "@/components/styled/Input";
 import IconAdmin from "@/assets/icons/owner.svg";
+import IconBot from "@/assets/icons/bot.svg";
 import CreateUserModal from "./CreateUserModal";
 import ResetPasswordModal from "./ResetPasswordModal";
 import ManageAPIKeysModal from "./ManageAPIKeysModal";
@@ -32,7 +33,7 @@ export default function ManageMembers() {
   const [deleteTarget, setDeleteTarget] = useState<UserTarget | null>(null);
 
   const members = useAppSelector((store) =>
-    Object.values(store.users.byId).filter((u) => !u.is_bot)
+    Object.values(store.users.byId)
   );
   const loginUser = useAppSelector((store) => store.authData.user);
 
@@ -46,10 +47,21 @@ export default function ManageMembers() {
     );
   }, [members, searchQuery]);
 
-  const handleAdminToggle = async (uid: number, isAdmin: boolean) => {
+  const handleAdminToggle = async (uid: number, isAdmin: boolean, isBot: boolean) => {
+    if (uid === 1) return; // super admin must remain admin
     if (uid === loginUser?.uid) return;
     try {
-      await updateUser({ id: uid, is_admin: !isAdmin }).unwrap();
+      await updateUser({ id: uid, is_admin: !isAdmin, is_bot: false }).unwrap();
+      toast.success(ct("tip.update"));
+    } catch {
+      toast.error(ct("tip.operation_failed"));
+    }
+  };
+
+  const handleBotToggle = async (uid: number, isBot: boolean, isAdmin: boolean) => {
+    if (uid === 1) return; // super admin cannot be bot
+    try {
+      await updateUser({ id: uid, is_bot: !isBot, is_admin: false }).unwrap();
       toast.success(ct("tip.update"));
     } catch {
       toast.error(ct("tip.operation_failed"));
@@ -96,6 +108,7 @@ export default function ManageMembers() {
                   t("username"),
                   t("email"),
                   t("admin"),
+                  t("bot"),
                   t("operations"),
                 ].map((title) => (
                   <th
@@ -110,8 +123,9 @@ export default function ManageMembers() {
             </thead>
             <tbody>
               {filteredMembers.map((user) => {
-                const { uid, name, avatar, email, is_admin } = user;
+                const { uid, name, avatar, email, is_admin, is_bot } = user;
                 const isSelf = uid === loginUser?.uid;
+                const isSuperAdmin = uid === 1;
                 return (
                   <tr
                     key={uid}
@@ -130,8 +144,11 @@ export default function ManageMembers() {
                         <div>
                           <div className="flex items-center gap-1">
                             {name}
-                            {is_admin && !user.is_bot && (
+                            {is_admin && (
                               <IconAdmin className="w-4 h-4" />
+                            )}
+                            {is_bot && (
+                              <IconBot className="w-4 h-4" />
                             )}
                           </div>
                           <div className="text-xs text-gray-500">#{uid}</div>
@@ -143,8 +160,17 @@ export default function ManageMembers() {
                       <input
                         type="checkbox"
                         checked={is_admin}
-                        disabled={isSelf}
-                        onChange={() => handleAdminToggle(uid, is_admin)}
+                        disabled={isSelf || isSuperAdmin || is_bot}
+                        onChange={() => handleAdminToggle(uid, is_admin, !!is_bot)}
+                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+                      />
+                    </td>
+                    <td className={tdClass}>
+                      <input
+                        type="checkbox"
+                        checked={!!is_bot}
+                        disabled={isSuperAdmin || is_admin}
+                        onChange={() => handleBotToggle(uid, !!is_bot, is_admin)}
                         className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
                       />
                     </td>
@@ -178,7 +204,7 @@ export default function ManageMembers() {
               {filteredMembers.length === 0 && (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={5}
                     className="text-center text-sm text-gray-400 py-8"
                   >
                     {t("search_empty")}

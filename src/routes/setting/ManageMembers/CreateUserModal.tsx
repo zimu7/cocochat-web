@@ -14,6 +14,7 @@ interface FormState {
   password: string;
   confirmPassword: string;
   isAdmin: boolean;
+  isBot: boolean;
 }
 
 type Props = {
@@ -21,7 +22,7 @@ type Props = {
 };
 
 const CreateUserModal = ({ closeModal }: Props) => {
-  const { t } = useTranslation("member");
+  const { t, i18n } = useTranslation("member");
   const { t: ct } = useTranslation();
   const [createUser, { isSuccess, isLoading, error }] = useCreateUserMutation();
   const [inputs, setInputs] = useState<FormState>({
@@ -30,6 +31,7 @@ const CreateUserModal = ({ closeModal }: Props) => {
     password: "",
     confirmPassword: "",
     isAdmin: false,
+    isBot: false,
   });
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,11 @@ const CreateUserModal = ({ closeModal }: Props) => {
   };
 
   const handleAdminChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setInputs((prev) => ({ ...prev, isAdmin: evt.target.checked }));
+    setInputs((prev) => ({ ...prev, isAdmin: evt.target.checked, isBot: evt.target.checked ? false : prev.isBot }));
+  };
+
+  const handleBotChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setInputs((prev) => ({ ...prev, isBot: evt.target.checked, isAdmin: evt.target.checked ? false : prev.isAdmin }));
   };
 
   const handleCreate = () => {
@@ -60,8 +66,8 @@ const CreateUserModal = ({ closeModal }: Props) => {
       email: inputs.email.trim(),
       password: inputs.password,
       gender: 0,
-      language: "",
-      is_bot: false,
+      language: i18n.language,
+      is_bot: inputs.isBot,
       is_admin: inputs.isAdmin,
     });
   };
@@ -86,7 +92,7 @@ const CreateUserModal = ({ closeModal }: Props) => {
     }
   }, [isSuccess]);
 
-  const { name, email, password, confirmPassword, isAdmin } = inputs;
+  const { name, email, password, confirmPassword, isAdmin, isBot } = inputs;
   const inputClass = "my-2 w-full flex flex-col items-start gap-1";
   const labelClass = "text-gray-400 font-semibold text-xs";
 
@@ -170,10 +176,24 @@ const CreateUserModal = ({ closeModal }: Props) => {
               id="new_is_admin"
               checked={isAdmin}
               onChange={handleAdminChange}
-              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+              disabled={isBot}
+              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
             />
             <label htmlFor="new_is_admin" className="text-xs font-semibold text-gray-600 dark:text-gray-300 cursor-pointer">
               {t("set_as_admin")}
+            </label>
+          </div>
+          <div className="flex items-center gap-2 py-1">
+            <input
+              type="checkbox"
+              id="new_is_bot"
+              checked={isBot}
+              onChange={handleBotChange}
+              disabled={isAdmin}
+              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+            />
+            <label htmlFor="new_is_bot" className="text-xs font-semibold text-gray-600 dark:text-gray-300 cursor-pointer">
+              {t("set_as_bot")}
             </label>
           </div>
         </div>

@@ -136,6 +136,7 @@ export const userApi = createApi({
                 name: updatedUser.name,
                 webhook_url: updatedUser.webhook_url,
                 is_admin: updatedUser.is_admin,
+                is_bot: updatedUser.is_bot,
               }
             })
           );

@@ -58,6 +58,7 @@
   "search_placeholder": "搜索用户名或邮箱",
   "search_empty": "未检索到符合检索文本的成员信息",
   "set_as_admin": "设为管理员",
+  "set_as_bot": "设为机器人",
   "operations": "操作",
   "key_name_placeholder": "密钥名称"
 }
