@@ -75,15 +75,20 @@ export default function ManageMembers() {
           <p className="text-gray-400 text-xs">{t("manage_tip")}</p>
         </div>
 
-        <div className="flex items-center gap-4 w-full max-w-sm">
-          <Input
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder={t("search_placeholder")}
-          />
+        <div className="flex items-center gap-4 w-full">
+          <div className="max-w-sm flex-1">
+            <Input
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder={t("search_placeholder")}
+            />
+          </div>
+          <Button onClick={toggleCreateModal} className="small">
+            {ct("action.add")}
+          </Button>
         </div>
 
-        <div className="w-full md:w-fit overflow-auto md:overflow-hidden">
+        <div className="w-full overflow-auto">
           <table className="min-w-full table-auto">
             <thead className="border-b dark:border-b-gray-500 bg-gray-50 dark:bg-gray-600">
               <tr>
@@ -184,9 +189,6 @@ export default function ManageMembers() {
           </table>
         </div>
 
-        <Button onClick={toggleCreateModal} className="small">
-          {ct("action.add")}
-        </Button>
       </div>
 
       {createModalVisible && (
