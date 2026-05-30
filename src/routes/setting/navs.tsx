@@ -3,10 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "@/app/store";
 import ManageMembers from "./ManageMembers";
 import Version from "@/components/Version";
-// import APIConfig from "./APIConfig";
-import APIDocument from "./APIDocument";
-// import BotConfig from "./BotConfig";
-// import Logins from "./config/Logins";
 import DataManagement from "./DataManagement";
 import MyAccount from "./MyAccount";
 import Overview from "./Overview";
@@ -54,11 +50,6 @@ const navs = [
   {
     name: "about",
     items: [
-      {
-        name: "api_doc",
-        component: <APIDocument />,
-        admin: true,
-      },
       {
         name: "version",
         component: <Version />,
