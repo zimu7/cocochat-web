@@ -138,7 +138,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
             <Tooltip tip={t("pin")} placement="left">
               <Popover
                 placement="left-start"
-                offset={12}
+                offset={20}
                 content={<PinList id={cid} />}
               >
                 <li className={`${toolClass}`}>
@@ -154,7 +154,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
             <Tooltip tip={t("fav")} placement="left">
               <Popover
                 placement="left-start"
-                offset={12}
+                offset={20}
                 content={<FavList cid={cid} />}
               >
                 <li className={`${toolClass}`}>

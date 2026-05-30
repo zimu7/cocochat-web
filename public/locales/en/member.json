@@ -1,5 +1,6 @@
 {
   "username": "Username",
+  "identity": "Identity",
   "email": "Email",
   "password": "Password",
   "delete_account": "Delete Account",

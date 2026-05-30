@@ -1,5 +1,6 @@
 {
   "username": "用户名",
+  "identity": "身份",
   "email": "邮箱",
   "password": "密码",
   "delete_account": "注销账户",

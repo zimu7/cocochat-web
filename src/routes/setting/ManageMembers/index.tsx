@@ -16,7 +16,7 @@ import ManageAPIKeysModal from "./ManageAPIKeysModal";
 import DeleteUserModal from "./DeleteUserModal";
 
 const tdClass =
-  "p-6 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 align-top";
+  "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 align-middle";
 
 type UserTarget = { uid: number; name: string };
 
@@ -107,16 +107,17 @@ export default function ManageMembers() {
             <thead className="border-b dark:border-b-gray-500 bg-gray-50 dark:bg-gray-600">
               <tr>
                 {[
-                  t("username"),
-                  t("email"),
-                  t("admin"),
-                  t("bot"),
-                  t("operations"),
-                ].map((title) => (
+                  { title: t("username"), align: "left" },
+                  { title: t("identity"), align: "center" },
+                  { title: t("email"), align: "left" },
+                  { title: t("admin"), align: "center" },
+                  { title: t("bot"), align: "center" },
+                  { title: t("operations"), align: "left" },
+                ].map(({ title, align }) => (
                   <th
                     key={title}
                     scope="col"
-                    className="text-sm font-bold text-gray-900 dark:text-gray-100 px-6 py-4 text-left"
+                    className={`text-sm font-bold text-gray-900 dark:text-gray-100 px-6 py-4 text-${align}`}
                   >
                     {title}
                   </th>
@@ -144,21 +145,23 @@ export default function ManageMembers() {
                           className="rounded-full object-cover w-[48px] h-[48px]"
                         />
                         <div>
-                          <div className="flex items-center gap-1">
-                            {name}
-                            {is_admin && (
-                              <IconAdmin className="w-4 h-4" />
-                            )}
-                            {is_bot && (
-                              <IconBot className="w-4 h-4" />
-                            )}
-                          </div>
+                          <div>{name}</div>
                           <div className="text-xs text-gray-500">#{uid}</div>
                         </div>
                       </div>
                     </td>
+                    <td className={`${tdClass} text-center`}>
+                      <div className="flex items-center justify-center gap-1">
+                        {is_admin && (
+                          <IconAdmin className="w-4 h-4" />
+                        )}
+                        {is_bot && (
+                          <IconBot className="w-4 h-4" />
+                        )}
+                      </div>
+                    </td>
                     <td className={tdClass}>{email}</td>
-                    <td className={tdClass}>
+                    <td className={`${tdClass} text-center`}>
                       <input
                         type="checkbox"
                         checked={is_admin}
@@ -167,7 +170,7 @@ export default function ManageMembers() {
                         className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
                       />
                     </td>
-                    <td className={tdClass}>
+                    <td className={`${tdClass} text-center`}>
                       <input
                         type="checkbox"
                         checked={!!is_bot}
@@ -213,7 +216,7 @@ export default function ManageMembers() {
               {filteredMembers.length === 0 && (
                 <tr>
                   <td
-                    colSpan={5}
+                    colSpan={6}
                     className="text-center text-sm text-gray-400 py-8"
                   >
                     {t("search_empty")}

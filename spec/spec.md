@@ -1,3 +1,12 @@
+## 33 成员管理表格优化
+
+1. 新增"身份"列：将管理员/机器人图标从用户名列移至用户名后独立的"身份"列，图标居中显示。
+2. 身份、管理员、机器人三列标题及内容水平居中：表头 `th` 按列设置 `text-center`，对应 `td` 添加 `text-center`。
+3. 所有列内容竖直居中：`tdClass` 的 `align-top` 改为 `align-middle`。
+4. 机器人图标背景色：`bot.svg` 圆形背景从 `currentColor`（黑色）改为 `#3B82F6`（蓝色）。
+5. 行距调整：`tdClass` padding 从 `p-6` 改为 `px-6 py-4`，减小上下间距。
+6. 国际化：中英文 `member.json` 新增 `identity` 翻译键（中文"身份"，英文"Identity"）。
+
 
 
 ## 32 管理密钥弹框优化
