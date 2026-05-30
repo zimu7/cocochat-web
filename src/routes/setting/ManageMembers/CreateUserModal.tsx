@@ -2,7 +2,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
-import { useCreateUserMutation } from "@/app/services/user";
+import { useCreateUserMutation, useUpdateAvatarByAdminMutation } from "@/app/services/user";
+import AvatarUploader from "@/components/AvatarUploader";
 import Modal from "@/components/Modal";
 import Button from "@/components/styled/Button";
 import Input from "@/components/styled/Input";
@@ -25,6 +26,9 @@ const CreateUserModal = ({ closeModal }: Props) => {
   const { t, i18n } = useTranslation("member");
   const { t: ct } = useTranslation();
   const [createUser, { isSuccess, isLoading, error }] = useCreateUserMutation();
+  const [updateAvatarByAdmin] = useUpdateAvatarByAdminMutation();
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [inputs, setInputs] = useState<FormState>({
     name: "",
     email: "",
@@ -48,7 +52,12 @@ const CreateUserModal = ({ closeModal }: Props) => {
     setInputs((prev) => ({ ...prev, isBot: evt.target.checked, isAdmin: evt.target.checked ? false : prev.isAdmin }));
   };
 
-  const handleCreate = () => {
+  const handleUploadAvatar = (file: File) => {
+    setAvatarFile(file);
+    setAvatarUrl(URL.createObjectURL(file));
+  };
+
+  const handleCreate = async () => {
     if (!inputs.name.trim() || !inputs.email.trim()) {
       toast.error(`${t("username")} & ${t("email")} required`);
       return;
@@ -61,7 +70,7 @@ const CreateUserModal = ({ closeModal }: Props) => {
       toast.error(ct("error.not_same_new_password"));
       return;
     }
-    createUser({
+    const result = await createUser({
       name: inputs.name.trim(),
       email: inputs.email.trim(),
       password: inputs.password,
@@ -70,6 +79,9 @@ const CreateUserModal = ({ closeModal }: Props) => {
       is_bot: inputs.isBot,
       is_admin: inputs.isAdmin,
     });
+    if ("data" in result && avatarFile) {
+      await updateAvatarByAdmin({ uid: result.data.uid, file: avatarFile });
+    }
   };
 
   useEffect(() => {
@@ -118,6 +130,15 @@ const CreateUserModal = ({ closeModal }: Props) => {
         <div className="w-full flex flex-col gap-1">
           <input type="text" name="prevent_autofill_username" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
           <input type="password" name="prevent_autofill_password" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+
+          <div className="flex justify-center mb-2">
+            <AvatarUploader
+              size={80}
+              url={avatarUrl}
+              name={name || " "}
+              uploadImage={handleUploadAvatar}
+            />
+          </div>
 
           <div className={inputClass}>
             <label className={labelClass}>{t("username")}</label>
