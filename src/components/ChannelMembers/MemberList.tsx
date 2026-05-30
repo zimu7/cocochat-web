@@ -1,29 +1,21 @@
-import { FC, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
+import { FC, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ViewportList } from "react-viewport-list";
 import Search from "@/routes/users/Search";
 
-import { useUpdateUserMutation } from "@/app/services/user";
 import { useAppSelector } from "@/app/store";
 import useFilteredUsers from "@/hooks/useFilteredUsers";
-import useUserOperation from "@/hooks/useUserOperation";
-import IconArrowDown from "@/assets/icons/arrow.down.mini.svg";
-import IconCheck from "@/assets/icons/check.sign.svg";
-import IconMore from "@/assets/icons/more.svg";
+import IconDelete from "@/assets/icons/delete.svg";
 import IconOwner from "@/assets/icons/owner.svg";
 import User from "../User";
-import Popover from "../Popover";
-import { shallowEqual } from "react-redux";
-// import ViewPassword from "./ViewPassword";
-import UpdatePassword from "./UpdatePassword";
 import RemoveConfirmModal from "../RemoveConfirmModal";
 import NameWithRemark from "../NameWithRemark";
+import { shallowEqual } from "react-redux";
 
 type RemoveTarget = {
   uid: number;
   name: string;
-  type: "server" | "channel";
+  type: "channel";
 };
 
 interface Props {
@@ -32,52 +24,14 @@ interface Props {
 const MemberList: FC<Props> = ({ cid }) => {
   const ref = useRef<HTMLUListElement | null>(null);
   const { t } = useTranslation("member");
-  const { t: ct } = useTranslation();
-  const [currentUid, setCurrentUid] = useState<number | undefined>(undefined);
   const [removeTarget, setRemoveTarget] = useState<RemoveTarget | null>(null);
   const loginUser = useAppSelector((store) => store.authData.user, shallowEqual);
   const userMap = useAppSelector((store) => store.users.byId, shallowEqual);
   const channels = useAppSelector((store) => store.channels, shallowEqual);
   const { uids, input, updateInput } = useFilteredUsers();
-  const {
-    // canViewPassword,
-    canUpdatePassword,
-    copyEmail,
-    canCopyEmail,
-    canRemove,
-    removeUser,
-    removeFromChannel,
-    showEmailInChannel,
-  } = useUserOperation({
-    cid,
-  });
-  const [updateUser, { isSuccess: updateSuccess }] = useUpdateUserMutation();
-  const [rolePopoverUid, setRolePopoverUid] = useState<number | undefined>(undefined);
-  const [morePopoverUid, setMorePopoverUid] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    if (updateSuccess) {
-      toast.success(ct("tip.update"));
-    }
-  }, [updateSuccess]);
-
-  const handleToggleRole = ({
-    ignore = false,
-    uid,
-    isAdmin = true,
-  }: {
-    ignore: boolean;
-    uid: number;
-    isAdmin: boolean;
-  }) => {
-    setRolePopoverUid(undefined);
-    if (ignore) return;
-    updateUser({ id: uid, is_admin: isAdmin });
-  };
-
-  const handleRemoveConfirm = (uid: number, name: string, type: "server" | "channel") => {
-    setMorePopoverUid(undefined);
-    setRemoveTarget({ uid, name, type });
+  const handleRemoveConfirm = (uid: number, name: string) => {
+    setRemoveTarget({ uid, name, type: "channel" });
   };
 
   const channel = cid ? channels.byId[cid] : null;
@@ -93,16 +47,13 @@ const MemberList: FC<Props> = ({ cid }) => {
           {(uid) => {
             const currUser = userMap[uid];
             if (!currUser) return null;
-            const { name, email, is_admin } = currUser;
+            const { name, email } = currUser;
             const owner = channel && channel.owner == uid;
-            const switchRoleVisible = loginUser?.is_admin && loginUser.uid !== uid && uid !== 1;
-            let dotsVisible = loginUser?.is_admin;
             const canRemoveFromChannel =
               !!channel &&
               !channel.is_public &&
               (loginUser?.is_admin || channel.owner == loginUser?.uid) &&
               uid != channel.owner;
-            dotsVisible = [canCopyEmail, canRemove, canRemoveFromChannel].some((i) => i);
             return (
               <li
                 key={uid}
@@ -114,96 +65,24 @@ const MemberList: FC<Props> = ({ cid }) => {
                     <span className="font-bold text-sm text-gray-600 dark:text-white flex items-center gap-1">
                       <NameWithRemark name={name} uid={uid} /> {owner && <IconOwner />}
                     </span>
-                    {showEmailInChannel && (
-                      <span className="hidden md:block text-xs text-gray-500 dark:textlate-50">
+                    {email && (
+                      <span className="hidden md:block text-xs text-gray-500 dark:text-slate-50">
                         {email}
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-7">
-                  {switchRoleVisible ? (
-                    <Popover
-                      placement="bottom-end"
-                      open={rolePopoverUid === uid}
-                      onOpenChange={(open) => setRolePopoverUid(open ? uid : undefined)}
-                      content={
-                        <ul className="context-menu">
-                          <li
-                            className="item sb"
-                            onClick={handleToggleRole.bind(null, {
-                              ignore: is_admin,
-                              uid,
-                              isAdmin: true,
-                            })}
-                          >
-                            {t("admin")}
-                            {is_admin && <IconCheck className="icon dark:fill-white" />}
-                          </li>
-                          <li
-                            className="item sb"
-                            onClick={handleToggleRole.bind(null, {
-                              ignore: !is_admin,
-                              uid,
-                              isAdmin: false,
-                            })}
-                          >
-                            {t("user")}
-                            {!is_admin && <IconCheck className="icon dark:fill-white" />}
-                          </li>
-                        </ul>
-                      }
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-right text-gray-500 dark:text-slate-100 flex items-center gap-1">
+                    {owner ? t("channel_owner") : ""}
+                  </span>
+                  {canRemoveFromChannel && (
+                    <button
+                      onClick={() => handleRemoveConfirm(uid, name)}
+                      className="flex items-center justify-center rounded md:hover:bg-red-50 md:dark:hover:bg-red-900/20"
                     >
-                      <span className="text-xs text-right text-gray-500 dark:text-slate-100 flex items-center gap-1 cursor-pointer">
-                        {is_admin ? t("admin") : t("user")}
-                        <IconArrowDown className="dark:fill-slate-50" />
-                      </span>
-                    </Popover>
-                  ) : (
-                    <span className="text-xs text-right text-gray-500 dark:text-slate-100 flex items-center gap-1">
-                      {is_admin ? t("admin") : t("user")}
-                    </span>
-                  )}
-
-                  {dotsVisible && (
-                    <Popover
-                      placement="right-start"
-                      open={morePopoverUid === uid}
-                      onOpenChange={(open) => setMorePopoverUid(open ? uid : undefined)}
-                      content={
-                        <ul className="min-w-30 context-menu">
-                          {canCopyEmail && (
-                            <li className="item" onClick={copyEmail.bind(null, email)}>
-                              {ct("action.copy_email")}
-                            </li>
-                          )}
-                          {canRemoveFromChannel && (
-                            <li className="item danger" onClick={handleRemoveConfirm.bind(null, uid, name, "channel")}>
-                              {t("remove_from_channel")}
-                            </li>
-                          )}
-                          {/* {canViewPassword && (
-                            <li className="item danger" onClick={setCurrentUid.bind(null, uid)}>
-                              {ct("action.view_pwd")}
-                            </li>
-                          )} */}
-                          {canUpdatePassword && (
-                            <li className="item danger" onClick={() => { setMorePopoverUid(undefined); setCurrentUid(uid); }}>
-                              {ct("action.change_pwd")}
-                            </li>
-                          )}
-                          {canRemove && (
-                            <li className="item danger" onClick={handleRemoveConfirm.bind(null, uid, name, "server")}>
-                              {ct("action.remove")}
-                            </li>
-                          )}
-                        </ul>
-                      }
-                    >
-                      <div className="relative w-6 h-6">
-                        <IconMore role="button" className="dark:fill-gray-400" />
-                      </div>
-                    </Popover>
+                      <IconDelete className="w-6 h-6 fill-gray-400 dark:fill-gray-400 md:hover:fill-red-500 md:dark:hover:fill-red-400" />
+                    </button>
                   )}
                 </div>
               </li>
@@ -211,8 +90,6 @@ const MemberList: FC<Props> = ({ cid }) => {
           }}
         </ViewportList>
       </ul>
-      {/* <ViewPassword uid={currentUid} onClose={setCurrentUid.bind(null, undefined)} /> */}
-      <UpdatePassword uid={currentUid} onClose={setCurrentUid.bind(null, undefined)} />
       {removeTarget && (
         <RemoveConfirmModal
           uid={removeTarget.uid}

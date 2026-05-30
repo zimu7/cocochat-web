@@ -64,5 +64,7 @@
   "set_as_bot": "设为机器人",
   "operations": "操作",
   "key_name_placeholder": "密钥名称",
-  "existing_keys": "已有密钥"
+  "existing_keys": "已有密钥",
+  "channel_owner": "频道主",
+  "remove_from_channel_confirm": "确定将该成员从频道移除？"
 }

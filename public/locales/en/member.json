@@ -66,5 +66,7 @@
   "set_as_bot": "Set as Bot",
   "operations": "Actions",
   "key_name_placeholder": "Key name",
-  "existing_keys": "Existing Keys"
+  "existing_keys": "Existing Keys",
+  "channel_owner": "Owner",
+  "remove_from_channel_confirm": "Are you sure you want to remove this member from the channel?"
 }
