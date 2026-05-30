@@ -193,6 +193,7 @@ export default function ManageMembers() {
                         <Button
                           className="mini ghost"
                           onClick={() => toggleApiKeysModal(uid)}
+                          disabled={!is_bot}
                         >
                           {t("manage_api_keys")}
                         </Button>

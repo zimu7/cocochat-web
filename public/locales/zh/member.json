@@ -63,5 +63,6 @@
   "set_as_admin": "设为管理员",
   "set_as_bot": "设为机器人",
   "operations": "操作",
-  "key_name_placeholder": "密钥名称"
+  "key_name_placeholder": "密钥名称",
+  "existing_keys": "已有密钥"
 }

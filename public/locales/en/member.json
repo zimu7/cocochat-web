@@ -65,5 +65,6 @@
   "set_as_admin": "Set as Admin",
   "set_as_bot": "Set as Bot",
   "operations": "Actions",
-  "key_name_placeholder": "Key name"
+  "key_name_placeholder": "Key name",
+  "existing_keys": "Existing Keys"
 }

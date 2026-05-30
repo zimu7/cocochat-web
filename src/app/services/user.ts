@@ -27,6 +27,7 @@ import { updateLoginUser } from "../slices/auth.data";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery,
+  tagTypes: ["BotAPIKeys"],
   endpoints: (builder) => ({
     getUsers: builder.query<User[], void>({
       query: () => ({ url: `/user` }),
@@ -252,12 +253,21 @@ export const userApi = createApi({
         method: "POST",
         body: password ? { name, password } : { name },
       }),
+      async onQueryStarted({ uid }, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(userApi.util.invalidateTags([{ type: "BotAPIKeys", id: uid }]));
+      },
     }),
     getBotAPIKeys: builder.query<BotAPIKey[], number>({
       query: (uid) => ({ url: `/admin/user/bot-api-key/${uid}` }),
+      providesTags: (_result, _error, uid) => [{ type: "BotAPIKeys", id: uid }],
     }),
     deleteBotAPIKey: builder.query<void, { uid: number; kid: number }>({
       query: ({ uid, kid }) => ({ url: `/admin/user/bot-api-key/${uid}/${kid}`, method: "DELETE" }),
+      async onQueryStarted({ uid }, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(userApi.util.invalidateTags([{ type: "BotAPIKeys", id: uid }]));
+      },
     }),
     // bot operations end
     updateInfo: builder.mutation<User, UserDTO>({

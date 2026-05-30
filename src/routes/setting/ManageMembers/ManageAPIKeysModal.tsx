@@ -23,7 +23,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
   const { t } = useTranslation("member");
   const { t: ct } = useTranslation();
   const { copy } = useCopy();
-  const { data: keys, refetch } = useGetBotAPIKeysQuery(uid);
+  const { data: keys } = useGetBotAPIKeysQuery(uid);
   const [createKey, { isSuccess: createSuccess, isLoading: createLoading, data: createdKey = "", error: createError }] =
     useCreateBotAPIKeyMutation();
   const [deleteKey, { isSuccess: deleteSuccess }] = useLazyDeleteBotAPIKeyQuery();
@@ -44,7 +44,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
       copy(createdKey);
       toast.success(ct("tip.copied"));
     }
-    closeModal();
+    setShowCreatedKey(false);
   };
 
   useEffect(() => {
@@ -69,12 +69,11 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
 
   useEffect(() => {
     if (deleteSuccess) {
-      refetch();
       toast.success(ct("tip.delete"));
     }
   }, [deleteSuccess]);
 
-  const tdClass = "p-1 whitespace-nowrap text-xs text-gray-500 dark:text-gray-200 align-middle px-1";
+  const tdClass = "p-1 text-xs text-gray-500 dark:text-gray-200 align-top px-1 text-left";
 
   return (
     <Modal id="modal-modal">
@@ -104,16 +103,38 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
           </div>
         ) : (
           <div className="flex flex-col gap-4 w-full">
+            {/* Add new key */}
+            <div className="flex flex-col gap-1 w-full">
+              <label className="text-xs text-gray-400 font-semibold text-left">{t("key_name")}</label>
+              <div className="flex gap-2">
+                <Input
+                  value={newKeyName}
+                  onChange={(e) => setNewKeyName(e.target.value)}
+                  placeholder={t("key_name_placeholder")}
+                  className="flex-1"
+                />
+                <Button
+                  className="mini !py-2"
+                  disabled={!newKeyName.trim() || createLoading}
+                  onClick={handleCreateKey}
+                >
+                  {createLoading ? "..." : t("add_key")}
+                </Button>
+              </div>
+            </div>
+
             {/* Existing keys list */}
-            <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full">
-              <table className="min-w-full table-fixed font-mono">
+            <div className="flex flex-col gap-2 w-full">
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{t("existing_keys")}</span>
+              <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full">
+                <table className="w-full font-mono">
                 <thead>
                   <tr>
                     {[t("key_name"), t("key_value"), ""].map((title, idx) => (
                       <th
                         key={idx}
                         scope="col"
-                        className="text-xs text-gray-900 dark:text-gray-50 px-1 text-left pb-2 w-28"
+                        className="text-xs text-gray-900 dark:text-gray-50 px-1 text-left pb-2"
                       >
                         {title}
                       </th>
@@ -125,9 +146,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
                     keys.map((ak) => (
                       <tr key={ak.id} className="group">
                         <td className={tdClass}>{ak.name}</td>
-                        <td className={`${tdClass} w-40`}>
-                          {`${ak.key.slice(0, 4)} ... ... ${ak.key.slice(-6)}`}
-                        </td>
+                        <td className={tdClass}>{`${ak.key.slice(0, 4)} ... ... ${ak.key.slice(-6)}`}</td>
                         <td className={`${tdClass} invisible group-hover:visible`}>
                           <button onClick={() => handleDeleteKey(ak.id)}>
                             <IconDelete />
@@ -144,25 +163,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
                   )}
                 </tbody>
               </table>
-            </div>
-
-            {/* Add new key */}
-            <div className="flex items-end gap-2">
-              <div className="flex flex-col gap-1 flex-1">
-                <label className="text-xs text-gray-400 font-semibold">{t("key_name")}</label>
-                <Input
-                  value={newKeyName}
-                  onChange={(e) => setNewKeyName(e.target.value)}
-                  placeholder={t("key_name_placeholder")}
-                />
               </div>
-              <Button
-                className="mini"
-                disabled={!newKeyName.trim() || createLoading}
-                onClick={handleCreateKey}
-              >
-                {createLoading ? "..." : t("add_key")}
-              </Button>
             </div>
           </div>
         )}

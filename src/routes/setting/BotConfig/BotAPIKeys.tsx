@@ -14,7 +14,7 @@ type Props = {
   uid: number;
 };
 type DeleteAPIKeyProps = { uid: number; kid: number };
-const tdClass = "p-1 whitespace-nowrap text-xs text-gray-500 dark:text-gray-200 align-middle px-1";
+const tdClass = "p-1 text-xs text-gray-500 dark:text-gray-200 align-top px-1 text-left";
 const BotAPIKeys = ({ uid }: Props) => {
   const { t } = useTranslation("setting", { keyPrefix: "bot" });
   const [currentUid, setCurrentUid] = useState<number | undefined>();
@@ -29,11 +29,11 @@ const BotAPIKeys = ({ uid }: Props) => {
     setDeleteApiKey(param);
   };
   if (!data) return null;
-  const colWidths = ["w-20", "w-[166px]", "w-36", "w-15", "w-10"];
+  const colWidths = ["min-w-[80px]", "min-w-[140px]", "min-w-[140px]", "min-w-[60px]", "w-6"];
   return (
     <div className="flex flex-col gap-2 items-start">
       <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full">
-        <table className="min-w-full table-fixed font-mono">
+        <table className="w-full font-mono">
           <thead>
             <tr>
               {[
@@ -63,9 +63,7 @@ const BotAPIKeys = ({ uid }: Props) => {
                 return (
                   <tr key={id} className="group">
                     <td className={tdClass}>{name}</td>
-                    <td className={`${tdClass} w-40`}>
-                      {`${key.slice(0, 4)} ... ... ${key.slice(-6)}`}
-                    </td>
+                    <td className={tdClass}>{`${key.slice(0, 4)} ... ... ${key.slice(-6)}`}</td>
                     <td className={tdClass}>{dayjs(created_at).format("YYYY-MM-DD HH:mm:ss")}</td>
                     <td className={tdClass}>
                       {last_used ? dayjs(last_used).format("YYYY-MM-DD HH:mm:ss") : "Unused"}
