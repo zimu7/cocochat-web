@@ -34,7 +34,6 @@ const ImageBox: FC<Props> = ({ url, alt }) => {
     // 预检失败
     if (error) {
       const errNum = (error as FetchBaseQueryError).status;
-      console.log("error num", errNum);
       switch (errNum) {
         case 404:
           setStatus(404);

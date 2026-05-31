@@ -58,8 +58,6 @@ const Navigator = () => {
   const { activeStep, goToStep } = useWizard();
   const { t } = useTranslation(["welcome", "setting"]);
   const canJumpTo = steps[activeStep]?.canJumpTo || [];
-  console.log("active step", activeStep);
-
   return (
     <div className="hidden md:flex absolute top-5 w-full justify-center gap-2 z-10">
       {steps.map((stepToRender, indexToRender) => {

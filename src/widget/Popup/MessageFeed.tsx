@@ -12,7 +12,6 @@ const MessageFeed = ({ hostId }: Props) => {
   const [hasNewMsg, setHasNewMsg] = useState(false);
   const mids = useAppSelector((store) => store.userMessage.byId[hostId], shallowEqual);
   const messageMap = useAppSelector((store) => store.message, shallowEqual);
-  console.log("mids", mids, hostId);
   useEffect(() => {
     const container = document.querySelector("#MESSAGE_LIST_CONTAINER");
     if (container && mids && mids.length > 0) {
@@ -20,7 +19,6 @@ const MessageFeed = ({ hostId }: Props) => {
       const lastIsMyself = lastMsg.from_uid != hostId;
       const { scrollHeight, scrollTop } = container;
       const deltaHeight = scrollHeight - scrollTop;
-      console.log("ttt", deltaHeight, lastIsMyself, firstRender.current);
       // 自己发送的消息
       if (lastIsMyself && lastMsg.sending) {
         container.scrollTop = container.scrollHeight;
@@ -34,7 +32,6 @@ const MessageFeed = ({ hostId }: Props) => {
         container.scrollTop = container.scrollHeight;
         setHasNewMsg(false);
       } else if (!lastIsMyself && !firstRender.current) {
-        console.log("new msg");
         setHasNewMsg(true);
       }
     }
@@ -65,7 +62,6 @@ const MessageFeed = ({ hostId }: Props) => {
           from_uid = 0,
           sending = false
         } = currMsg;
-        console.log("lll", content, content_type);
         return (
           <Message
             uid={from_uid}

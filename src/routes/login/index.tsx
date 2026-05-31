@@ -84,7 +84,6 @@ export default function LoginPage() {
     }
   }, [error]);
   useEffect(() => {
-    console.log("login success", isSuccess);
     if (isSuccess) {
       toast.success(ct("tip.login"));
       // setInput(defaultInput);

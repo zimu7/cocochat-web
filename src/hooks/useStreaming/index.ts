@@ -101,31 +101,23 @@ export default function useStreaming() {
   }, [guest]);
 
   const keepAlive = (timeout?: number) => {
-    console.info("debug SSE: start new keepalive");
     clearTimeout(aliveInter);
     //  比 15 秒多 5 秒
     const countdown = timeout ?? 20000;
-    console.info("debug SSE: clear prev timeout", aliveInter);
     aliveInter = setTimeout(() => {
-      console.info("debug SSE: start reconnect");
       // 重启连接
-      console.info("debug SSE: stopStreaming at timeout");
       stopStreaming();
       startStreaming();
     }, countdown);
-    console.info("debug SSE: start new timeout", aliveInter);
   };
   const startStreaming = useCallback(async () => {
-    console.info("debug SSE: clear timeout at startStreaming", aliveInter);
     clearTimeout(aliveInter);
     if (SSE && (SSE.readyState === EventSource.OPEN || SSE.readyState === EventSource.CONNECTING)) {
-      console.info("debug SSE: SSE not disconnect");
       return;
     }
     const { token, refreshToken, expireTime } = getLocalAuthData();
     //  token 非空
     if (!token) {
-      console.info("debug SSE: token empty");
       return;
     }
     let _token = token;
@@ -178,7 +170,7 @@ export default function useStreaming() {
         return;
       }
       const { readyState } = err.target as EventSource;
-      console.info("sse error", readyState, err);
+      console.error("sse error", readyState, err);
       // 连接还处于开启状态 先停掉
       // 无论什么原因，均可安全停掉
       // if (readyState === EventSource.OPEN || readyState === EventSource.CONNECTING) {
@@ -463,7 +455,6 @@ export default function useStreaming() {
 
   const stopStreaming = () => {
     // 先清掉定时器
-    console.info("debug SSE: clear timeout at stopStreaming", aliveInter);
     clearTimeout(aliveInter);
     if (SSE) {
       SSE.close();
@@ -476,7 +467,6 @@ export default function useStreaming() {
   useEffect(() => {
     const handleNetworkChange = () => {
       if (!userRef.current || guestRef.current) return;
-      console.info("debug SSE: network changed", navigator.onLine);
       if (navigator.onLine) {
         startStreaming();
       } else {
@@ -486,7 +476,6 @@ export default function useStreaming() {
     const handleWindowVisibilityChange = () => {
       if (!userRef.current || guestRef.current) return;
       // bug in electron webview: https://github.com/electron/electron/issues/28677
-      console.info("debug SSE: visibility changed", isTabHidden());
       const tabHidden = isTabHidden();
       if (tabHidden) {
         // 记录隐藏时间
@@ -497,13 +486,6 @@ export default function useStreaming() {
         const timeSpan = 24 * 60 * 60;
         // const timeSpan = 5;
         const canReconnect = elapsedTime > timeSpan || !SSE;
-        console.info(
-          "debug SSE: visibility changed elapsedTime",
-          elapsedTime,
-          hiddenTime,
-          canReconnect,
-          !SSE
-        );
         // 超过 1 天或者已断线，强制重连
         if (canReconnect) {
           // 设置重连状态

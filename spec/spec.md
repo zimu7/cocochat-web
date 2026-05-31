@@ -1,3 +1,36 @@
+## 37 项目清理：移除废弃代码、组件和调试日志
+
+1. 删除废弃页面/组件：
+   - `src/routes/resources/` 整个目录（8个文件）— 路由中无引用的完整资源管理模块
+   - `src/components/MobileAppTip.tsx` — import 已注释，组件未使用
+   - `src/components/NewVersion.tsx` — import 已注释，组件未使用
+   - `src/components/GuestOnly.tsx` — 无任何 import 引用
+   - `src/components/Manifest/` 目录 — import 已注释
+   - `src/components/Downloads.tsx` — 空壳组件（只有空 div）
+
+2. 清理注释代码：
+   - `src/index.tsx`：移除 MobileAppTip/NewVersion 注释 import、Service Worker 注册注释代码块、未使用的 `toast`/`reloadCurrentPage` import
+   - `src/components/MarkdownRender.tsx`：移除 3 行注释的 toast-ui 主题 CSS import
+   - `src/components/MarkdownEditor/index.tsx`：移除注释的 console.log 和过时注释
+   - `src/routes/home/index.tsx`：移除 Manifest 注释 import 和注释 JSX
+
+3. 清理调试 console.log/info（50+ 处，保留 console.error/warn）：
+   - services：user.ts（8处）、message.ts（8处）、auth.ts（4处）、server.ts（1处）
+   - routes：home、guest、files、onboarding（3处）、SessionList（2处）、invitePrivate、ChannelChat/Members、login、VirtualMessageFeed、BotConfig、AdminNotificationChannels
+   - components：FileMessage（3处）、MessageInput/editor、ExpireTimer、ChannelMembers/ViewPassword、InviteLink、FileBox/Image、RequireAuth、UnreadTabTip（2处）、Send、VoiceMessage、InactiveScreen
+   - hooks：usePreload、usePWAInstallPrompt、useTabBroadcast、useStreaming（12处 console.info 改为删除或转 console.error）、useStreaming/chat.handler
+   - widget：Popup/MessageInput、Popup/MessageFeed（4处）、Popup/Message（2处）
+   - slices：channels.ts（1处）
+   - listener.middleware：handler.archive.msg（1处）
+
+4. 保留项：
+   - `fs-extra`：构建脚本 scripts/build.js 中有使用，不能移除
+   - `react-virtuoso`：VirtualMessageFeed 深度依赖其 followOutput/atBottomStateChange 等特有 API，与 react-viewport-list 合并风险大
+   - serviceWorkerRegistration.ts 中的 4 处 console.log：Service Worker 标准日志，保留
+
+总计：57 个文件变更，删除 937 行，新增 12 行。
+
+
 ## 36 搜索用户头像变形
 
 `src/components/Avatar.tsx`：有图片时 `<img width={120} height={120}>` 的 width/height 是 HTML 属性而非 CSS 尺寸约束，且缺少 `object-fit: cover`，导致图片按原始比例拉伸而非裁剪成圆形。改为 `style={{ width, height, objectFit: "cover" }}`，配合外层 `className="rounded-full"` 正确显示圆形头像。

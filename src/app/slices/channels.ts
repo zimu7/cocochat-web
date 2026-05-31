@@ -77,7 +77,6 @@ const channelsSlice = createSlice({
         default:
           {
             const wtf = omitByNil(rest);
-            console.log("rrrr", wtf);
 
             // old code: state.byId[gid] = { ...state.byId[gid]!, ...getNonNullValues(rest) };
             state.byId[gid] = { ...state.byId[gid]!, ...wtf };

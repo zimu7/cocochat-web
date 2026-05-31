@@ -37,13 +37,11 @@ const OtherFileMessage = ({
     if (content) {
       fetch(content)
         .then((resp) => {
-          console.log("fetch", resp.status);
           if (resp.status >= 400) {
             setError(true);
           }
         })
         .catch((error) => {
-          console.log("fetch error", error);
           setError(true);
         });
     }

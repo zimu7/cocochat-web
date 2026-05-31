@@ -39,7 +39,6 @@ const InfoMap = {
 };
 const ExpiredMessage = ({ type = "file", url = "" }: Props) => {
   const { pathname } = useLocation();
-  console.log("pppp", pathname);
   const [context = "channel", id = 0] = pathname.split("/").slice(-2);
   const removeLocalMessage = useRemoveLocalMessage({
     context: context as ChatContext,

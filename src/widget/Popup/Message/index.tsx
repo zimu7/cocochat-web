@@ -37,7 +37,6 @@ const Index = (props: IWidgetMessage) => {
   const logo = useAppSelector((store) => store.server.logo, shallowEqual);
   const { host = false, type, content, thumbnail = "", uid, create_time, sending } = props;
   let contentContainer = null;
-  console.log("render message", type, content);
   switch (type) {
     case "text/plain":
       contentContainer = <Text sending={sending} content={content} host={host} uid={uid} />;
@@ -47,8 +46,6 @@ const Index = (props: IWidgetMessage) => {
       break;
     case "cocochat/file":
       {
-        console.log("image file", content);
-
         contentContainer = <Image thumbnail={thumbnail} content={content} />;
       }
       break;

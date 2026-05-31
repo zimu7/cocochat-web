@@ -14,7 +14,6 @@ export default async function handler({ operation, payload = {} }: Params) {
     case "upsertArchiveMessage":
       {
         const { filePath, data } = payload;
-        console.log("archive message indexDB opt", payload);
         if (filePath) {
           await table?.setItem(filePath, data);
         }

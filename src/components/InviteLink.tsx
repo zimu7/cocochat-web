@@ -39,8 +39,6 @@ const InviteLink: FC<Props> = ({ context = "members", cid }) => {
     };
   }) => {
     const { expire, times } = data ?? current;
-    console.log({ expire });
-
     generateNewLink({ expire: expire.value, times: times.value });
   };
   const toggleEditVisible = () => {

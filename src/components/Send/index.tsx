@@ -71,8 +71,6 @@ const Send: FC<IProps> = ({
   const { sendMessage } = useSendMessage({ context, from: from_uid, to: id });
 
   const insertEmoji = (emoji: Emoji) => {
-    console.log({ emoji });
-
     if (mode == Modes.markdown && markdownEditor) {
       // markdown insert emoji
       const { native } = emoji.skins[0];

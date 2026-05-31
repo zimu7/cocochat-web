@@ -55,7 +55,6 @@ const MessageInput = (props: Props) => {
     if (result) {
       // send message
       const properties: any = await getImageSize(URL.createObjectURL(file));
-      console.log("uploaded", result, properties);
       const { path } = result;
       sendMessage({
         ignoreLocal: true,

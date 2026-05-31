@@ -66,8 +66,6 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
   // After updated server
   useEffect(() => {
     if (isUpdatedServer) {
-      console.log({ isUpdatedServer });
-
       nextStep();
     }
   }, [isUpdatedServer]);

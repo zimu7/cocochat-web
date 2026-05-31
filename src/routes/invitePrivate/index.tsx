@@ -37,8 +37,6 @@ const InvitePrivate = () => {
   }, [isSuccess, data]);
   const handleJoin = async () => {
     const resp = await joinChannel({ magic_token });
-    console.log({ resp });
-
     if ("error" in resp) {
       const key = (resp.error.status || resp.error.originalStatus) as number;
       switch (key) {

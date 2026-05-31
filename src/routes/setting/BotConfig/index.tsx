@@ -38,8 +38,6 @@ export default function BotConfig() {
     setCreateModalVisible((prev) => !prev);
   };
   const toggleWebhookModalVisible = (obj?: WebhookParams) => {
-    console.log("webhook modal", obj);
-
     setCurrWebhookParams(obj);
   };
   const toggleDeleteModalVisible = (obj?: DeleteParams) => {

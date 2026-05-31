@@ -93,7 +93,6 @@ export const serverApi = createApi({
         try {
           const resp = await queryFulfilled;
           if (resp.data) {
-            console.info("update login config in redux", resp.data);
             dispatch(updateInfo({ loginConfig: resp.data }));
           }
         } catch {

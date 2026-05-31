@@ -17,8 +17,6 @@ const GuestLogin = () => {
       guestLogin();
     }
   }, [guest, token]);
-  console.log("guest", token, guest);
-
   if (token && guest) return <Navigate to={"/"} replace />;
   return null;
 };

@@ -60,7 +60,6 @@ export const userApi = createApi({
             ),
           );
         } catch {
-          console.log("get user list error");
         }
       },
     }),
@@ -86,7 +85,6 @@ export const userApi = createApi({
             }
           });
         } catch {
-          console.log("get contact list error");
         }
       },
     }),
@@ -142,7 +140,6 @@ export const userApi = createApi({
             })
           );
         } catch {
-          console.log("update user failed");
         }
       },
     }),
@@ -158,7 +155,6 @@ export const userApi = createApi({
           // PUT 成功后直接更新 store，无需等待 SSE 推送
           dispatch(updateRemarkByUid({ uid: data.contact_uid, remark: data.remark }));
         } catch {
-          console.log("update remark failed");
         }
       },
     }),
@@ -181,7 +177,6 @@ export const userApi = createApi({
             dispatch(updateAutoDeleteSetting({ burn_after_reading_groups: data.groups }));
           }
         } catch {
-          console.log("update auto delete message setting error");
         }
       },
     }),
@@ -203,8 +198,7 @@ export const userApi = createApi({
           await queryFulfilled;
           const status = map[data.action] as ContactStatus;
           dispatch(updateStatus({ uid: data.target_uid, status }));
-        } catch (error) {
-          console.log("update mute failed", error);
+        } catch {
         }
       },
     }),
@@ -218,8 +212,7 @@ export const userApi = createApi({
         try {
           await queryFulfilled;
           dispatch(updateMute(data));
-        } catch (error) {
-          console.log("update mute failed", error);
+        } catch {
         }
       },
     }),
@@ -280,8 +273,7 @@ export const userApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(updateLoginUser(data));
-        } catch (error) {
-          console.log("update login user failed", error);
+        } catch {
         }
       },
     }),

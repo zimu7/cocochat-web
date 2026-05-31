@@ -67,7 +67,6 @@ const MarkdownEditor: FC<Props> = ({
         if (updateDraft) {
           updateDraft(md);
         }
-        // console.log("mmmm", md);
         editorInstance.destroy();
       }
     };
@@ -104,4 +103,3 @@ const MarkdownEditor: FC<Props> = ({
   );
 };
 export default MarkdownEditor;
-// prosemirror-mode version error https://github.com/ueberdosis/tiptap/issues/577

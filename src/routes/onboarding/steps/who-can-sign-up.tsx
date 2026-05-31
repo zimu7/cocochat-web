@@ -21,7 +21,7 @@ export default function SignUpSetting() {
   // Sync to `value` when `loginConfig` is fetched
   useEffect(() => {
     if (loginConfig) {
-      console.log("login config", loginConfig.who_can_sign_up);
+
       setValue(loginConfig.who_can_sign_up);
     }
   }, [loginConfig]);

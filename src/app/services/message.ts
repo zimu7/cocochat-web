@@ -46,7 +46,6 @@ export const messageApi = createApi({
           await queryFulfilled;
         } catch (err) {
           // 出错也得删
-          console.log("delete message error", err);
           dispatch(removeMessage(mid));
         }
       }
@@ -61,7 +60,6 @@ export const messageApi = createApi({
           await queryFulfilled;
         } catch (err) {
           // 出错也得删
-          console.log("delete messages error", err);
           mids.forEach((mid) => {
             dispatch(removeMessage(mid));
           });
@@ -101,7 +99,6 @@ export const messageApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(upsertOG({ key: url, value: data }));
         } catch (err) {
-          console.log("get og error", err);
           dispatch(
             upsertOG({
               key: url,
@@ -126,8 +123,7 @@ export const messageApi = createApi({
         try {
           const { data } = await queryFulfilled;
           dispatch(upsertArchiveMessage({ filePath, data }));
-        } catch (err) {
-          console.log("get archive error", err);
+        } catch {
         }
       }
     }),
@@ -157,8 +153,7 @@ export const messageApi = createApi({
           const { created_at, id } = data;
           dispatch(addFavorite({ id, created_at }));
           dispatch(messageApi.endpoints.getFavoriteDetails.initiate(id));
-        } catch (err) {
-          console.log("get favorite list error", err);
+        } catch {
         }
       }
     }),
@@ -171,8 +166,7 @@ export const messageApi = createApi({
         try {
           await queryFulfilled;
           dispatch(deleteFavorite(id));
-        } catch (err) {
-          console.log("get favorite list error", err);
+        } catch {
         }
       }
     }),
@@ -186,8 +180,7 @@ export const messageApi = createApi({
           const loginUid = (getState() as RootState).authData.user?.uid;
           const messages = normalizeArchiveData(data, id, loginUid);
           dispatch(populateFavorite({ id, messages }));
-        } catch (err) {
-          console.log("get favorite list error", err);
+        } catch {
         }
       }
     }),
@@ -203,8 +196,7 @@ export const messageApi = createApi({
             const { id } = fav;
             dispatch(messageApi.endpoints.getFavoriteDetails.initiate(id));
           }
-        } catch (err) {
-          console.log("get favorite list error", err);
+        } catch {
         }
       }
     }),

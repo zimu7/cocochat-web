@@ -1,22 +1,18 @@
 import { Suspense } from "react";
 
 import ReactDOM from "react-dom/client";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import "./assets/index.css";
 import "./libs/DayjsSetting";
 import { TooltipPrimitive } from "./components/Tooltip";
 
-// Disabled: MobileAppTip and NewVersion
-// import MobileAppTip from "./components/MobileAppTip";
-// import NewVersion from "./components/NewVersion";
 import ReduxRoutes from "./routes";
-import { register } from "./serviceWorkerRegistration";
 // import i18n (needs to be bundled ;))
 import "./i18n";
 import "./libs/polyfills";
 
-import { isDarkMode, reloadCurrentPage } from "./utils";
+import { isDarkMode } from "./utils";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 // dark mode
@@ -35,24 +31,5 @@ root.render(
       />
       <ReduxRoutes />
     </TooltipPrimitive.Provider>
-    {/* Disabled: <MobileAppTip /> */}
   </Suspense>
 );
-
-// Disabled auto update and app download prompts
-// register({
-//   // onSuccess: () => {
-//   //   toast.success("Service Worker Installed");
-//   // },
-//   onUpdate: (reg) => {
-//     const handleUpdate = () => {
-//       reg.unregister().then(() => {
-//         reloadCurrentPage();
-//       });
-//     };
-//     toast((t) => <NewVersion id={t.id} handleUpdate={handleUpdate} />, {
-//       duration: Infinity,
-//       position: "top-right"
-//     });
-//   }
-// });

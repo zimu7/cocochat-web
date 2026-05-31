@@ -82,7 +82,6 @@ const VoiceMessage = ({ file_path }: { file_path: string }) => {
               item.stop();
             }
           } catch (error) {
-            console.log(error);
           }
         });
       }

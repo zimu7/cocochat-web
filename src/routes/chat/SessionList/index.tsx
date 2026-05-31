@@ -114,8 +114,6 @@ const SessionList: FC<Props> = ({ tempSession }) => {
     tempSession,
     pins
   ]);
-  console.log("sessionsss", sessions, pinSessions, pins);
-
   return (
     <div className="h-full pb-14 md:pb-0 overflow-auto">
       {pinSessions.length ? (

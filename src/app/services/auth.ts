@@ -59,7 +59,6 @@ export const authApi = createApi({
           // 从 localstorage 去掉 magic token
           localStorage.removeItem(KEY_LOCAL_MAGIC_TOKEN);
         } catch {
-          console.log("login error");
         }
       }
     }),
@@ -74,7 +73,6 @@ export const authApi = createApi({
             localStorage.removeItem(KEY_LOCAL_MAGIC_TOKEN);
           }
         } catch {
-          console.log("guest login error");
         }
       }
     }),
@@ -177,7 +175,6 @@ export const authApi = createApi({
           // 重定向到登录
           location.href = "/#/login";
         } catch {
-          console.log("logout error");
         }
       }
     }),
@@ -267,7 +264,6 @@ export const authApi = createApi({
             dispatch(updateSSEStatus("disconnected"));
           }
         } catch {
-          console.log("passkey login error");
         }
       }
     }),

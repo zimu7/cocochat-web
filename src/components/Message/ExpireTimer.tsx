@@ -63,7 +63,6 @@ const ExpireTimer: FC<Props> = ({
         }, 1000);
       } else {
         // 倒计时结束
-        console.log("countdown over", mid, countdown);
         clearMsgFromClient();
       }
     }

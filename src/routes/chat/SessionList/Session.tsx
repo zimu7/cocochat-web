@@ -125,8 +125,6 @@ const Session: FC<IProps> = ({
           return item.context == type && item.id === id;
         })
       : id == callingFrom || id == callingTo;
-  console.log("unreads", unreads, isCurrentPath);
-
   return (
     <li className={clsx("session")}>
       <ContextMenu

@@ -21,7 +21,6 @@ const RequireAuth: FC<Props> = ({ children, redirectTo = "/login", guestMode }) 
   const token = useAppSelector((store) => store.authData.token, shallowEqual);
   const guest = useAppSelector((store) => store.authData.guest, shallowEqual);
   const initialized = useAppSelector((store) => store.authData.initialized, shallowEqual);
-  console.info("check basic info", guestMode);
   // 初始化login配置检查
   if (typeof guestMode == "undefined") {
     // tricky mark

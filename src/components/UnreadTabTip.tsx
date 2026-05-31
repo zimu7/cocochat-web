@@ -53,8 +53,6 @@ const UnreadTabTip = () => {
       }
     });
     const handler = () => {
-      console.log("changed", document.hidden, total);
-
       if (document.hidden) {
         title = document.title;
         if (total > 0) {
@@ -82,8 +80,6 @@ const UnreadTabTip = () => {
     muteChannels,
     muteUsers
   ]);
-  console.log("unread tip", total);
-
   return null;
 };
 

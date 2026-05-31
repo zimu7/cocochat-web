@@ -68,14 +68,6 @@ export default function AdminNotificationChannels() {
   const enabledTypes = new Set(channelTypes.map((ct) => ct.channel_type));
   const availableToEnable = allChannelTypes.filter((type) => !enabledTypes.has(type));
 
-  // Debug logging
-  console.log("Admin Notification Channels Debug:", {
-    allChannelTypes,
-    enabledTypes: Array.from(enabledTypes),
-    availableToEnable,
-    channelTypesFromAPI: channelTypes,
-  });
-
   if (isLoading) {
     return (
       <div className="setting-container max-md:w-full">

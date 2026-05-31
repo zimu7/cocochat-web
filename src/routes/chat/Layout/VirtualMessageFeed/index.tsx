@@ -197,7 +197,6 @@ const VirtualMessageFeed = forwardRef<VirtualMessageFeedHandle, Props>(({ contex
 
   // 加载更多
   const handleTopStateChange = (isTop: boolean) => {
-    console.log("reach top ", isTop);
     if (isTop) {
       if (allMids.length > visibleCount) {
         // Load 50 messages at a time for better performance

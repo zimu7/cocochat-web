@@ -69,7 +69,6 @@ function Files() {
       return now - item.created_at <= duration;
     })
     .sort((a, b) => b.created_at - a.created_at);
-  console.log({ view });
   return (
     <div className="h-screen max-w-full overflow-hidden flex flex-col my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-gray-700">
       {/* <Search value={filter.name} updateSearchValue={handleUpdateSearch} /> */}

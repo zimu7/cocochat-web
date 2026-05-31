@@ -6,8 +6,6 @@ import { NavLink, Outlet, useLocation, useMatch } from "react-router-dom";
 import { updateRememberedNavs } from "@/app/slices/ui";
 import { useAppSelector } from "@/app/store";
 import Loading from "@/components/Loading";
-// Disabled: PWA install prompt
-// import Manifest from "@/components/Manifest";
 import Notification from "@/components/Notification";
 import ReLoginModal from "@/components/ReLoginModal";
 import Tooltip from "@/components/Tooltip";
@@ -44,7 +42,6 @@ function HomePage() {
     }
   }, [isChatHomePath]);
 
-  console.info("preload success", success);
   if (!success) {
     return <Loading reload={true} fullscreen={true} context="home-route" />;
   }
@@ -62,7 +59,6 @@ function HomePage() {
       <StreamStatus />
       {roleChanged && <ReLoginModal />}
       {!guest && <UnreadTabTip />}
-      {/* Disabled: <Manifest /> */}
       {!guest && <Notification />}
       <div
         className={`cocochat-container flex w-full h-screen overflow-x-hidden bg-neutral-100 dark:bg-neutral-900`}
