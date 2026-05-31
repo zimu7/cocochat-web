@@ -1,3 +1,14 @@
+## 36 搜索用户头像变形
+
+`src/components/Avatar.tsx`：有图片时 `<img width={120} height={120}>` 的 width/height 是 HTML 属性而非 CSS 尺寸约束，且缺少 `object-fit: cover`，导致图片按原始比例拉伸而非裁剪成圆形。改为 `style={{ width, height, objectFit: "cover" }}`，配合外层 `className="rounded-full"` 正确显示圆形头像。
+
+
+## 35 搜索用户点击"发消息"未关闭搜索框
+
+`src/components/SearchUser.tsx`：`handleSendMsg` 只调用了 `navigateTo` 跳转路由，缺少 `closeModal()` 关闭搜索弹框。补上 `closeModal()` 调用，与"添加联系人"按钮（`handleChat`）行为一致。
+
+
+
 ## 34 登录页面国际化与支持用户名登录
 
 1. 登录页面 Email、Password 标签国际化：硬编码 `Email` 改为 `{t("label_username_or_email")}`，`Password` 改为 `{t("label_password")}`。

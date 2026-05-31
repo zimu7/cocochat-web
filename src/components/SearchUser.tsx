@@ -62,6 +62,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
   };
   const handleSendMsg = () => {
     if (!data) return;
+    closeModal();
     navigateTo(`/chat/dm/${data.uid}`);
   };
   const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>) => {

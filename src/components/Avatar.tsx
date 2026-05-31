@@ -35,7 +35,14 @@ const Avatar: FC<Props> = ({
     setError(true);
   };
   if (!error && src) {
-    return <img width={width} height={height} src={src} onError={handleError} {...rest} />;
+    return (
+      <img
+        src={src}
+        onError={handleError}
+        style={{ width, height, objectFit: "cover" }}
+        {...rest}
+      />
+    );
   }
   // 长度限制在六个字符
   let initials = getInitials(name).substring(0, 6);
