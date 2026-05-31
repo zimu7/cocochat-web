@@ -21,7 +21,7 @@ import SelectLanguage from "../../components/Language";
 import { startPasskeyLogin, isWebAuthnSupported } from "@/passkey";
 
 const defaultInput = {
-  email: "",
+  account: "",
   password: "",
 };
 export default function LoginPage() {
@@ -31,7 +31,7 @@ export default function LoginPage() {
   const { data: enableSMTP, isLoading: loadingSMTPStatus } = {data: false, isLoading: false};
   const [login, { isSuccess, isLoading, error }] = useLoginMutation();
   const { data: loginConfig, isSuccess: loginConfigSuccess } = useGetLoginConfigQuery();
-  const [emailInputted, setEmailInputted] = useState(false);
+  const [accountInputted, setAccountInputted] = useState(false);
   const [input, setInput] = useState(defaultInput);
   const [passkeyLoginStart] = usePasskeyLoginStartMutation();
   const [passkeyLoginFinish] = usePasskeyLoginFinishMutation();
@@ -95,8 +95,8 @@ export default function LoginPage() {
   const handleLogin = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const enableMagicLink = enableSMTP && loginConfig?.magic_link;
-    if (enableMagicLink && !emailInputted) {
-      setEmailInputted(true);
+    if (enableMagicLink && !accountInputted) {
+      setAccountInputted(true);
       return;
     }
     login({
@@ -106,14 +106,14 @@ export default function LoginPage() {
   };
 
   const handleInput = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { type } = evt.target.dataset as { type?: "email" | "password" };
+    const { type } = evt.target.dataset as { type?: "account" | "password" };
     const { value } = evt.target;
     if (!type) return;
     const newInput = { ...input, [type]: value };
     setInput(newInput);
   };
   const handleBack = () => {
-    setEmailInputted(false);
+    setAccountInputted(false);
   };
 
   const handlePasskeyLogin = async () => {
@@ -145,20 +145,20 @@ export default function LoginPage() {
     }
   };
 
-  const { email, password } = input;
+  const { account, password } = input;
   if (!loginConfigSuccess) return null;
 
   const { magic_link, who_can_sign_up: whoCanSignUp, passkey } = loginConfig;
 
   const enableMagicLink = enableSMTP && magic_link;
-  const hideSocials = (enableMagicLink && emailInputted) || whoCanSignUp == "InvitationOnly";
-  const showSignIn = !enableMagicLink || emailInputted;
+  const hideSocials = (enableMagicLink && accountInputted) || whoCanSignUp == "InvitationOnly";
+  const showSignIn = !enableMagicLink || accountInputted;
   if (loadingSMTPStatus) return null;
 
   return (
     <div className="flex-center h-screen dark:bg-gray-700">
       <div className="relative py-8 px-10 shadow-md rounded-xl">
-        {emailInputted && (
+        {accountInputted && (
           <IconBack
             role="button"
             className="absolute left-7 top-8 w-10 h-10 stroke-gray-300"
@@ -180,25 +180,25 @@ export default function LoginPage() {
           autoComplete="false"
           onSubmit={handleLogin}
         >
-          {!emailInputted && (
+          {!accountInputted && (
             <div className="flex flex-col gap-1">
-              <StyledLabel>Email</StyledLabel>
+              <StyledLabel>{t("label_username_or_email")}</StyledLabel>
               <Input
                 autoFocus
                 className="large"
-                name="email"
-                value={email}
-                type="email"
+                name="account"
+                value={account}
+                type="text"
                 required
                 placeholder={t("placeholder_email")}
-                data-type="email"
+                data-type="account"
                 onChange={handleInput}
               />
             </div>
           )}
-          {(!enableMagicLink || emailInputted) && (
+          {(!enableMagicLink || accountInputted) && (
             <div className="">
-              <StyledLabel>Password</StyledLabel>
+              <StyledLabel>{t("label_password")}</StyledLabel>
               <Input
                 className="large"
                 type="password"
@@ -230,7 +230,7 @@ export default function LoginPage() {
               {isPasskeyLoading ? t("login.passkey_authenticating") : t("login.passkey")}
             </Button>
           )}
-          {emailInputted && <MagicLinkLogin email={input.email} />}
+          {accountInputted && <MagicLinkLogin email={input.account} />}
           {!hideSocials && <SocialLoginButtons />}
         </div>
         {whoCanSignUp === "EveryOne" && <SignUpLink />}

@@ -1,3 +1,16 @@
+## 34 登录页面国际化与支持用户名登录
+
+1. 登录页面 Email、Password 标签国际化：硬编码 `Email` 改为 `{t("label_username_or_email")}`，`Password` 改为 `{t("label_password")}`。
+2. 支持用户名+密码登录：Email 输入框改为"用户名或邮箱"，Input `type` 从 `email` 改为 `text`，placeholder 相应更新。
+3. 服务端 API 字段变更：credential 中 `email` 字段改为 `account`，可传入用户名或邮箱。
+4. `src/types/auth.ts`：`PasswordCredential.email` 改为 `account`。
+5. `src/routes/login/index.tsx`：`defaultInput` 中 `email` → `account`，`emailInputted` → `accountInputted`，`data-type="email"` → `data-type="account"`，Input `name="email"` → `name="account"`，`input.email` → `input.account`。
+6. `src/routes/onboarding/steps/admin-account.tsx`：login 调用中 `email` → `account: email`（内部变量仍用 email，传给 API 时映射为 account）。
+7. `src/widget/Popup/Login/index.tsx`：login 调用中 `email` → `account: currInput.email`。
+8. 国际化翻译：`en/auth.json` 新增 `label_username_or_email: "Username or Email"`、`label_password: "Password"`，`placeholder_email` 改为 `"Enter Username or Email"`；`zh/auth.json` 新增 `label_username_or_email: "用户名或邮箱"`、`label_password: "密码"`，`placeholder_email` 改为 `"输入用户名或邮箱地址"`。
+
+
+
 ## 33 成员管理表格优化
 
 1. 新增"身份"列：将管理员/机器人图标从用户名列移至用户名后独立的"身份"列，图标居中显示。

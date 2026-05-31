@@ -79,7 +79,7 @@ const Login = () => {
             // toast.error("Email existed already!");
             // try to login
             loginByToken({
-              email: currInput.email,
+              account: currInput.email,
               password: WIDGET_USER_PWD,
               type: "password"
             });

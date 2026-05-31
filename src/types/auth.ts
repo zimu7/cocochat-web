@@ -17,7 +17,7 @@ export interface AuthData extends AuthToken {
 }
 
 export type PasswordCredential = {
-  email: string;
+  account: string;
   password: string;
   type: "password";
 };

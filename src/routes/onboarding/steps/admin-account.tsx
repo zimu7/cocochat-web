@@ -40,7 +40,7 @@ const AdminAccount: FC<Props> = ({ serverName }) => {
   useEffect(() => {
     if (signUpOk) {
       login({
-        email,
+        account: email,
         password,
         type: "password"
       });
