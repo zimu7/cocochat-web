@@ -1,6 +1,6 @@
 {
   "name": "cocochat-web",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "homepage": "https://chat.zimu.pub",
   "dependencies": {
     "@radix-ui/react-context-menu": "^2.2.16",
