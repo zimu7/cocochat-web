@@ -85,7 +85,7 @@ const CreateAPIKeyModal = ({ closeModal, uid }: Props) => {
         ) : (
           <form ref={formRef} className="w-full flex flex-col gap-2 items-center" action="/">
             <div className="flex gap-2 w-full">
-              <label htmlFor={"name"} className="text-sm text-gray-500 flex items-center whitespace-nowrap w-[80px]">
+              <label htmlFor={"name"} className="text-sm text-muted-foreground flex items-center whitespace-nowrap w-[80px]">
                 Name
               </label>
               <Input name={"name"} required placeholder="Please input API Key name" autoComplete="new-password" data-form-type="other"></Input>

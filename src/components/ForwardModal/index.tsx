@@ -85,7 +85,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
     (selectedChannels.length == 0 && selectedMembers.length == 0) || forwarding;
   return (
     <Modal>
-      <div className="flex max-h-[514px] min-h-[400px] bg-white dark:bg-slate-900 drop-shadow rounded-lg overflow-hidden">
+      <div className="flex max-h-[514px] min-h-[400px] bg-white dark:bg-secondary drop-shadow rounded-lg overflow-hidden">
         <div className="w-[271px] shadow-[inset_-1px_0px_0px_rgba(0,_0,_0,_0.1)] overflow-y-scroll bg-inherit">
           <div className="sticky top-0 bg-inherit z-[90] p-4 w-[calc(100%_-_1px)]">
             <input
@@ -105,7 +105,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
                     key={gid}
                     data-type="channel"
                     data-id={gid}
-                    className="cursor-pointer flex items-center px-4 rounded md:hover:bg-gray-600/10"
+                    className="cursor-pointer flex items-center px-4 rounded md:hover:bg-secondary/10"
                     onClick={toggleCheck}
                   >
                     <StyledCheckbox readOnly checked={checked} name="cb" id="cb" />
@@ -122,7 +122,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
                     key={uid}
                     data-id={uid}
                     data-type="user"
-                    className="cursor-pointer flex items-center px-4 rounded md:hover:bg-gray-600/10"
+                    className="cursor-pointer flex items-center px-4 rounded md:hover:bg-secondary/10"
                     onClick={toggleCheck}
                   >
                     <StyledCheckbox readOnly checked={checked} name="cb" id="cb" />
@@ -133,7 +133,7 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
           </ul>
         </div>
         <div className={`flex flex-col items-start p-4 box-border`}>
-          <h3 className="font-semibold text-sm text-gray-700 mb-4">{t("action.send_to_count", { count: selectedCount })}</h3>
+          <h3 className="font-semibold text-sm text-foreground mb-4">{t("action.send_to_count", { count: selectedCount })}</h3>
           <ul className="w-full h-[260px] py-2.5 overflow-y-scroll">
             {selectedChannels.map((cid) => {
               return (
@@ -158,12 +158,12 @@ const ForwardModal: FC<IProps> = ({ mids, closeModal }) => {
               );
             })}
           </ul>
-          <div className="rounded-lg p-2 max-h-[200px] overflow-auto bg-slate-100 dark:bg-slate-800 w-[280px] mb-1">
+          <div className="rounded-lg p-2 max-h-[200px] overflow-auto bg-muted dark:bg-card w-[280px] mb-1">
             {mids.map((mid) => (
               <Reply key={mid} mid={mid} interactive={false} />
             ))}
           </div>
-          <label className="flex items-center gap-2 mb-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+          <label className="flex items-center gap-2 mb-2 text-sm text-foreground dark:text-muted-foreground cursor-pointer">
             <StyledCheckbox
               checked={forwardOneByOne}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setForwardOneByOne(e.target.checked)}

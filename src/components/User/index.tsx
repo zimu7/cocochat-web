@@ -60,10 +60,10 @@ const User: FC<Props> = ({
     enableNavToSetting && "cursor-pointer"
   );
   const nameClass = clsx(
-    `text-sm text-gray-500 max-w-[190px] truncate font-semibold dark:text-white`
+    `text-sm text-muted-foreground max-w-[190px] truncate font-semibold dark:text-white`
   );
   const isFromWidget = !!curr.widget_id;
-  const statusContainerClass = `absolute -bottom-[2.5px] -right-[2.5px] border-content rounded-full border-[1px] border-white dark:border-gray-300`;
+  const statusContainerClass = `absolute -bottom-[2.5px] -right-[2.5px] border-content rounded-full border-[1px] border-white dark:border-border`;
   const statusClass = clsx(
     statusContainerClass,
     online ? "bg-green-500" : "bg-zinc-400",

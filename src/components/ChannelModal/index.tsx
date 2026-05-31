@@ -101,7 +101,7 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
   const loginUid = loginUser.uid;
   return (
     <Modal>
-      <div className="flex flex-col md:flex-row max-h-screen md:max-h-[402px] bg-white dark:bg-gray-800 drop-shadow rounded-lg">
+      <div className="flex flex-col md:flex-row max-h-screen md:max-h-[402px] bg-white dark:bg-card drop-shadow rounded-lg">
         {!is_public && (
           <div className="md:w-[260px] md:shadow-[inset_-1px_0px_0px_rgba(0,_0,_0,_0.1)]">
             <div className="sticky top-0 z-[99] rounded-tl-lg shadow-[0px_1px_0px_rgba(0,_0,_0,_0.1)] p-2 w-[calc(100%_-_1px)]">
@@ -145,17 +145,17 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
             !is_public && "w-[344px] justify-evenly"
           )}
         >
-          <h3 className="font-semibold text-xl text-gray-600 mb-4 dark:text-white">
+          <h3 className="font-semibold text-xl text-foreground mb-4 dark:text-white">
             {t("create_channel")}
           </h3>
-          <p className="text-gray-400 mb-2 md:mb-12 text-sm font-normal">
+          <p className="text-muted-foreground mb-2 md:mb-12 text-sm font-normal">
             {!is_public ? t("create_private_channel_desc") : t("create_channel_desc")}
           </p>
           <div className="w-full flex flex-col justify-start gap-2 mb-2 md:mb-8">
-            <span className="text-gray-400 text-sm font-normal">{t("channel_name")}</span>
+            <span className="text-muted-foreground text-sm font-normal">{t("channel_name")}</span>
             <div className="relative">
               <input
-                className="text-gray-600 dark:text-gray-300 rounded p-2 pl-9 border border-solid border-gray-300 w-full bg-transparent"
+                className="text-foreground dark:text-muted-foreground rounded p-2 pl-9 border border-solid border-border w-full bg-transparent"
                 onChange={handleNameInput}
                 value={name}
                 placeholder={t("channel_name")}
@@ -167,7 +167,7 @@ const ChannelModal: FC<Props> = ({ personal = false, closeModal }) => {
             </div>
           </div>
           <div className="w-full flex items-center justify-between mb-8 md:mb-12">
-            <span className="text-gray-400 text-sm">{t("private_channel")}</span>
+            <span className="text-muted-foreground text-sm">{t("private_channel")}</span>
             <StyledToggle
               checked={!is_public}
               disabled={!loginUser?.is_admin}

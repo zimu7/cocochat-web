@@ -17,14 +17,14 @@ const Channel: FC<Props> = ({ select = 0, updateFilter }) => {
   };
 
   return (
-    <div className="rounded-lg p-1 pt-0 bg-white dark:bg-gray-800 overflow-auto max-h-[400px] flex flex-col items-start relative drop-shadow">
+    <div className="rounded-lg p-1 pt-0 bg-white dark:bg-card overflow-auto max-h-[400px] flex flex-col items-start relative drop-shadow">
       <ul className="w-full min-w-48 flex flex-col gap-4 p-2">
         <li
           className="relative cursor-pointer flex items-center gap-2"
           onClick={handleClick.bind(null, undefined)}
         >
           <ChannelIcon />
-          <span className="text-gray-500 dark:text-gray-100 font-semibold text-sm">
+          <span className="text-muted-foreground dark:text-foreground font-semibold text-sm">
             {t("any_channel")}
           </span>
           {!select && <CheckSign className="absolute right-0 top-1/2 -translate-y-1/2" />}
@@ -37,7 +37,7 @@ const Channel: FC<Props> = ({ select = 0, updateFilter }) => {
               onClick={handleClick.bind(null, gid)}
             >
               <ChannelIcon personal={!is_public} />
-              <span className="text-gray-500 dark:text-gray-100 font-semibold text-sm flex-1">
+              <span className="text-muted-foreground dark:text-foreground font-semibold text-sm flex-1">
                 {name}
               </span>
               {select == gid && <CheckSign className="" />}

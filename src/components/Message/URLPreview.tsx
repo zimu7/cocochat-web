@@ -37,7 +37,7 @@ export default function URLPreview({ url = "" }) {
   if (!url || !data || !data.title) return null;
   const { title, description, ogImage } = data;
 
-  const containerClass = `flex items-center border border-solid border-gray-300 dark:border-gray-600 box-border rounded-md w-[80%] md:w-[380px]`;
+  const containerClass = `flex items-center border border-solid border-border dark:border-gray-600 box-border rounded-md w-[80%] md:w-[380px]`;
 
   return ogImage ? (
     // 简版
@@ -48,7 +48,7 @@ export default function URLPreview({ url = "" }) {
       rel="noreferrer"
     >
       <h3 className={`text-primary-500 w-full truncate`}>{title}</h3>
-      <p className={`text-xs text-gray-400 mb-2 w-full truncate`}>{description}</p>
+      <p className={`text-xs text-muted-foreground mb-2 w-full truncate`}>{description}</p>
       <div className="w-full h-[180px]">
         <img
           className="w-full h-full object-cover"
@@ -72,9 +72,9 @@ export default function URLPreview({ url = "" }) {
         </div>
       )}
       <div className="flex flex-col">
-        <h3 className="text-sm text-gray-900 dark:text-gray-100">{title}</h3>
-        <p className={`hidden md:block text-xs text-gray-500 w-[288px] truncate`}>{description}</p>
-        <span className={`text-[10px] text-gray-500 w-[288px] truncate`}>{url}</span>
+        <h3 className="text-sm text-foreground dark:text-foreground">{title}</h3>
+        <p className={`hidden md:block text-xs text-muted-foreground w-[288px] truncate`}>{description}</p>
+        <span className={`text-[10px] text-muted-foreground w-[288px] truncate`}>{url}</span>
       </div>
     </a>
   );

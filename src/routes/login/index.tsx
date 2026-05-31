@@ -155,7 +155,7 @@ export default function LoginPage() {
   if (loadingSMTPStatus) return null;
 
   return (
-    <div className="flex-center h-screen dark:bg-gray-700">
+    <div className="flex-center h-screen dark:bg-card">
       <div className="relative py-8 px-10 shadow-md rounded-xl">
         {accountInputted && (
           <IconBack
@@ -170,7 +170,7 @@ export default function LoginPage() {
             alt="logo"
             className="w-14 h-14 mb-3 md:mb-7 rounded-full"
           />
-          <h2 className="font-semibold text-center text-balance text-2xl max-w-[420px] text-gray-800 dark:text-white">
+          <h2 className="font-semibold text-center text-balance text-2xl max-w-[420px] text-foreground dark:text-white">
             {t("login.title", { name: serverName })}
           </h2>
         </div>

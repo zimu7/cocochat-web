@@ -57,23 +57,23 @@ const MemberList: FC<Props> = ({ cid }) => {
             return (
               <li
                 key={uid}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-md md:hover:bg-slate-50 md:dark:hover:bg-gray-800"
+                className="w-full flex items-center justify-between px-3 py-2 rounded-md md:hover:bg-muted/50 md:dark:hover:bg-card"
               >
                 <div className="flex gap-4">
                   <User compact uid={uid} interactive={false} />
                   <div className="flex flex-col">
-                    <span className="font-bold text-sm text-gray-600 dark:text-white flex items-center gap-1">
+                    <span className="font-bold text-sm text-foreground dark:text-white flex items-center gap-1">
                       <NameWithRemark name={name} uid={uid} /> {owner && <IconOwner />}
                     </span>
                     {email && (
-                      <span className="hidden md:block text-xs text-gray-500 dark:text-slate-50">
+                      <span className="hidden md:block text-xs text-muted-foreground dark:text-foreground">
                         {email}
                       </span>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-right text-gray-500 dark:text-slate-100 flex items-center gap-1">
+                  <span className="text-xs text-right text-muted-foreground dark:text-foreground flex items-center gap-1">
                     {owner ? t("channel_owner") : ""}
                   </span>
                   {canRemoveFromChannel && (
@@ -81,7 +81,7 @@ const MemberList: FC<Props> = ({ cid }) => {
                       onClick={() => handleRemoveConfirm(uid, name)}
                       className="flex items-center justify-center rounded md:hover:bg-red-50 md:dark:hover:bg-red-900/20"
                     >
-                      <IconDelete className="w-6 h-6 fill-gray-400 dark:fill-gray-400 md:hover:fill-red-500 md:dark:hover:fill-red-400" />
+                      <IconDelete className="w-6 h-6 fill-muted-foreground dark:fill-muted-foreground md:hover:fill-red-500 md:dark:hover:fill-red-400" />
                     </button>
                   )}
                 </div>

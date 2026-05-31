@@ -29,8 +29,8 @@ const ChannelMembers: FC<Props> = ({ cid }) => {
     <section className="flex flex-col w-full">
       {/* {isAdmin && <InviteLink />} */}
       <div className="flex flex-col mb-10">
-        <h4 className="font-bold text-gray-700 dark:text-white">{t("manage_members")}</h4>
-        <p className="text-gray-400 dark:text-gray-100 text-xs">{t("manage_tip")}</p>
+        <h4 className="font-bold text-foreground dark:text-white">{t("manage_members")}</h4>
+        <p className="text-muted-foreground dark:text-foreground text-xs">{t("manage_tip")}</p>
       </div>
       <MemberList cid={cid} />
     </section>

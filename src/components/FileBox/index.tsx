@@ -106,7 +106,7 @@ const FileBox: FC<Props> = ({
   return (
     <div
       className={clsx(
-        `rounded-md border border-solid border-gray-300 dark:border-gray-500 bg-gray-100 dark:bg-gray-900 overflow-hidden`,
+        `rounded-md border border-solid border-border dark:border-border bg-muted dark:bg-secondary overflow-hidden`,
         flex ? "w-full max-w-3xl" : "w-full min-w-0",
         withPreview ? "relative h-[281px]" : "h-[66px] ",
         file_type.startsWith("audio") && "h-[125px]"
@@ -115,10 +115,10 @@ const FileBox: FC<Props> = ({
       <div className="w-full min-w-0 p-2 flex items-center justify-between gap-2">
         {icon}
         <div className="flex flex-col gap-1 w-full overflow-hidden">
-          <span className="font-semibold text-sm text-gray-800 dark:text-gray-200 truncate">
+          <span className="font-semibold text-sm text-foreground dark:text-muted-foreground truncate">
             {name}
           </span>
-          <em className="text-xs text-gray-500 flex gap-4 not-italic">
+          <em className="text-xs text-muted-foreground flex gap-4 not-italic">
             <span className="size">{formatBytes(size)}</span>
             <span className="hidden md:block time">{fromNowTime(created_at)}</span>
             <span>

@@ -1,6 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 11% 15%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+    --primary: 191 86% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 14% 96%;
+    --secondary-foreground: 210 11% 15%;
+    --muted: 210 14% 96%;
+    --muted-foreground: 215 14% 44%;
+    --accent: 191 86% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 14% 89%;
+    --input: 214 14% 89%;
+    --ring: 191 86% 53%;
+    --message-self: 191 86% 53%;
+    --message-other: 240 5% 93%;
+  }
+  .dark {
+    --background: 220 14% 10%;
+    --foreground: 0 0% 95%;
+    --card: 220 14% 12%;
+    --card-foreground: 0 0% 95%;
+    --popover: 220 14% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 191 85% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14% 16%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 220 14% 16%;
+    --muted-foreground: 215 14% 65%;
+    --accent: 191 85% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 14% 20%;
+    --input: 220 14% 20%;
+    --ring: 191 85% 42%;
+    --message-self: 191 85% 42%;
+    --message-other: 220 10% 20%;
+  }
+}
+
 @layer components {
   .flex-center {
     @apply flex items-center justify-center;
@@ -44,7 +94,7 @@
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
-    box-shadow: inset 10px 10px #1fe1f9;
+    box-shadow: inset 10px 10px hsl(var(--primary));
   }
   .checkbox:checked::before {
     transform: scale(1);
@@ -62,7 +112,7 @@
   .md-editor .toastui-editor-defaultUI {
     border-bottom: none;
     border-radius: 0;
-    border-top: 1px solid #d0d5dd;
+    border-top: 1px solid hsl(var(--border));
     border-left: none;
     border-right: none;
   }
@@ -137,7 +187,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-    color: #667085;
+    color: hsl(var(--muted-foreground));
   }
   .setting-container .tip {
     display: flex;
@@ -148,7 +198,7 @@
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    color: #06b6d4;
+    color: hsl(var(--primary));
   }
   /* context menu */
   .context-menu {
@@ -156,7 +206,7 @@
     flex-direction: column;
     gap: 2px;
     padding: 4px;
-    background-color: #fff;
+    background-color: hsl(var(--popover));
     box-shadow:
       0 20px 25px 20px rgba(31, 41, 55, 0.1),
       0 10px 10px rgba(31, 41, 55, 0.04);
@@ -176,7 +226,7 @@
     font-weight: 600;
     font-size: 14px;
     line-height: 20px;
-    color: #616161;
+    color: hsl(var(--muted-foreground));
   }
   .context-menu .item .icon {
     width: 20px;
@@ -186,8 +236,8 @@
     justify-content: space-between;
   }
   .context-menu .item:hover {
-    background-color: #22ccee;
-    color: #fff;
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
   .context-menu .item:hover svg {
     fill: white;
@@ -205,17 +255,17 @@
     box-sizing: border-box;
     width: calc(88%);
     height: 1px;
-    background-color: #aaa;
+    background-color: hsl(var(--border));
   }
   .context-menu .item.danger {
-    color: #a11043;
+    color: hsl(var(--destructive));
   }
   .context-menu .item.danger:hover {
-    background-color: #b42318;
-    color: #fff;
+    background-color: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
   }
   .context-menu .item[data-disabled="true"] {
-    color: #a4a8b3;
+    color: hsl(var(--muted-foreground) / 0.5);
   }
   .context-menu .sub-menu {
     display: none;
@@ -227,12 +277,6 @@
   .context-menu .sub-menu:hover {
     display: flex;
   }
-  html.dark .context-menu {
-    background-color: black;
-  }
-  html.dark .context-menu .item {
-    color: white;
-  }
   /* text fill transparent */
   .text-fill-transparent {
     -webkit-background-clip: text;
@@ -242,7 +286,7 @@
 }
 /* 全局设置滚动条 */
 ::-webkit-scrollbar-thumb {
-  background: #ddd;
+  background: hsl(var(--border));
   border-radius: 4px;
 }
 ::-webkit-scrollbar-corner {
@@ -254,7 +298,7 @@
   height: 5px;
 }
 html.dark ::-webkit-scrollbar-thumb {
-  background: rgb(17 24 39);
+  background: hsl(var(--muted-foreground) / 0.3);
 }
 /* markdown overrides */
 #MARKDOWN_CONTAINER .toastui-editor-contents {
@@ -332,7 +376,7 @@ html.dark ::-webkit-scrollbar-thumb {
   align-items: flex-start;
 }
 html.dark .send.markdown {
-  background-color: #222 !important;
+  background-color: hsl(var(--card)) !important;
 }
 
 /* remove focus border */
@@ -370,7 +414,7 @@ input[type="number"]::-webkit-outer-spin-button {
   line-height: 18px;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  color: #667085;
+  color: hsl(var(--muted-foreground));
   content: attr(data-group-title);
   position: absolute;
   left: 8px;

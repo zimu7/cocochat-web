@@ -20,7 +20,7 @@ const APIDocument = () => {
       <div className="font-semibold dark:text-white">{t("api_doc.desc")}</div>
       <div className="font-semibold dark:text-white">{t("api_doc.swagger")}</div>
       <div className="flex flex-col gap-2 w-full">
-        <h2 className="text-gray-700 dark:text-white text-lg font-semibold flex gap-1">
+        <h2 className="text-foreground dark:text-white text-lg font-semibold flex gap-1">
           {t("api_doc.access")}
           <a
             href={APIUrl}
@@ -33,24 +33,24 @@ const APIDocument = () => {
         </h2>
       </div>
       <div className="flex flex-col gap-2 w-full">
-        <h2 className="text-gray-700 dark:text-white text-lg font-semibold">
+        <h2 className="text-foreground dark:text-white text-lg font-semibold">
           {t("api_doc.use_method")}
         </h2>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <h3 className="text-gray-700 dark:text-white ">{t("api_doc.step_1")}</h3>
+            <h3 className="text-foreground dark:text-white ">{t("api_doc.step_1")}</h3>
             {/* <div className="flex flex-col gap-1"> */}
             <img
-              className="border border-solid rounded-md border-gray-300 shadow-lg md:w-[50%]"
+              className="border border-solid rounded-md border-border shadow-lg md:w-[50%]"
               src="/steps/step-1.jpg"
               alt="step 1"
             />
             {/* </div> */}
           </div>
           <div className="flex flex-col gap-2">
-            <h3 className="text-gray-700 dark:text-white flex flex-col items-start gap-2">
+            <h3 className="text-foreground dark:text-white flex flex-col items-start gap-2">
               {t("api_doc.step_2")}{" "}
-              <span className="text-gray-400 dark:text-white text-xs">
+              <span className="text-muted-foreground dark:text-white text-xs">
                 ({t("api_doc.step_2_desc")})
               </span>
             </h3>
@@ -64,22 +64,22 @@ const APIDocument = () => {
               </p>
             </div>
             <img
-              className="border border-solid rounded-md border-gray-300 shadow-lg md:w-[50%]"
+              className="border border-solid rounded-md border-border shadow-lg md:w-[50%]"
               src="/steps/step-2-1.jpg"
               alt="step 2-1"
             />
             <img
-              className="border border-solid rounded-md border-gray-300 shadow-lg md:w-[25%]"
+              className="border border-solid rounded-md border-border shadow-lg md:w-[25%]"
               src="/steps/step-2-2.jpg"
               alt="step 2-2"
             />
           </div>
           <div className="flex flex-col gap-2">
-            <h3 className="text-gray-700 dark:text-white flex items-center gap-2">
+            <h3 className="text-foreground dark:text-white flex items-center gap-2">
               {t("api_doc.last")}
             </h3>
             <img
-              className="border border-solid rounded-md border-gray-300 shadow-lg md:w-[50%]"
+              className="border border-solid rounded-md border-border shadow-lg md:w-[50%]"
               src="/steps/step-3.jpg"
               alt="step 3"
             />

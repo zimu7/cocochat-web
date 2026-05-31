@@ -60,7 +60,7 @@ const InviteLink: FC<Props> = ({ context = "members", cid }) => {
     <>
       <div className="flex flex-col items-start pb-8">
         {context == "members" && (
-          <p className="font-semibold text-sm mb-2 text-gray-500 dark:text-gray-50 flex flex-col md:flex-row gap-4">
+          <p className="font-semibold text-sm mb-2 text-muted-foreground dark:text-gray-50 flex flex-col md:flex-row gap-4">
             {t("share_invite_link")}
             <a
               className="text-primary-500 flex gap-1 items-center"
@@ -81,7 +81,7 @@ const InviteLink: FC<Props> = ({ context = "members", cid }) => {
             {linkCopied ? "Copied" : t("action.copy", { ns: "common" })}
           </Button>
         </div>
-        <span className="text-xs text-gray-600 dark:text-gray-100 flex gap-2">
+        <span className="text-xs text-foreground dark:text-foreground flex gap-2">
           {t("invite_link_setting_tip", {
             expire: current.expire.label,
             times: current.times.label
@@ -119,7 +119,7 @@ const InviteLink: FC<Props> = ({ context = "members", cid }) => {
           >
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2 items-start">
-                <span className="text-sm dark:text-gray-100">Expire After:</span>
+                <span className="text-sm dark:text-foreground">Expire After:</span>
                 <Select
                   options={InviteLinkExpireList.map((item) => {
                     const { label, value } = item;
@@ -140,7 +140,7 @@ const InviteLink: FC<Props> = ({ context = "members", cid }) => {
                 ></Select>
               </div>
               <div className="flex flex-col gap-2 items-start">
-                <span className="text-sm dark:text-gray-100">Max Times of Uses:</span>
+                <span className="text-sm dark:text-foreground">Max Times of Uses:</span>
                 <Select
                   options={InviteLinkTimesList.map((item) => {
                     const { label, value } = item;

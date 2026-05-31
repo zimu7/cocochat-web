@@ -17,7 +17,7 @@ export function EmojiPopup({ control, isOpen, setIsOpen, children }: EmojiPopupP
           align="start"
           alignOffset={-12}
           sideOffset={20}
-          className="z-[100] bg-gray-200 dark:bg-gray-800"
+          className="z-[100] bg-secondary dark:bg-card"
         >
           {children}
         </Popover.Content>

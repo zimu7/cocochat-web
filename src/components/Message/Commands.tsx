@@ -93,13 +93,13 @@ const Commands: FC<Props> = ({
       toast.error(i18n.t("tip.added_favorites_failed"));
     }
   };
-  const cmdClass = `flex cursor-pointer p-1 md:hover:bg-gray-100 md:dark:hover:bg-gray-800`;
+  const cmdClass = `flex cursor-pointer p-1 md:hover:bg-muted md:dark:hover:bg-card`;
   return (
     <>
       <ul
         ref={cmdsRef}
         className={clsx(
-          `bg-white dark:bg-gray-900 rounded-md z-[999] absolute top-0 -translate-y-1/2 flex items-center border border-solid border-black/10 invisible group-hover:visible`,
+          `bg-white dark:bg-secondary rounded-md z-[999] absolute top-0 -translate-y-1/2 flex items-center border border-solid border-black/10 invisible group-hover:visible`,
           popoverVisible && "!visible",
           isSelf ? "left-2.5" : "right-2.5"
         )}
@@ -176,7 +176,7 @@ const Commands: FC<Props> = ({
             />
           }
         >
-          <li className="flex cursor-pointer p-1 md:hover:bg-gray-100 md:dark:hover:bg-gray-800">
+          <li className="flex cursor-pointer p-1 md:hover:bg-muted md:dark:hover:bg-card">
             <Tooltip placement="top" tip={t("more")}>
               <img src={moreIcon} alt="icon more" />
             </Tooltip>

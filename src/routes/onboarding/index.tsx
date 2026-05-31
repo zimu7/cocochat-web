@@ -63,10 +63,10 @@ const Navigator = () => {
       {steps.map((stepToRender, indexToRender) => {
         const clickable = canJumpTo.includes(stepToRender.name);
         const itemClass = clsx(
-          `text-sm text-gray-600`,
-          clickable && "cursor-pointer md:hover:text-gray-500",
+          `text-sm text-foreground`,
+          clickable && "cursor-pointer md:hover:text-muted-foreground",
           indexToRender === activeStep && "font-bold text-black",
-          indexToRender >= activeStep && "text-gray-400"
+          indexToRender >= activeStep && "text-muted-foreground"
         );
         const nodeCls = `${itemClass}`;
         return (
@@ -103,7 +103,7 @@ export default function OnboardingPage() {
   // 等待 i18n 初始化完成
   if (!ready) {
     return (
-      <div className="h-screen bg-neutral-100 dark:bg-neutral-900 flex items-center justify-center">
+      <div className="h-screen bg-background dark:bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100"></div>
       </div>
     );
@@ -112,7 +112,7 @@ export default function OnboardingPage() {
   return (
     <>
       <title>{t("welcome:onboarding.title")}</title>
-      <div className="h-screen bg-neutral-100 dark:bg-neutral-900 overflow-y-auto">
+      <div className="h-screen bg-background dark:bg-background overflow-y-auto">
         <Wizard header={<Navigator />}>
           <WelcomePage />
           <ServerName serverName={serverName} setServerName={setServerName} />

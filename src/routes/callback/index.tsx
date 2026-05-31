@@ -5,7 +5,7 @@ import PaymentSuccess from "./PaymentSuccess";
 
 const StyledWrapper = ({ children }: DOMAttributes<HTMLDivElement> & { children?: ReactNode }) => {
   return (
-    <div className="flex-center dark:bg-gray-700 dark:text-white w-screen h-screen break-words leading-normal">
+    <div className="flex-center dark:bg-card dark:text-white w-screen h-screen break-words leading-normal">
       {children}
     </div>
   );

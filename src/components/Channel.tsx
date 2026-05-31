@@ -42,7 +42,7 @@ const Channel: FC<Props> = ({ interactive = true, id, compact = false, avatarSiz
         />
       </div>
       {!compact && (
-        <div className="flex text-sm text-gray-500 font-semibold">
+        <div className="flex text-sm text-muted-foreground font-semibold">
           <span className="max-w-[140px] truncate">{name}</span> (
           {is_public ? totalMemberCount : members.length})
         </div>

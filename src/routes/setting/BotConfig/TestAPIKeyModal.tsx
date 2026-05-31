@@ -71,8 +71,8 @@ const TestAPIKeyModal = ({ closeModal }: Props) => {
                   <li
                     key={gid}
                     className={clsx(
-                      "py-1 px-2 text-gray-500 cursor-pointer md:hover:bg-slate-50",
-                      gid == currCid ? "bg-slate-100" : ""
+                      "py-1 px-2 text-muted-foreground cursor-pointer md:hover:bg-muted/50",
+                      gid == currCid ? "bg-muted" : ""
                     )}
                     onClick={handleSetChannel.bind(null, gid)}
                   >
@@ -95,8 +95,8 @@ const TestAPIKeyModal = ({ closeModal }: Props) => {
                   <li
                     onClick={handleSetMsgType.bind(null, key)}
                     className={clsx(
-                      "py-1 px-2 text-gray-500 cursor-pointer md:hover:bg-slate-50",
-                      msgType == key ? "bg-slate-100" : ""
+                      "py-1 px-2 text-muted-foreground cursor-pointer md:hover:bg-muted/50",
+                      msgType == key ? "bg-muted" : ""
                     )}
                     key={key}
                   >

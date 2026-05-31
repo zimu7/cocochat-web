@@ -58,7 +58,7 @@ const AddMembers: FC<Props> = ({ cid = 0, closeModal }) => {
   return (
     <div className="pt-4">
       {userIds.filter((uid) => !uids.includes(uid)).length === 0 ? (
-        <div className="flex items-center justify-center py-10 text-sm text-gray-400">
+        <div className="flex items-center justify-center py-10 text-sm text-muted-foreground">
           {t("no_invitable_members")}
         </div>
       ) : (

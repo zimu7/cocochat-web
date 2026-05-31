@@ -22,10 +22,10 @@ export default function RegContainer() {
       setToken(magic_token);
     }
   }, [tokenIsValid, magic_token]);
-  if (checkingToken) return <div className="dark:text-gray-100">Checking Magic Link...</div>;
+  if (checkingToken) return <div className="dark:text-foreground">Checking Magic Link...</div>;
   return (
     <>
-      <div className="flex-center h-screen overflow-x-hidden overflow-y-auto dark:bg-gray-700">
+      <div className="flex-center h-screen overflow-x-hidden overflow-y-auto dark:bg-card">
         <div className="py-8 px-10 shadow-md rounded-xl max-h-[95vh] overflow-y-auto overflow-x-hidden">
           {magic_token ? (
             tokenIsValid ? (

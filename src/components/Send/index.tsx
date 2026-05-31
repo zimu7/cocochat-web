@@ -152,7 +152,7 @@ const Send: FC<IProps> = ({
   }
   if (context == "dm" && blocked) {
     return (
-      <div className="p-5 bg-gray-200 rounded-lg w-full dark:bg-gray-600 text-red-300">
+      <div className="p-5 bg-secondary rounded-lg w-full dark:bg-secondary text-red-300">
         {t("contact_block_tip")}
         <StyledButton className="mini ml-4" onClick={unblockThisContact}>
           {t("unblock")}
@@ -167,7 +167,7 @@ const Send: FC<IProps> = ({
       {/* PC input */}
       <div
         className={clsx(
-          `send mb-2 md:mb-0 relative bg-gray-200 rounded-lg w-full dark:bg-gray-600 ${mode} ${
+          `send mb-2 md:mb-0 relative bg-muted/50 dark:bg-secondary rounded-xl w-full border border-border/50 focus-within:ring-2 focus-within:ring-primary-400/30 focus-within:border-primary-400/50 ${mode} ${
             markdownFullscreen ? "fullscreen" : ""
           } ${replying_mid ? "reply" : ""} ${context}`,
           isMarkdownMode && markdownFullscreen && "-mt-9"
@@ -178,7 +178,7 @@ const Send: FC<IProps> = ({
 
         <div
           className={clsx(
-            `flex justify-between items-center px-4 py-3.5`,
+            `flex justify-between items-center px-3 py-2.5`,
             isMarkdownMode ? `grid grid-cols-[1fr_1fr] grid-rows-[auto_auto] gap-0` : "gap-4"
           )}
         >

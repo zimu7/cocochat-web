@@ -19,14 +19,14 @@ const PinList: FC<Props> = ({ id }: Props) => {
   };
   const noPins = pins.length == 0;
   return (
-    <div className="p-4 drop-shadow-md overflow-y-scroll min-w-[320px] md:min-w-[486px] md:max-h-[90vh] rounded-xl bg-gray-50 dark:bg-gray-800">
-      <h4 className=" text-gray-600 dark:text-gray-400 mb-4 font-semibold">
+    <div className="p-4 drop-shadow-md overflow-y-scroll min-w-[320px] md:min-w-[486px] md:max-h-[90vh] rounded-xl bg-muted/50 dark:bg-card">
+      <h4 className=" text-foreground dark:text-muted-foreground mb-4 font-semibold">
         {t("pinned_msg")}({pins.length})
       </h4>
       {noPins ? (
         <div className="flex flex-col items-center gap-2 w-full p-4">
           <IconSurprise />
-          <div className="w-60 font-semibold text-gray-500 dark:text-gray-300 text-center">
+          <div className="w-60 font-semibold text-muted-foreground dark:text-muted-foreground text-center">
             {t("pin_empty_tip")}
           </div>
         </div>
@@ -39,7 +39,7 @@ const PinList: FC<Props> = ({ id }: Props) => {
                 className="group relative border border-solid border-slate-100 dark:border-slate-600 rounded-md "
               >
                 <PinnedMessage data={data} />
-                <div className="invisible group-hover:visible flex items-center gap-1 absolute top-1 right-1 p-1 border border-solid border-black/10 dark:border-gray-500 rounded-md">
+                <div className="invisible group-hover:visible flex items-center gap-1 absolute top-1 right-1 p-1 border border-solid border-black/10 dark:border-border rounded-md">
                   {canPin && (
                     <button
                       className="flex bg-none border-none"

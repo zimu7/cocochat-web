@@ -21,9 +21,9 @@ interface Props {
   type?: "chat" | "user";
 }
 const classes = {
-  box: "w-[220px] md:w-[200px] h-[100px] md:h-[200px] cursor-pointer bg-gray-50 dark:bg-gray-800 rounded-3xl flex-center flex-col gap-4",
+  box: "w-[220px] md:w-[200px] h-[100px] md:h-[200px] cursor-pointer bg-muted/50 dark:bg-card rounded-3xl flex-center flex-col gap-4",
   boxIcon: "w-7 h-7 md:w-10 md:h-10",
-  boxTip: "px-5 text-xs md:text-sm text-slate-600 dark:text-gray-100 font-bold text-center",
+  boxTip: "px-5 text-xs md:text-sm text-foreground dark:text-foreground font-bold text-center",
 };
 const BlankPlaceholder: FC<Props> = ({ type = "chat" }) => {
   const navigate = useNavigate();
@@ -49,12 +49,12 @@ const BlankPlaceholder: FC<Props> = ({ type = "chat" }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-8 -mt-[50px] dark:bg-gray-700">
+      <div className="flex flex-col items-center gap-6 -mt-[50px] dark:bg-card p-8 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-100/20 via-transparent to-transparent dark:from-primary-900/10">
         <div className="flex flex-col gap-2 items-center group px-4">
-          <h2 className="text-center text-3xl text-slate-700 dark:text-white font-bold">
+          <h2 className="text-center text-2xl font-bold text-foreground">
             {t("title", { name: server.name })}
           </h2>
-          <p className="text-sm text-gray-400 max-w-md text-center relative whitespace-normal">
+          <p className="text-sm text-muted-foreground max-w-sm text-center relative whitespace-normal">
             <Linkify
               options={{
                 render: {

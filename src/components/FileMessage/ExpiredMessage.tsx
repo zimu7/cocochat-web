@@ -66,7 +66,7 @@ const ExpiredMessage = ({ type = "file", url = "" }: Props) => {
     <div
       ref={msgRef}
       className={clsx(
-        `bg-stone-100 dark:bg-stone-900 border box-border md:w-96 rounded-md border-gray-300 dark:border-gray-500`
+        `bg-stone-100 dark:bg-stone-900 border box-border md:w-96 rounded-md border-border dark:border-border`
       )}
     >
       <div className="px-3 py-2 flex items-center justify-between gap-2">
@@ -74,13 +74,13 @@ const ExpiredMessage = ({ type = "file", url = "" }: Props) => {
         <div className="flex flex-col gap-1 w-full overflow-hidden">
           <span
             className={clsx(
-              "font-semibold text-sm truncate text-gray-800 dark:text-gray-100"
-              // error ? "text-red-500" : "text-gray-800 dark:text-gray-100"
+              "font-semibold text-sm truncate text-foreground dark:text-foreground"
+              // error ? "text-red-500" : "text-foreground dark:text-foreground"
             )}
           >
             {title}
           </span>
-          <span className="hidden md:flex whitespace-nowrap text-xs text-gray-500 dark:text-gray-300 gap-4">
+          <span className="hidden md:flex whitespace-nowrap text-xs text-muted-foreground dark:text-muted-foreground gap-4">
             <strong>{desc}</strong>
           </span>
         </div>

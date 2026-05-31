@@ -38,7 +38,7 @@ const TextInput = ({ sendMessage, placeholder }: Props) => {
     }
   );
   return (
-    <div className="md:hidden relative mb-1 p-1 flex items-center w-full text-gray-600 dark:text-white bg-gray-200 dark:bg-gray-600 rounded-lg">
+    <div className="md:hidden relative mb-1 p-1 flex items-center w-full text-foreground dark:text-white bg-secondary dark:bg-secondary rounded-lg">
       <TextareaAutoSize
         // autoFocus
         onFocus={(e) =>
@@ -48,7 +48,7 @@ const TextInput = ({ sendMessage, placeholder }: Props) => {
           )
         }
         ref={inputRef}
-        className="p-1 w-full min-h-[28px] resize-none bg-transparent text-gray-800 dark:text-white text-sm break-all"
+        className="p-1 w-full min-h-[28px] resize-none bg-transparent text-foreground dark:text-white text-sm break-all"
         maxRows={8}
         minRows={1}
         // onKeyDown={handleInputKeydown}

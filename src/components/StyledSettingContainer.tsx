@@ -36,22 +36,22 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
       <div className="w-screen h-screen flex">
         <div
           className={clsx(
-            "h-full w-full overflow-y-scroll md:max-w-[212px] px-4 py-8 bg-neutral-100 dark:bg-gray-800",
+            "h-full w-full overflow-y-scroll md:max-w-[212px] px-4 py-8 bg-background dark:bg-card",
             nav && "hidden md:block"
           )}
         >
           <h2
             onClick={closeModal}
-            className="hidden md:flex gap-2 items-center text-sm md:text-base cursor-pointer mb-8 font-bold text-gray-800 dark:text-white"
+            className="hidden md:flex gap-2 items-center text-sm md:text-base cursor-pointer mb-8 font-bold text-foreground dark:text-white"
           >
-            <IconBack className="dark:fill-gray-400" /> {title}
+            <IconBack className="dark:fill-muted-foreground" /> {title}
           </h2>
           {navs.map(({ title, items }) => {
             return (
               <ul
                 key={title}
                 data-title={title}
-                className="flex flex-col gap-0.5 mb-5 md:mb-9 before:md:pl-3 before:content-[attr(data-title)] before:font-bold before:text-xs before:text-gray-400"
+                className="flex flex-col gap-0.5 mb-5 md:mb-9 before:md:pl-3 before:content-[attr(data-title)] before:font-bold before:text-xs before:text-muted-foreground"
               >
                 {items.map(({ name, link, title }) => {
                   if (link)
@@ -59,7 +59,7 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                       <li
                         key={name}
                         className={clsx(
-                          `md:text-sm font-semibold text-gray-600 whitespace-nowrap dark:text-gray-200  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
+                          `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
                           name == nav?.name && "bg-stone-200 dark:bg-slate-500/20"
                         )}
                       >
@@ -77,7 +77,7 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                     <li
                       key={name}
                       className={clsx(
-                        `md:text-sm font-semibold text-gray-600 whitespace-nowrap dark:text-gray-200  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
+                        `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
                         name == nav?.name && "bg-stone-200 dark:bg-slate-500/20"
                       )}
                     >
@@ -110,13 +110,13 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
         </div>
         <div
           className={clsx(
-            "relative bg-white w-full max-h-full overflow-auto px-4 md:px-8 py-2 md:py-8 dark:bg-gray-700",
+            "relative bg-white w-full max-h-full overflow-auto px-4 md:px-8 py-2 md:py-8 dark:bg-card",
             !nav ? "hidden md:block" : "!pb-4"
           )}
         >
           <GoBackNav path={pathPrefix} className="!left-1 top-1.5" />
           {nav && (
-            <h4 className="font-bold text-xl text-center md:text-left text-gray-600 mb-4 md:mb-8 pl-4 md:pl-0 dark:text-gray-100">
+            <h4 className="font-bold text-xl text-center md:text-left text-foreground mb-4 md:mb-8 pl-4 md:pl-0 dark:text-foreground">
               {nav.title}
             </h4>
           )}

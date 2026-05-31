@@ -147,7 +147,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                       {pinCount}
                     </span>
                   ) : null}
-                  <IconPin className="fill-gray-500" />
+                  <IconPin className="fill-muted-foreground" />
                 </li>
               </Popover>
             </Tooltip>
@@ -163,7 +163,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                       {favCount}
                     </span>
                   ) : null}
-                  <IconFav className="fill-gray-500" />
+                  <IconFav className="fill-muted-foreground" />
                 </li>
               </Popover>
             </Tooltip>
@@ -186,9 +186,9 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                   className="flex items-center gap-1"
                 >
                   <ChannelIcon personal={!is_public} />
-                  <span className="text-gray-800 dark:text-white whitespace-nowrap">{name}</span>
+                  <span className="text-foreground dark:text-white whitespace-nowrap">{name}</span>
                 </Link>
-                <span className="ml-2 text-gray-500 hidden md:block">{description}</span>
+                <span className="ml-2 text-muted-foreground hidden md:block">{description}</span>
               </div>
               <MessageSearch context="channel" id={cid} onLocate={handleLocate} />
             </header>

@@ -141,10 +141,10 @@ const Session: FC<IProps> = ({
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={clsx(
-            `nav flex gap-2 rounded-lg p-2 w-full`,
-            isActive && "shadow-[inset_0_0_0_2px_#52edff]",
-            isCurrentPath && "bg-gray-500/20",
-            pinned ? "md:hover:bg-gray-300/20" : "md:hover:bg-gray-500/20"
+            `nav flex gap-2 rounded-lg px-3 py-2.5 w-full transition-colors duration-150`,
+            isActive && "shadow-[inset_0_0_0_2px_hsl(var(--primary))]",
+            isCurrentPath && "bg-secondary",
+            pinned ? "md:hover:bg-muted" : "md:hover:bg-secondary"
           )}
           to={navPath}
         >
@@ -168,33 +168,33 @@ const Session: FC<IProps> = ({
               <span className={clsx(`flex items-center gap-1`)}>
                 <i
                   className={clsx(
-                    "not-italic font-semibold text-sm text-gray-500 dark:text-white max-w-[120px] truncate",
+                    "not-italic font-semibold text-sm text-muted-foreground dark:text-white max-w-[120px] truncate",
                     !previewMsg.created_at && "max-w-[190px]"
                   )}
                 >
                   {type == "dm" ? <NameWithRemark uid={id} showName={false} name={name} /> : name}
                 </i>
-                {!is_public && <IconLock className="dark:fill-gray-400" />}
+                {!is_public && <IconLock className="dark:fill-muted-foreground" />}
               </span>
-              <span className={clsx("text-xs text-gray-500 max-w-[80px] truncate font-semibold")}>
+              <span className={clsx("text-xs text-muted-foreground max-w-[80px] truncate font-semibold")}>
                 {fromNowTime(previewMsg.created_at)}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className={clsx("text-xs text-gray-500  truncate", unreads > 0 ? `w-36` : ``)}>
+              <span className={clsx("text-xs text-muted-foreground  truncate", unreads > 0 ? `w-36` : ``)}>
                 {renderPreviewMessage(previewMsg)}
               </span>
               {unreads > 0 && !isCurrentPath ? (
                 <strong
                   className={clsx(
                     `text-white px-1.5 py-[3px] font-bold text-[10px] leading-[10px] rounded-[10px]`,
-                    muted ? "bg-black/10 dark:bg-gray-500" : "bg-primary-400"
+                    muted ? "bg-black/10 dark:bg-muted-foreground" : "bg-primary-400"
                   )}
                 >
                   {unreads > 99 ? "99+" : unreads}
                 </strong>
               ) : (
-                muted && <IconMute className="w-3 h-3 fill-black/10 dark:fill-gray-500" />
+                muted && <IconMute className="w-3 h-3 fill-black/10 dark:fill-muted-foreground" />
               )}
             </div>
           </div>

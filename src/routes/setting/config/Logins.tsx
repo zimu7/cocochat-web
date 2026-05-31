@@ -33,7 +33,7 @@ export default function Logins() {
               <div className="txt">
                 <Label>{t("password")}</Label>
               </div>
-              <span className="desc dark:!text-gray-400">{t("password_desc")}</span>
+              <span className="desc dark:!text-muted-foreground">{t("password_desc")}</span>
             </div>
             <Toggle
               onClick={handleToggle.bind(null, { password: !password })}
@@ -47,7 +47,7 @@ export default function Logins() {
               <div className="txt">
                 <Label>{t("magic_link")}</Label>
               </div>
-              <span className="desc dark:!text-gray-400">{t("magic_link_desc")}</span>
+              <span className="desc dark:!text-muted-foreground">{t("magic_link_desc")}</span>
             </div>
             <Toggle
               onClick={handleToggle.bind(null, { magic_link: !magic_link })}
@@ -61,7 +61,7 @@ export default function Logins() {
               <div className="txt">
                 <Label>{t("passkey")}</Label>
               </div>
-              <span className="desc dark:!text-gray-400">{t("passkey_desc")}</span>
+              <span className="desc dark:!text-muted-foreground">{t("passkey_desc")}</span>
             </div>
             <Toggle
               onClick={handleToggle.bind(null, { passkey: !passkey })}

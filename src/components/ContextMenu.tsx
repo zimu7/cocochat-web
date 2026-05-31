@@ -41,7 +41,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
             >
               {icon}
               {title}
-              <IconArrow className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+              <IconArrow className="group-hover:fill-white dark:fill-muted-foreground absolute right-2 top-2" />
               <ul className="context-menu sub-menu">
                 {subs.map((sub) => {
                   const {
@@ -67,7 +67,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
                       {subIcon}
                       {subTitle}
                       {subChecked && (
-                        <IconChecked className="group-hover:fill-white dark:fill-gray-300 absolute right-2 top-2" />
+                        <IconChecked className="group-hover:fill-white dark:fill-muted-foreground absolute right-2 top-2" />
                       )}
                     </li>
                   );

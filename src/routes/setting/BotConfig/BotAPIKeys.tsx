@@ -14,7 +14,7 @@ type Props = {
   uid: number;
 };
 type DeleteAPIKeyProps = { uid: number; kid: number };
-const tdClass = "p-1 text-xs text-gray-500 dark:text-gray-200 align-top px-1 text-left";
+const tdClass = "p-1 text-xs text-muted-foreground dark:text-muted-foreground align-top px-1 text-left";
 const BotAPIKeys = ({ uid }: Props) => {
   const { t } = useTranslation("setting", { keyPrefix: "bot" });
   const [currentUid, setCurrentUid] = useState<number | undefined>();
@@ -32,7 +32,7 @@ const BotAPIKeys = ({ uid }: Props) => {
   const colWidths = ["min-w-[80px]", "min-w-[140px]", "min-w-[140px]", "min-w-[60px]", "w-6"];
   return (
     <div className="flex flex-col gap-2 items-start">
-      <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full">
+      <div className="border-t border-solid border-b border-gray-100 dark:border-border py-2 w-full">
         <table className="w-full font-mono">
           <thead>
             <tr>
@@ -47,7 +47,7 @@ const BotAPIKeys = ({ uid }: Props) => {
                   key={title}
                   scope="col"
                   className={clsx(
-                    `text-xs text-gray-900 dark:text-gray-50 px-1 text-left pb-2`,
+                    `text-xs text-foreground dark:text-gray-50 px-1 text-left pb-2`,
                     colWidths[idx]
                   )}
                 >
@@ -78,7 +78,7 @@ const BotAPIKeys = ({ uid }: Props) => {
               })
             ) : (
               <tr>
-                <td colSpan={4} className="text-center text-xs text-gray-400 py-2">
+                <td colSpan={4} className="text-center text-xs text-muted-foreground py-2">
                   {t("no_api_key")}
                 </td>
               </tr>

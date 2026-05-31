@@ -53,7 +53,7 @@ function HomePage() {
   // 有点绕
   const chatNav = isChatHomePath ? "/chat" : chatPath || "/chat";
   const userNav = userPath || "/users";
-  const linkClass = `flex items-center gap-2.5 px-3 py-2 font-semibold text-sm text-gray-600 rounded-lg md:hover:bg-gray-800/10`;
+  const linkClass = `flex items-center gap-2.5 px-3 py-2 font-semibold text-sm text-foreground rounded-lg md:hover:bg-card/10`;
   return (
     <>
       <StreamStatus />
@@ -61,7 +61,7 @@ function HomePage() {
       {!guest && <UnreadTabTip />}
       {!guest && <Notification />}
       <div
-        className={`cocochat-container flex w-full h-screen overflow-x-hidden bg-neutral-100 dark:bg-neutral-900`}
+        className={`cocochat-container flex w-full h-screen overflow-x-hidden bg-background dark:bg-background`}
       >
         {!guest && (
           <div

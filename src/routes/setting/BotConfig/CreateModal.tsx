@@ -88,7 +88,7 @@ const CreateModal = ({ closeModal }: Props) => {
           <input type="text" name="prevent_autofill_username" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
           <input type="password" name="prevent_autofill_password" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"name"} className="text-sm text-gray-500">
+            <label htmlFor={"name"} className="text-sm text-muted-foreground">
               {t("col_name")}
             </label>
             <Input
@@ -101,7 +101,7 @@ const CreateModal = ({ closeModal }: Props) => {
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"password"} className="text-sm text-gray-500">
+            <label htmlFor={"password"} className="text-sm text-muted-foreground">
               {t("password")}
             </label>
             <Input
@@ -115,7 +115,7 @@ const CreateModal = ({ closeModal }: Props) => {
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"webhook_url"} className="text-sm text-gray-500">
+            <label htmlFor={"webhook_url"} className="text-sm text-muted-foreground">
               {t("webhook_url")}
             </label>
             <Input

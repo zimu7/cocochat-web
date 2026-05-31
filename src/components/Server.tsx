@@ -36,10 +36,10 @@ export default function Server({ readonly = false }: Props) {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <h3 className="text-sm text-gray-600 dark:text-gray-100" title={description}>
+            <h3 className="text-sm text-foreground dark:text-foreground" title={description}>
               {name}
             </h3>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-muted-foreground">
               {userCount} {t("members")}
             </span>
           </div>
@@ -60,10 +60,10 @@ export default function Server({ readonly = false }: Props) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <h3 className="text-sm text-gray-600 font-bold dark:text-gray-100" title={description}>
+              <h3 className="text-sm text-foreground font-bold dark:text-foreground" title={description}>
                 {name}
               </h3>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground">
                 {userCount} {t("members")}
               </span>
             </div>
@@ -84,7 +84,7 @@ export default function Server({ readonly = false }: Props) {
           }
         >
           <button>
-            <IconAdd className="dark:fill-gray-400" />
+            <IconAdd className="dark:fill-muted-foreground" />
           </button>
         </Popover>
       </div>

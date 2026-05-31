@@ -25,12 +25,12 @@ export default function EditFileDetails({
 
   return (
     <Modal>
-      <div className="bg-white dark:bg-gray-800 flex flex-col drop-shadow rounded-xl p-4 w-[406px]">
-        <h4 className="flex items-center justify-between font-semibold text-lg text-gray-700 dark:text-gray-100 w-full">
+      <div className="bg-white dark:bg-card flex flex-col drop-shadow rounded-xl p-4 w-[406px]">
+        <h4 className="flex items-center justify-between font-semibold text-lg text-foreground dark:text-foreground w-full">
           File Details <CloseIcon className="cursor-pointer dark:fill-white" onClick={closeModal} />
         </h4>
         <div className="py-4 flex flex-col gap-2">
-          <label className="font-semibold text-sm text-gray-600 dark:text-gray-200" htmlFor="name">
+          <label className="font-semibold text-sm text-foreground dark:text-muted-foreground" htmlFor="name">
             Name
           </label>
           <Input id="name" value={fileName} onChange={handleNameChange} />

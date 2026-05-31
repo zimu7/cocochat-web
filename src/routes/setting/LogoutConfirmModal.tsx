@@ -50,7 +50,7 @@ const LogoutConfirmModal: FC<Props> = ({ closeModal }) => {
           </>
         }
       >
-        <div className="text-sm text-gray-400 flex justify-end items-center">
+        <div className="text-sm text-muted-foreground flex justify-end items-center">
           <label htmlFor="clear_cb" className="cursor-pointer text-orange-500 mr-3">
             {t("logout.clear_local")}
           </label>

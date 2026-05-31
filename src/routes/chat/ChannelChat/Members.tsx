@@ -50,7 +50,7 @@ const Members = ({ uids, addVisible, ownerId, cid, membersVisible }: Props) => {
             onClick={toggleAddVisible}
           >
             <IconAdd className="w-6 h-6 dark:fill-slate-300" />
-            <div className="font-semibold text-sm text-gray-600 dark:text-gray-50">
+            <div className="font-semibold text-sm text-foreground dark:text-gray-50">
               {t("add_channel_members")}
             </div>
           </div>

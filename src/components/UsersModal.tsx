@@ -24,7 +24,7 @@ const UsersModal: FC<Props> = ({ closeModal }) => {
   return (
     <Modal>
       <div
-        className="flex flex-col w-80 md:w-[440px] max-h-[402px] bg-white dark:bg-gray-900 drop-shadow rounded-lg"
+        className="flex flex-col w-80 md:w-[440px] max-h-[402px] bg-white dark:bg-secondary drop-shadow rounded-lg"
         ref={wrapperRef}
       >
         <div className="shadow-md p-2">
@@ -40,7 +40,7 @@ const UsersModal: FC<Props> = ({ closeModal }) => {
             {users.map((u) => {
               const { uid = 0 } = u || {};
               return (
-                <li key={uid} className="cursor-pointer px-2 md:hover:bg-gray-600/10">
+                <li key={uid} className="cursor-pointer px-2 md:hover:bg-secondary/10">
                   <NavLink className={"w-full"} onClick={closeModal} to={`/chat/dm/${uid}`}>
                     <User uid={uid} interactive={false} />
                   </NavLink>

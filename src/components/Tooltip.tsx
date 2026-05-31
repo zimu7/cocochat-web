@@ -25,7 +25,7 @@ const Tooltip: FC<Props> = ({ tip = "", placement = "right", delay = null, disab
         <TooltipPrimitive.Content
           side={placement}
           sideOffset={6}
-          className="z-50 bg-white dark:bg-gray-800 px-3 py-2 text-xs rounded-lg drop-shadow text-gray-700 dark:text-gray-100 animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+          className="z-50 bg-white dark:bg-card px-3 py-2 text-xs rounded-lg drop-shadow text-foreground dark:text-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
         >
           {tip}
           <TooltipPrimitive.Arrow className="fill-white dark:fill-gray-800" />

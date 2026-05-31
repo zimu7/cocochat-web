@@ -50,8 +50,8 @@ export default function SendMagicLinkPage() {
   return (
     <>
       <SelectLanguage />
-      <div className="flex-center h-screen dark:bg-gray-800">
-        <div className="py-8 px-10 shadow-md rounded-xl bg-white dark:bg-gray-700">
+      <div className="flex-center h-screen dark:bg-card">
+        <div className="py-8 px-10 shadow-md rounded-xl bg-white dark:bg-card">
           {isSuccess ? (
             <SentTip email={email} handleBack={handlePwdPath} />
           ) : isLoading ? (

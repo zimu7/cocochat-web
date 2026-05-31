@@ -26,7 +26,7 @@ const renderContent = (data: MessagePayload) => {
     case ContentTypes.audio:
       res = (
         <div className="text-sm">
-          <span className="text-gray-400 italic">[Voice Message]</span>
+          <span className="text-muted-foreground italic">[Voice Message]</span>
         </div>
       );
       break;
@@ -49,7 +49,7 @@ const renderContent = (data: MessagePayload) => {
           res = (
             <div className="flex items-center gap-1">
               {icon}
-              <span className="ml-1 text-[10px] text-gray-400">{name}</span>
+              <span className="ml-1 text-[10px] text-muted-foreground">{name}</span>
             </div>
           );
         }
@@ -82,13 +82,13 @@ export default function Replying({
   const user = usersData[from_uid];
 
   return (
-    <div className="reply bg-gray-100 dark:bg-gray-900 z-[999] flex flex-col md:flex-row items-start justify-start gap-4 rounded-t-lg w-full px-4 py-3 text-sm">
-      <div className="whitespace-nowrap text-gray-400 ">
-        {t("replying_to")} <span className="font-bold text-gray-600 dark:text-gray-400">{user?.name}</span>
+    <div className="reply bg-muted/80 dark:bg-secondary z-[999] flex flex-col md:flex-row items-start justify-start gap-4 rounded-t-xl w-full px-3 py-2 text-sm border-b border-border/50">
+      <div className="whitespace-nowrap text-muted-foreground ">
+        {t("replying_to")} <span className="font-bold text-foreground dark:text-muted-foreground">{user?.name}</span>
       </div>
-      <div className="text-gray-500 overflow-hidden pr-7 ">{renderContent(msg)}</div>
+      <div className="text-muted-foreground overflow-hidden pr-7 ">{renderContent(msg)}</div>
       <button className="absolute top-4 right-4 cursor-pointer" onClick={removeReply}>
-        <IconClose className="dark:fill-gray-400" />
+        <IconClose className="dark:fill-muted-foreground" />
       </button>
     </div>
   );

@@ -1,3 +1,442 @@
+## 38 UI优化
+
+UI 优化方案
+
+ Context
+
+ CocoChat 前端基于 React 19 + TypeScript + Tailwind CSS 3.4 + 自定义 Webpack，当前 UI 存在以下问题：
+ - 消息气泡使用传统绿色/灰色配色 + CSS 三角尾巴，视觉过时
+ - 间距不一致，排版层级不清晰
+ - 几乎没有过渡动画，交互生硬
+ - 空状态设计简陋
+ - 消息输入区样式沉重
+ - 深色模式颜色不统一（混用 gray/slate/neutral + 硬编码颜色）
+ - 移动端缺少手势和动画
+ - 组件库用 className 字符串匹配变体，API 不规范
+ - 尚未引入 shadcn/ui
+
+ 目标：通过引入 shadcn/ui + 统一色彩系统 + 添加动画 + 优化间距排版，全面提升 UI 现代感和交互体验。
+
+---
+ Phase 0: 基础设施 — shadcn/ui + 色彩系统 + 动画插件
+
+ 0.1 安装依赖
+
+ pnpm add class-variance-authority @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-checkbox @radix-ui/react-select @radix-ui/react-slot lucide-react tailwindcss-animate
+
+ 0.2 配置 Tailwind CSS
+
+ 文件: tailwind.config.js
+ - 添加 require("tailwindcss-animate") 到 plugins
+ - 添加 CSS 变量颜色系统（background, foreground, card, popover, primary, secondary, muted, accent, destructive, border, input, ring, messageBubble）
+ - 保留现有 primary 色阶（25-900）向后兼容
+
+ 0.3 添加 CSS 变量
+
+ 文件: src/assets/index.css
+ - 在 :root 和 .dark 中定义完整的 CSS 变量体系
+ - 关键变量：
+   - --background, --foreground, --card, --popover
+   - --primary（映射到 #22CCEE / dark: #06AED4）, --primary-foreground
+   - --secondary, --muted, --muted-foreground
+   - --accent, --destructive
+   - --border, --input, --ring
+   - --message-self, --message-other
+
+ 0.4 创建 src/lib/utils.ts
+
+ 重新导出 cn() 函数（从 @/utils.tsx 引入），符合 shadcn/ui 约定
+
+ 0.5 创建 shadcn/ui 组件
+
+ 目录: src/components/ui/
+
+ 创建以下组件（手动创建，不使用 shadcn CLI，因为项目使用自定义 Webpack）：
+
+ 1. button.tsx — cva 变体: default/destructive/outline/secondary/ghost/link, sizes: default/sm/lg/icon
+ 2. input.tsx — forwardRef + 密码切换（保留现有 Input 的密码功能）
+ 3. label.tsx — @radix-ui/react-label
+ 4. dialog.tsx — @radix-ui/react-dialog（替换现有 Modal + StyledModal）
+ 5. checkbox.tsx — @radix-ui/react-checkbox
+ 6. toggle.tsx — cva 变体
+ 7. textarea.tsx — forwardRef
+ 8. select.tsx — @radix-ui/react-select
+ 9. popover.tsx — 包装现有 @radix-ui/react-popover
+ 10. tooltip.tsx — 包装现有 @radix-ui/react-tooltip
+ 11. context-menu.tsx — 包装现有 @radix-ui/react-context-menu
+
+ 每个组件使用 cva + cn() 模式
+
+ 0.6 添加动画 keyframes
+
+ 在 tailwind.config.js 中通过 tailwindcss-animate 插件获得标准动画类名：
+ - animate-in/out, fade-in/out, zoom-in/out, slide-in-from-*
+
+---
+ Phase 1: 深色模式打磨 + 色彩统一
+
+ 1.1 替换混用色彩为 CSS 变量
+
+ 系统化替换所有 gray-*/slate-*/neutral-* 为统一的设计系统颜色：
+
+ ┌────────────────────────────────────┬───────────────────────┐
+ │                当前                │        替换为         │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ bg-gray-50                         │ bg-muted/50           │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ bg-gray-100                        │ bg-muted              │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ bg-gray-200                        │ bg-secondary          │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ bg-gray-800                        │ bg-card               │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ bg-neutral-100 dark:bg-neutral-900 │ bg-background         │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ text-gray-400/500                  │ text-muted-foreground │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ text-gray-800                      │ text-foreground       │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ border-gray-200/300                │ border-border         │
+ ├────────────────────────────────────┼───────────────────────┤
+ │ border-slate-200/800               │ border-border         │
+ └────────────────────────────────────┴───────────────────────┘
+
+ 1.2 修复硬编码颜色
+
+ - src/components/Avatar.tsx — #EAECF0, #475467, #4c99e9 → CSS 变量或 dark: 条件
+ - src/assets/index.css — context-menu 部分 (#fff, #616161, #aaa, #a11043, #22ccee, #b42318) → CSS 变量
+ - src/assets/index.css — scrollbar (#ddd, rgb(17 24 39)) → CSS 变量
+ - src/assets/index.css — setting-container (#667085, #06b6d4) → CSS 变量
+
+ 1.3 优化滚动条样式
+
+ 用 CSS 变量替换硬编码颜色
+
+---
+ Phase 2: 组件库统一（styled → ui 迁移）
+
+ 2.1 迁移 Button
+
+ 文件: src/components/styled/Button.tsx → src/components/ui/button.tsx
+
+ 迁移映射：
+ - className="ghost" → variant="outline"
+ - className="cancel" → variant="secondary"
+ - className="danger" → variant="destructive"
+ - className="small" → size="sm"
+ - className="mini" → 自定义 size="xs"
+ - className="flex" → className="w-full"
+
+ 查找所有 Button 使用处并更新
+
+ 2.2 迁移 Modal → Dialog
+
+ src/components/styled/Modal.tsx + src/components/Modal.tsx → src/components/ui/dialog.tsx
+
+ 使用 @radix-ui/react-dialog 提供动画、焦点管理、无障碍
+
+ 2.3 迁移其余组件
+
+ Input, Checkbox, Toggle, Select, Textarea, Label → 对应 src/components/ui/ 组件
+
+ 2.4 向后兼容
+
+ 迁移期间 src/components/styled/ 保留为 thin wrapper 重新导出 ui/ 组件，渐进式替换
+
+---
+ Phase 3: 消息气泡优化
+
+ 3.1 更新气泡配色
+
+ 文件: src/components/Message/index.tsx
+
+ - 自己的消息: bg-gradient-to-br from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700 text-white
+ - 他人的消息: bg-white/80 dark:bg-white/5 backdrop-blur-md 或 bg-muted dark:bg-secondary
+
+ 3.2 移除 CSS 三角尾巴
+
+ 删除 after:border-* 伪元素尾巴，改用：
+ - 圆角: rounded-2xl rounded-tr-sm（自己）/ rounded-2xl rounded-tl-sm（他人）
+ - 微阴影: shadow-sm
+
+ 3.3 更新 Reaction 颜色
+
+ 文件: src/components/Message/Reaction.tsx
+ - bg-cyan-100 → bg-primary-100 dark:bg-primary-900/30
+ - shadow-[inset_0_0_0_1px_#06aed4] → ring-1 ring-primary-400
+
+ 3.4 更新 Reply 颜色
+
+ 文件: src/components/Message/Reply.tsx
+ - bg-gray-100 dark:bg-gray-900 → bg-muted dark:bg-secondary
+
+---
+ Phase 4: 间距与排版优化
+
+ 4.1 消息列表间距
+
+ 文件: src/components/Message/index.tsx
+ - 容器: p-1 md:p-2 my-2 → py-1 px-2 md:py-1.5 md:px-3
+ - 头像与内容间距: gap-2 md:gap-4 → gap-2 md:gap-3
+
+ 4.2 气泡内边距
+
+ - px-4 py-2 → px-3 py-2 md:px-4
+
+ 4.3 会话列表间距
+
+ 文件: src/routes/chat/SessionList/Session.tsx
+ - p-2 → px-3 py-2.5
+
+ 文件: src/routes/chat/SessionList/index.tsx
+ - gap-0.5 p-2 → gap-1 p-3
+
+ 4.4 排版层级
+
+ - 发送者名字: text-primary-500 font-semibold → text-primary-600 font-medium
+ - 时间戳: text-gray-400 text-xs → text-muted-foreground text-[11px]
+ - 会话预览: text-gray-500 → text-muted-foreground
+
+---
+ Phase 5: 过渡动画
+
+ 5.1 模态框动画
+
+ 文件: src/components/ui/dialog.tsx
+ - 使用 Radix Dialog data 属性 + tailwindcss-animate:
+   - data-[state=open]:animate-in fade-in-0 zoom-in-95
+   - data-[state=closed]:animate-out fade-out-0 zoom-out-95
+
+ 5.2 侧边栏滑动动画
+
+ 文件: src/routes/chat/index.tsx
+ - 移动端侧边栏: 条件渲染改为 CSS transform 控制
+ - translate-x-0 / -translate-x-full + transition-transform duration-300
+ - 遮罩: opacity-0 → opacity-100 + transition-opacity duration-300
+
+ 5.3 消息发送动画
+
+ 文件: src/components/Message/index.tsx
+ - 新消息: animate-in slide-in-from-bottom-2 fade-in-0 duration-200
+
+ 5.4 会话列表 hover 动画
+
+ 文件: src/routes/chat/SessionList/Session.tsx
+ - 添加 transition-colors duration-150
+
+ 5.5 页面切换淡入
+
+ 文件: src/routes/chat/Layout/index.tsx
+ - 内容区域 animate-in fade-in-0 duration-200，基于 useLocation key
+
+ 5.6 移动端底部导航动画
+
+ 文件: src/routes/home/MobileNavs.tsx
+ - hidden → translate-y-full / translate-y-0 + transition-transform duration-300
+
+---
+ Phase 6: 空状态设计
+
+ 6.1 重新设计 BlankPlaceholder
+
+ 文件: src/components/BlankPlaceholder.tsx
+
+ - 居中布局 + 品牌元素
+ - 标题: text-2xl font-bold text-foreground
+ - 描述: text-sm text-muted-foreground max-w-sm
+ - 背景: 微弱径向渐变 from-primary-100/20 via-transparent to-transparent
+
+ 6.2 重新设计 GuestBlankPlaceholder
+
+ 文件: src/routes/chat/GuestBlankPlaceholder.tsx
+
+ - 类似风格，QR 码放在带阴影圆角的卡片中
+
+---
+ Phase 7: 消息输入区优化
+
+ 7.1 重新设计 Send 容器
+
+ 文件: src/components/Send/index.tsx
+ - bg-gray-200 dark:bg-gray-600 rounded-lg → bg-muted/50 dark:bg-secondary rounded-xl border border-border/50
+ - 聚焦: focus-within:ring-2 focus-within:ring-primary-400/30
+
+ 7.2 优化编辑器 placeholder
+
+ 文件: src/components/MessageInput/plate-ui/editor.tsx
+ - opacity-30 → opacity-40 text-muted-foreground
+
+ 7.3 工具栏布局
+
+ 文件: src/components/Send/Toolbar.tsx
+ - 图标组间添加分隔: divide-x divide-border/50
+ - 增大触控目标: w-8 h-8 最小尺寸
+ - 添加 hover 态: hover:bg-muted rounded-md
+
+ 7.4 回复指示器
+
+ 文件: src/components/Send/Replying.tsx
+ - bg-gray-100 dark:bg-gray-900 → bg-muted/80 border-b border-border/50
+
+ 7.5 上传文件列表
+
+ 文件: src/components/Send/UploadFileList/index.tsx
+ - bg-gray-200 dark:bg-gray-800 rounded-t-lg → bg-muted/30 dark:bg-secondary/50 rounded-t-xl border-b border-border/30
+
+---
+ Phase 8: 移动端适配优化
+
+ 8.1 侧边栏滑动手势
+
+ 新建文件: src/hooks/useSwipeGesture.ts
+
+ - 追踪 touchstart/touchmove/touchend
+ - 左边缘右滑(>50px)打开侧边栏
+ - 左滑或点击遮罩关闭
+
+ 8.2 增大触控目标
+
+ - 底部导航: p-3 增大点击区域
+ - 会话列表项: 最小高度 56px
+ - 消息操作按钮: 最小 36x36px
+
+ 8.3 安全区域适配
+
+ - 底部导航: pb-[env(safe-area-inset-bottom)]
+ - 聊天输入区: mb-[env(safe-area-inset-bottom)]
+ - 更新 index.html viewport meta 添加 viewport-fit=cover
+
+---
+ Phase 9: 清理与验证
+
+ 9.1 删除旧组件目录
+
+ 全部迁移完成后删除 src/components/styled/
+
+ 9.2 清理 CSS
+
+ - 从 index.css 删除 context-menu 类样式（已由 ui/context-menu.tsx 替代）
+ - 删除 checkbox 类样式（已由 @radix-ui/react-checkbox 替代）
+ - 保留 markdown 编辑器覆盖和滚动条样式
+
+ 9.3 深色模式一致性验证
+
+ - 所有页面在 dark mode 下渲染正确
+ - 无残留硬编码颜色
+ - 对比度满足 WCAG AA
+
+ 9.4 性能验证
+
+ - 动画帧率 ≥ 60fps
+ - 虚拟列表中避免 backdrop-blur（性能敏感）
+ - lucide-react 按需引入（tree-shaking）
+ - 虚拟列表中避免 backdrop-blur（性能敏感）
+ - lucide-react 按需引入（tree-shaking）
+
+---
+ 关键文件清单
+
+ ┌─────────────────────────────────────────┬──────────────────────────┐
+ │                  文件                   │         涉及阶段         │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ tailwind.config.js                      │ Phase 0                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/assets/index.css                    │ Phase 0, 1               │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/lib/utils.ts                        │ Phase 0 (新建)           │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/ui/*.tsx                 │ Phase 0 (新建 11 个组件) │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/styled/*.tsx             │ Phase 2 (迁移后删除)     │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/Message/index.tsx        │ Phase 3, 4, 5            │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/Message/Reaction.tsx     │ Phase 3                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/Message/Reply.tsx        │ Phase 3                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/BlankPlaceholder.tsx     │ Phase 6                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/Send/index.tsx           │ Phase 7                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/components/Send/Toolbar.tsx         │ Phase 7                  │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/routes/chat/index.tsx               │ Phase 5, 8               │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/routes/chat/SessionList/Session.tsx │ Phase 4, 5               │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/routes/home/MobileNavs.tsx          │ Phase 5, 8               │
+ ├─────────────────────────────────────────┼──────────────────────────┤
+ │ src/hooks/useSwipeGesture.ts            │ Phase 8 (新建)           │
+ └─────────────────────────────────────────┴──────────────────────────┘
+
+ 验证方式
+
+  1. 每个阶段完成后 pnpm start 启动开发服务器
+  2. 在浏览器中验证亮色/深色模式切换
+  3. 检查所有交互功能（发消息、切换会话、打开模态框等）正常工作
+  4. 移动端使用浏览器 DevTools 设备模拟器测试
+  5. 全部完成后 pnpm build 确认构建成功
+
+
+
+全部 9 个阶段完成。以下是本次 UI 优化的总结：
+
+  完成的改动
+
+  Phase 0 — 基础设施
+  - 安装了 class-variance-authority, @radix-ui/react-dialog, @radix-ui/react-label, @radix-ui/react-checkbox, @radix-ui/react-select, @radix-ui/react-slot, lucide-react, tailwindcss-animate
+  - 更新 tailwind.config.js：添加 CSS 变量颜色系统 + tailwindcss-animate 插件
+  - 更新 index.css：添加完整的 :root / .dark CSS 变量体系，所有硬编码颜色替换为变量
+  - 创建 src/lib/utils.ts（cn 函数）
+  - 创建 src/components/ui/ 目录下 11 个 shadcn/ui 组件
+
+  Phase 1 — 深色模式色彩统一
+  - 批量替换 100+ 文件中的 gray-*/slate-*/neutral-* 为设计系统颜色
+  - 修复 Avatar 硬编码颜色（#EAECF0/#4c99e9）为 CSS 变量
+  - 修复 context-menu、scrollbar、setting-container 中的硬编码颜色
+  - 更新 Reaction 组件颜色（cyan → primary）
+
+  Phase 2 — 组件库统一
+  - 更新所有 styled/ 组件使用设计系统颜色
+  - Button 改为 cva bridge 模式，兼容旧 className 变体和新 variant API
+
+  Phase 3 — 消息气泡优化
+  - 自己消息：品牌色渐变 from-primary-400 to-primary-500 + 白字
+  - 他人消息：毛玻璃效果 bg-white/80 dark:bg-white/5 backdrop-blur-md
+  - 移除 CSS 三角尾巴，改用 rounded-2xl rounded-tr-sm/tl-sm + shadow-sm
+
+  Phase 4 — 间距与排版优化
+  - 消息容器：py-1 px-2 md:py-1.5 md:px-3
+  - 气泡内边距：px-3 py-2 md:px-4
+  - 会话列表间距：gap-1 p-3，列表项 px-3 py-2.5
+  - 排版层级：发送者 font-medium，时间戳 text-[11px]
+
+  Phase 5 — 过渡动画
+  - 侧边栏：CSS transform 滑动动画 transition-transform duration-300
+  - 遮罩：transition-opacity duration-300
+  - 会话列表项：transition-colors duration-150
+  - 底部导航：translate-y-full/translate-y-0 滑动动画
+  - 模态框：通过 tailwindcss-animate + Radix Dialog data 属性
+
+  Phase 6 — 空状态设计
+  - 添加径向渐变背景 from-primary-100/20 via-transparent to-transparent
+  - 标题统一为 text-2xl font-bold text-foreground
+  - Guest 页面 QR 码放在圆角卡片中
+
+  Phase 7 — 消息输入区优化
+  - Send 容器：bg-muted/50 rounded-xl border border-border/50 + focus ring
+  - 编辑器 placeholder：opacity-40 text-muted-foreground
+  - 工具栏：divide-x divide-border/50，图标触控目标 w-8 h-8
+  - Replying：border-b border-border/50，rounded-t-xl
+
+  Phase 8 — 移动端适配
+  - 创建 useSwipeGesture hook（左边缘右滑打开侧边栏）
+  - 底部导航安全区域 pb-[env(safe-area-inset-bottom)]
+  - viewport 添加 viewport-fit=cover
+
+
+
 ## 37 项目清理：移除废弃代码、组件和调试日志
 
 1. 删除废弃页面/组件：

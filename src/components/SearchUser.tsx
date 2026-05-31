@@ -91,7 +91,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
   const inputType = type == "id" ? "number" : type == "email" ? "email" : "text";
   return (
     <Modal>
-      <div className=" relative flex flex-col gap-2 w-96 px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-900 text-slate-900 dark:text-slate-100">
+      <div className=" relative flex flex-col gap-2 w-96 px-4 py-3 rounded-lg bg-muted dark:bg-secondary text-foreground dark:text-foreground">
         <div className="flex items-center gap-2 py-2">
           <StyledButton
             className={clsx("mini", type !== "name" && "ghost !border-none !shadow-none")}
@@ -118,7 +118,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
             type={inputType}
             className="none"
             disabled={isLoading}
-            prefix={<IconSearch className="dark:fill-gray-400 w-6 h-6 shrink-0" />}
+            prefix={<IconSearch className="dark:fill-muted-foreground w-6 h-6 shrink-0" />}
             value={input[type]}
             placeholder={`${
               type == "email"
@@ -157,7 +157,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
                   width={120}
                   height={120}
                 />
-                <span className="my-2 dark:text-gray-100 text-gray-950">{data.name}</span>
+                <span className="my-2 dark:text-foreground text-gray-950">{data.name}</span>
                 <div className="flex gap-2 my-2">
                   <StyledButton className="mini ghost" onClick={handleSendMsg}>
                     {t("send_msg", { ns: "member" })}
@@ -175,7 +175,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
               </div>
             ) : (
               <div className="w-full h-full text-center flex flex-col gap-3 items-center">
-                <span className="text-sm text-gray-800 dark:text-gray-200">
+                <span className="text-sm text-foreground dark:text-muted-foreground">
                   {t("search_not_found", { ns: "member" })}
                 </span>
                 <StyledButton className="mini" onClick={resetInput}>

@@ -17,14 +17,14 @@ const FavList: FC<Props> = ({ cid = null, uid = null }) => {
   };
   const noFavs = favorites.length == 0;
   return (
-    <div className="p-4 bg-slate-50 dark:bg-slate-800 rounded-xl min-w-[500px] max-w-[600px] max-h-[500px] overflow-auto drop-shadow-[0px_25px_50px_rgba(31,_41,_55,_0.25)]">
-      <h4 className="font-bold text-gray-600 dark:text-gray-400 mb-4">
+    <div className="p-4 bg-muted/50 dark:bg-card rounded-xl min-w-[500px] max-w-[600px] max-h-[500px] overflow-auto drop-shadow-[0px_25px_50px_rgba(31,_41,_55,_0.25)]">
+      <h4 className="font-bold text-foreground dark:text-muted-foreground mb-4">
         {t("fav_msg")}({favorites.length})
       </h4>
       {noFavs ? (
         <div className="flex flex-col gap-2 w-full items-center p-4">
           <IconSurprise />
-          <div className="w-60 text-gray-600 dark:text-gray-400 text-center font-bold">
+          <div className="w-60 text-foreground dark:text-muted-foreground text-center font-bold">
             {t("fav_empty_tip")}
           </div>
         </div>
@@ -34,10 +34,10 @@ const FavList: FC<Props> = ({ cid = null, uid = null }) => {
             return (
               <li
                 key={id}
-                className="relative border border-solid border-slate-200 dark:border-gray-600 rounded-md group"
+                className="relative border border-solid border-border dark:border-gray-600 rounded-md group"
               >
                 <FavoredMessage id={id} />
-                <div className="flex items-center absolute top-2 right-2 border border-solid border-gray-300 dark:border-gray-600 rounded-md overflow-hidden invisible group-hover:visible">
+                <div className="flex items-center absolute top-2 right-2 border border-solid border-border dark:border-gray-600 rounded-md overflow-hidden invisible group-hover:visible">
                   <button className="flex-center w-6 h-6 p-1" data-id={id} onClick={handleRemove}>
                     <IconRemove className="fill-slate-900 dark:fill-slate-500" />
                   </button>

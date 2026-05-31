@@ -19,7 +19,7 @@ const renderContent = (data: MessagePayload, context: ChatContext, to: number) =
   switch (content_type) {
     case ContentTypes.text:
       res = (
-        <span className="max-w-3xl md:break-words md:break-all text-gray-800 dark:text-gray-100 whitespace-break-spaces">
+        <span className="max-w-3xl md:break-words md:break-all text-foreground dark:text-foreground whitespace-break-spaces">
           <LinkifyText
             text={content as string}
             url={false}
@@ -34,7 +34,7 @@ const renderContent = (data: MessagePayload, context: ChatContext, to: number) =
       break;
     case ContentTypes.markdown:
       res = (
-        <div className="max-h-[152px] overflow-hidden dark:text-gray-100">
+        <div className="max-h-[152px] overflow-hidden dark:text-foreground">
           <MarkdownRender content={content as string} />
         </div>
       );
@@ -49,7 +49,7 @@ const renderContent = (data: MessagePayload, context: ChatContext, to: number) =
           res = (
             <div className="flex gap-1">
               {icon}
-              <span className="text-[10px] text-gray-500 dark:text-gray-100">{name}</span>
+              <span className="text-[10px] text-muted-foreground dark:text-foreground">{name}</span>
             </div>
           );
         }
@@ -93,8 +93,8 @@ const Reply: FC<ReplyProps> = ({ mid, interactive = true, context, to = 0 }) => 
     const { mid } = evt.currentTarget.dataset;
     const msgEle = document.querySelector<HTMLDivElement>(`[data-msg-mid='${mid}']`);
     if (msgEle) {
-      const _class1 = `md:dark:bg-gray-800`;
-      const _class2 = `md:bg-gray-100`;
+      const _class1 = `md:dark:bg-card`;
+      const _class2 = `md:bg-muted`;
       msgEle.classList.add(_class1);
       msgEle.classList.add(_class2);
       msgEle.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -111,7 +111,7 @@ const Reply: FC<ReplyProps> = ({ mid, interactive = true, context, to = 0 }) => 
       }
     }
   };
-  const defaultClass = `w-fit flex items-start flex-col md:flex-row p-2 bg-gray-100 dark:bg-gray-900 rounded-lg gap-2 mb-1`;
+  const defaultClass = `w-fit flex items-start flex-col md:flex-row p-2 bg-muted dark:bg-secondary rounded-lg gap-2 mb-1`;
   if (!data)
     return (
       <div key={mid} data-mid={mid} className={clsx(defaultClass, "italic")}>

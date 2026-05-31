@@ -70,7 +70,7 @@ function Files() {
     })
     .sort((a, b) => b.created_at - a.created_at);
   return (
-    <div className="h-screen max-w-full overflow-hidden flex flex-col my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-gray-700">
+    <div className="h-screen max-w-full overflow-hidden flex flex-col my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-card">
       {/* <Search value={filter.name} updateSearchValue={handleUpdateSearch} /> */}
       <div className="flex justify-between w-full px-4 py-5 shrink-0">
         <Filter filter={filter} updateFilter={updateFilter} />

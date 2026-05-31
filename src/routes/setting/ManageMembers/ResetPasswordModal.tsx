@@ -40,7 +40,7 @@ const ResetPasswordModal = ({ uid, name, closeModal }: Props) => {
   }, [isSuccess]);
 
   const inputClass = "my-2 w-full flex flex-col items-start gap-1";
-  const labelClass = "text-gray-400 font-semibold text-xs";
+  const labelClass = "text-muted-foreground font-semibold text-xs";
 
   return (
     <Modal id="modal-modal">

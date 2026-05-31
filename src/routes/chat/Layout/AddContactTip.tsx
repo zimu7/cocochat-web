@@ -22,13 +22,13 @@ const AddContactTip = (props: Props) => {
   const handleContactStatus = (action: ContactAction) => {
     updateContactStatus({ target_uid: props.uid, action });
   };
-  const itemClass = `cursor-pointer flex flex-col items-center gap-1 rounded-lg w-32 text-primary-400 bg-gray-50 dark:bg-gray-800 text-sm pt-3.5 pb-3`;
+  const itemClass = `cursor-pointer flex flex-col items-center gap-1 rounded-lg w-32 text-primary-400 bg-muted/50 dark:bg-card text-sm pt-3.5 pb-3`;
   if (!targetUser || !enableContact) return null;
   if (targetUser.status == "added") return null;
   const blocked = targetUser.status == "blocked";
   return (
-    <div className="py-4 px-10 flex flex-col items-center gap-3 bg-slate-100 dark:bg-slate-600">
-      <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold">
+    <div className="py-4 px-10 flex flex-col items-center gap-3 bg-muted dark:bg-slate-600">
+      <h3 className="text-foreground dark:text-muted-foreground text-sm font-semibold">
         {blocked ? t("contact_block_tip") : t("contact_tip")}
       </h3>
       <ul className="flex gap-4">

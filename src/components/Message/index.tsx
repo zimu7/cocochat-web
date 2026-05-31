@@ -121,7 +121,7 @@ const Message: FC<IProps> = ({
       data-msg-mid={mid}
       ref={inViewRef}
       className={clsx(
-        `group w-full relative flex items-start gap-2 md:gap-4 p-1 md:p-2 my-2 rounded-lg md:dark:hover:bg-gray-800 md:hover:bg-gray-100`,
+        `group w-full relative flex items-start gap-2 md:gap-3 py-1 px-2 md:py-1.5 md:px-3 my-1 rounded-lg md:dark:hover:bg-card md:hover:bg-muted`,
         readOnly && "hover:bg-transparent",
         showExpire && "bg-red-200 dark:bg-red-200/40",
         pinInfo && "bg-cyan-50 dark:bg-cyan-800 !pt-7",
@@ -161,7 +161,7 @@ const Message: FC<IProps> = ({
           {pinInfo && (
             <span
               className={clsx(
-                "absolute -top-1 -translate-y-full text-xs text-gray-400",
+                "absolute -top-1 -translate-y-full text-xs text-muted-foreground",
                 isSelf ? "right-0" : "left-0"
               )}
             >
@@ -171,7 +171,7 @@ const Message: FC<IProps> = ({
           <div
             className={clsx(`flex items-center gap-2 font-semibold`, isSelf && "flex-row-reverse")}
           >
-            <span className="text-primary-500 text-sm leading-5">
+            <span className="text-primary-600 text-sm leading-5 font-medium">
               {currUser?.name ? (
                 <NameWithRemark uid={currUser.uid} showName={false} name={currUser.name} />
               ) : (
@@ -185,7 +185,7 @@ const Message: FC<IProps> = ({
               placement="top"
               tip={dayjsTime.format(fullDatetimeFormat)}
             >
-              <time className="text-gray-400 text-xs leading-5">
+              <time className="text-muted-foreground text-xs leading-5">
                 {timePrefix
                   ? `${timePrefix} ${dayjsTime.format(timeFormat)}`
                   : dayjsTime.format(datetimeFormat)}
@@ -199,13 +199,13 @@ const Message: FC<IProps> = ({
           </div>
           <div
             className={clsx(
-              `vc-msg select-text text-gray-800 text-sm wb whitespace-pre-wrap dark:!text-white pr-6 md:pr-0`,
+              `vc-msg select-text text-sm wb whitespace-pre-wrap pr-6 md:pr-0`,
               isTextMessage &&
-                "relative max-w-full md:max-w-[640px] rounded px-4 py-2 text-gray-900 !pr-4 dark:!text-gray-100 after:content-[''] after:absolute after:top-2.5 after:border-y-[6px] after:border-y-transparent",
+                "relative max-w-full md:max-w-[640px] px-3 py-2 md:px-4 shadow-sm",
               isTextMessage &&
                 (isSelf
-                  ? "bg-messageBubble-self-light dark:bg-messageBubble-self-dark after:right-[-8px] after:border-l-[8px] after:border-l-messageBubble-self-light dark:after:border-l-messageBubble-self-dark"
-                  : "bg-messageBubble-other-light dark:bg-messageBubble-other-dark after:left-[-8px] after:border-r-[8px] after:border-r-messageBubble-other-light dark:after:border-r-messageBubble-other-dark"),
+                  ? "rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700 text-white !pr-4"
+                  : "rounded-2xl rounded-tl-sm bg-white/80 dark:bg-white/5 backdrop-blur-md text-foreground"),
               sending && "opacity-90"
             )}
           >

@@ -52,7 +52,7 @@ const AvatarUploader: FC<Props> = ({
       style={{ width: `${size}px`, height: `${size}px` }}
       className={clsx(className, "relative group")}
     >
-      <div className="group overflow-hidden relative w-full h-full rounded-full bg-gray-50">
+      <div className="group overflow-hidden relative w-full h-full rounded-full bg-muted/50">
         <Avatar
           width={size}
           height={size}

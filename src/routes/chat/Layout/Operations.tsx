@@ -59,7 +59,7 @@ const Operations: FC<Props> = ({ context, id }) => {
   });
   const canDel = canDelete(mids);
 
-  const optClass = `p-2 bg-slate-100 dark:bg-slate-800 rounded md:hover:bg-slate-300 dark:md:hover:bg-slate-900`;
+  const optClass = `p-2 bg-muted dark:bg-card rounded md:hover:bg-slate-300 dark:md:hover:bg-secondary`;
   return (
     <>
       <div className="relative p-4 flex-center gap-8 shadow-md">

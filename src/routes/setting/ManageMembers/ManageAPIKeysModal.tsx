@@ -72,7 +72,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
     }
   }, [deleteSuccess]);
 
-  const tdClass = "p-1 text-xs text-gray-500 dark:text-gray-200 align-top px-1 text-left";
+  const tdClass = "p-1 text-xs text-muted-foreground dark:text-muted-foreground align-top px-1 text-left";
 
   return (
     <Modal id="modal-modal">
@@ -104,7 +104,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
           <div className="flex flex-col gap-4 w-full">
             {/* Add new key */}
             <div className="flex flex-col gap-1 w-full">
-              <label className="text-xs text-gray-700 dark:text-gray-300 font-semibold text-left">{t("key_name")}</label>
+              <label className="text-xs text-foreground dark:text-muted-foreground font-semibold text-left">{t("key_name")}</label>
               <div className="flex gap-2">
                 <Input
                   value={newKeyName}
@@ -124,8 +124,8 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
 
             {/* Existing keys list */}
             <div className="flex flex-col gap-2 w-full items-start mt-4">
-              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">{t("existing_keys")}</span>
-              <div className="border-t border-solid border-b border-gray-100 dark:border-gray-500 py-2 w-full text-left">
+              <span className="text-xs font-semibold text-foreground dark:text-muted-foreground">{t("existing_keys")}</span>
+              <div className="border-t border-solid border-b border-gray-100 dark:border-border py-2 w-full text-left">
                 <table className="w-full font-mono">
                 <thead>
                   <tr>
@@ -133,7 +133,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
                       <th
                         key={idx}
                         scope="col"
-                        className="text-xs text-gray-900 dark:text-gray-50 px-1 text-left pb-2"
+                        className="text-xs text-foreground dark:text-gray-50 px-1 text-left pb-2"
                       >
                         {title}
                       </th>
@@ -155,7 +155,7 @@ const ManageAPIKeysModal = ({ uid, closeModal }: Props) => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={3} className="text-center text-xs text-gray-400 py-2">
+                      <td colSpan={3} className="text-center text-xs text-muted-foreground py-2">
                         {t("no_api_key")}
                       </td>
                     </tr>

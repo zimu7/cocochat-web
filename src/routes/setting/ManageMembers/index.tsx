@@ -16,7 +16,7 @@ import ManageAPIKeysModal from "./ManageAPIKeysModal";
 import DeleteUserModal from "./DeleteUserModal";
 
 const tdClass =
-  "px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 align-middle";
+  "px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground dark:text-foreground align-middle";
 
 type UserTarget = { uid: number; name: string };
 
@@ -86,7 +86,7 @@ export default function ManageMembers() {
           <h2 className="font-semibold flex gap-4 items-center dark:text-white">
             {t("manage_members")}
           </h2>
-          <p className="text-gray-400 text-xs">{t("manage_tip")}</p>
+          <p className="text-muted-foreground text-xs">{t("manage_tip")}</p>
         </div>
 
         <div className="flex items-center gap-4 w-full">
@@ -104,7 +104,7 @@ export default function ManageMembers() {
 
         <div className="w-full overflow-auto">
           <table className="min-w-full table-auto">
-            <thead className="border-b dark:border-b-gray-500 bg-gray-50 dark:bg-gray-600">
+            <thead className="border-b dark:border-b-gray-500 bg-muted/50 dark:bg-secondary">
               <tr>
                 {[
                   { title: t("username"), align: "left" },
@@ -117,7 +117,7 @@ export default function ManageMembers() {
                   <th
                     key={title}
                     scope="col"
-                    className={`text-sm font-bold text-gray-900 dark:text-gray-100 px-6 py-4 text-${align}`}
+                    className={`text-sm font-bold text-foreground dark:text-foreground px-6 py-4 text-${align}`}
                   >
                     {title}
                   </th>
@@ -132,7 +132,7 @@ export default function ManageMembers() {
                 return (
                   <tr
                     key={uid}
-                    className="bg-white dark:bg-gray-800 border-b dark:border-b-gray-500 transition duration-300 ease-in-out md:hover:bg-gray-100 dark:md:hover:bg-transparent"
+                    className="bg-white dark:bg-card border-b dark:border-b-gray-500 transition duration-300 ease-in-out md:hover:bg-muted dark:md:hover:bg-transparent"
                   >
                     <td className={tdClass}>
                       <div className="flex items-center gap-2">
@@ -146,7 +146,7 @@ export default function ManageMembers() {
                         />
                         <div>
                           <div>{name}</div>
-                          <div className="text-xs text-gray-500">#{uid}</div>
+                          <div className="text-xs text-muted-foreground">#{uid}</div>
                         </div>
                       </div>
                     </td>
@@ -167,7 +167,7 @@ export default function ManageMembers() {
                         checked={is_admin}
                         disabled={isSelf || isSuperAdmin || is_bot}
                         onChange={() => handleAdminToggle(uid, is_admin, !!is_bot)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+                        className="w-4 h-4 rounded border-border text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
                       />
                     </td>
                     <td className={`${tdClass} text-center`}>
@@ -176,7 +176,7 @@ export default function ManageMembers() {
                         checked={!!is_bot}
                         disabled={isSuperAdmin || is_admin}
                         onChange={() => handleBotToggle(uid, !!is_bot, is_admin)}
-                        className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+                        className="w-4 h-4 rounded border-border text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
                       />
                     </td>
                     <td className={tdClass}>
@@ -217,7 +217,7 @@ export default function ManageMembers() {
                 <tr>
                   <td
                     colSpan={6}
-                    className="text-center text-sm text-gray-400 py-8"
+                    className="text-center text-sm text-muted-foreground py-8"
                   >
                     {t("search_empty")}
                   </td>

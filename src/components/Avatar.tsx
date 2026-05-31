@@ -1,11 +1,8 @@
 import { FC, ImgHTMLAttributes, useState } from "react";
 
-import { getInitials } from "../utils";
+import { getInitials, isDarkMode } from "../utils";
 
 interface Props extends ImgHTMLAttributes<HTMLImageElement> {
-  // className?: string;
-  // alt?: string;
-  // src?: string;
   width: number;
   height: number;
   name?: string;
@@ -57,8 +54,8 @@ const Avatar: FC<Props> = ({
         fontSize: getFontSize(width),
         fontWeight: 400,
         fontFamily: "'Lato', 'Lato-Regular', 'Helvetica Neue'",
-        background: type === "channel" ? "#EAECF0" : "#4c99e9",
-        color: type === "channel" ? "#475467" : "#FFFFFF"
+        background: type === "channel" ? (isDarkMode() ? "hsl(var(--card))" : "#EAECF0") : "hsl(var(--primary))",
+        color: type === "channel" ? (isDarkMode() ? "hsl(var(--foreground))" : "#475467") : "#FFFFFF"
       }}
     >
       <span className="whitespace-nowrap" style={{ transform: `scale(${scaleVal})` }}>

@@ -25,10 +25,10 @@ const ForwardedMessage: FC<Props> = ({ context, to, from_uid, id }) => {
       setForwards(
         <div
           data-forwarded-mids={forward_mids.join(",")}
-          className="flex flex-col text-left rounded-lg bg-gray-200 dark:bg-gray-800"
+          className="flex flex-col text-left rounded-lg bg-secondary dark:bg-card"
         >
-          <h4 className="p-2 pb-0 flex items-center gap-1 text-gray-500 text-xs">
-            <IconForward className="w-4 h-4 fill-gray-500" />
+          <h4 className="p-2 pb-0 flex items-center gap-1 text-muted-foreground text-xs">
+            <IconForward className="w-4 h-4 fill-muted-foreground" />
             {t("action.forward")}
           </h4>
           <div className="list">
@@ -46,9 +46,9 @@ const ForwardedMessage: FC<Props> = ({ context, to, from_uid, id }) => {
                   )}
                   <div className="w-full flex flex-col">
                     <div className="flex items-center gap-2 font-semibold">
-                      <span className="text-gray-500 text-sm">{user?.name || "Deleted User"}</span>
+                      <span className="text-muted-foreground text-sm">{user?.name || "Deleted User"}</span>
                     </div>
-                    <div className="select-text text-gray-500 text-sm break-all whitespace-pre-wrap dark:text-white">
+                    <div className="select-text text-muted-foreground text-sm break-all whitespace-pre-wrap dark:text-white">
                       {renderContent({
                         download,
                         context,

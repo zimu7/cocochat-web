@@ -45,11 +45,11 @@ export default function UploadFileList({ context, id }: { context: ChatContext; 
         />
       )}
 
-      <ul className="w-full overflow-auto flex gap-2 justify-start p-4 pt-6 bg-gray-200 dark:bg-gray-800 rounded-t-lg">
+      <ul className="w-full overflow-auto flex gap-2 justify-start p-4 pt-6 bg-muted/30 dark:bg-secondary/50 rounded-t-xl border-b border-border/30">
         {stageFiles.map(({ name, url, size, type, converting, uploading, uploaded, progress }, idx: number) => {
           return (
             <li
-              className="group relative flex flex-col bg-gray-100 dark:bg-gray-700 rounded p-2"
+              className="group relative flex flex-col bg-muted dark:bg-card rounded p-2"
               key={url}
             >
               {(uploading || converting) && (
@@ -78,10 +78,10 @@ export default function UploadFileList({ context, id }: { context: ChatContext; 
                   getFileIcon(type, name)
                 )}
               </div>
-              <h4 className="w-20 md:w-40 mt-1 md:mt-4 mb-0.5 md:font-semibold text-xs md:text-sm text-gray-800 dark:text-gray-100 truncate">
+              <h4 className="w-20 md:w-40 mt-1 md:mt-4 mb-0.5 md:font-semibold text-xs md:text-sm text-foreground dark:text-foreground truncate">
                 {name}
               </h4>
-              <span className="text-xs text-gray-500">{formatBytes(size)}</span>
+              <span className="text-xs text-muted-foreground">{formatBytes(size)}</span>
               <ul className="invisible group-hover:visible bg-inherit border border-solid border-black/10 box-border rounded-md flex items-center absolute -right-5 -top-2.5">
                 <li
                   className="p-1 cursor-pointer edit"

@@ -24,13 +24,13 @@ export default function View({ view = "item" }: Props) {
   const isGrid = view == "grid";
   return (
     <ul
-      className={`hidden md:flex border border-solid dark:border-gray-400 shadow rounded-lg box-border`}
+      className={`hidden md:flex border border-solid dark:border-border shadow rounded-lg box-border`}
     >
       <li className={getClass(!isGrid)} data-view={"item"} onClick={handleChangeView}>
-        <IconList className={`${!isGrid ? "fill-primary-400" : ""} dark:fill-gray-400`} />
+        <IconList className={`${!isGrid ? "fill-primary-400" : ""} dark:fill-muted-foreground`} />
       </li>
       <li className={getClass(isGrid)} data-view={"grid"} onClick={handleChangeView}>
-        <IconGrid className={`${isGrid ? "fill-primary-400" : ""} dark:fill-gray-400`} />
+        <IconGrid className={`${isGrid ? "fill-primary-400" : ""} dark:fill-muted-foreground`} />
       </li>
     </ul>
   );

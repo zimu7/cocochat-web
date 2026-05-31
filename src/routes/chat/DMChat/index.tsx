@@ -58,7 +58,7 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
                     {favCount}
                   </span>
                 ) : null}
-                <FavIcon className="fill-gray-500" />
+                <FavIcon className="fill-muted-foreground" />
               </li>
             </Popover>
           </Tooltip>

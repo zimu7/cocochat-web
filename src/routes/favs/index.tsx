@@ -117,7 +117,7 @@ function FavsPage() {
     removeFavorite(id);
   };
   return (
-    <div className="h-screen flex bg-white mt-2 mr-6 mb-2.5 overflow-auto dark:bg-gray-700 rounded-2xl">
+    <div className="h-screen flex bg-white mt-2 mr-6 mb-2.5 overflow-auto dark:bg-card rounded-2xl">
       <div className=" md:min-w-[268px] p-2 shadow-inner-[-1px_0px_0px_rgba(0,_0,_0,_0.1)]">
         <ul className="flex flex-col gap-0.5">
           {Filters.map(({ icon, title, filter: f }) => {
@@ -131,7 +131,7 @@ function FavsPage() {
                 onClick={handleFilter.bind(null, f as filter)}
               >
                 {icon}
-                <span className="hidden md:block font-bold text-sm text-gray-600 dark:text-gray-100">
+                <span className="hidden md:block font-bold text-sm text-foreground dark:text-foreground">
                   {title}
                 </span>
               </li>
@@ -156,7 +156,7 @@ function FavsPage() {
               ) : (
                 <>
                   {t("from")}{" "}
-                  <strong className="font-bold text-gray-800 dark:text-gray-100">
+                  <strong className="font-bold text-foreground dark:text-foreground">
                     {userData[uid]?.name}
                   </strong>
                 </>
@@ -165,14 +165,14 @@ function FavsPage() {
           );
           return (
             <div className="max-w-[600px] flex flex-col gap-1" key={id}>
-              <h4 className="inline-flex items-center text-xs text-gray-400">
+              <h4 className="inline-flex items-center text-xs text-muted-foreground">
                 {tip}
                 {dayjs(created_at).format("YYYY-MM-DD")}
               </h4>
               <div className="relative group">
                 <FavoredMessage key={id} id={id} />
                 <button
-                  className="absolute top-2 right-2 flex-center w-6 h-6 p-1 border border-solid border-slate-200 dark:border-slate-700 rounded invisible group-hover:visible"
+                  className="absolute top-2 right-2 flex-center w-6 h-6 p-1 border border-solid border-border dark:border-slate-700 rounded invisible group-hover:visible"
                   data-id={id}
                   onClick={handleRemove}
                 >

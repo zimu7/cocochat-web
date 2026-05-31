@@ -85,7 +85,7 @@ const ExpireTimer: FC<Props> = ({
   return (
     <div
       className={clsx(
-        "absolute bottom-1 text-xs text-gray-400 flex items-center gap-1 font-mono",
+        "absolute bottom-1 text-xs text-muted-foreground flex items-center gap-1 font-mono",
         enableRightLayout ? "left-2" : "right-2"
       )}
     >

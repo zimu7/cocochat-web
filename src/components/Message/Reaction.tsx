@@ -28,14 +28,14 @@ const ReactionDetails = ({
       : `${names.join(", ")} reacted with`;
   return (
     <div
-      className={`relative bg-white rounded-lg shadow flex items-start gap-2 p-2 ${
+      className={`relative bg-popover rounded-lg shadow flex items-start gap-2 p-2 ${
         index == 0 ? "first" : ""
       }`}
     >
       <div className="w-8 h-8">
         <ReactionItem native={emoji} />
       </div>
-      <div className="flex flex-col w-[140px] text-xs text-gray-800">
+      <div className="flex flex-col w-[140px] text-xs text-foreground">
         <span>{prefixDesc}</span>
         <span>{ReactionMap[emoji]}</span>
       </div>
@@ -65,8 +65,8 @@ const Reaction: FC<Props> = ({ mid, reactions = null, readOnly = false }) => {
         return uids.length > 0 ? (
           <span
             onClick={readOnly ? undefined : handleReact.bind(null, reaction)}
-            className={`cursor-pointer rounded-md relative flex items-center gap-1 p-1 md:hover:bg-cyan-100 ${
-              reacted ? "shadow-[inset_0_0_0_1px_#06aed4] bg-cyan-200" : ""
+            className={`cursor-pointer rounded-md relative flex items-center gap-1 p-1 md:hover:bg-primary-100 dark:md:hover:bg-primary-900/30 ${
+              reacted ? "ring-1 ring-primary-400 bg-primary-200 dark:bg-primary-800/40" : ""
             }`}
             key={reaction}
           >
@@ -95,7 +95,7 @@ const Reaction: FC<Props> = ({ mid, reactions = null, readOnly = false }) => {
             onOpenChange={setReactionPickerOpen}
             content={<ReactionPicker mid={mid} hidePicker={() => setReactionPickerOpen(false)} />}
           >
-            <button className="invisible group-hover:visible w-6 h-6 bg-cyan-100 md:hover:bg-cyan-200 rounded-md flex-center">
+            <button className="invisible group-hover:visible w-6 h-6 bg-primary-100 dark:bg-primary-900/30 md:hover:bg-primary-200 dark:md:hover:bg-primary-800/40 rounded-md flex-center">
               <IconAddEmoji className={"w-4 h-4"} />
             </button>
           </Popover>

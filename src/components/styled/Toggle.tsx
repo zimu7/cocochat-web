@@ -10,8 +10,8 @@ const StyledToggle = (
       {...props}
       className={clsx(
         `cursor-pointer relative w-11 h-6  rounded-xl`,
-        checked ? "bg-primary-400" : "bg-gray-300",
-        disabled && "cursor-not-allowed bg-gray-400 pointer-events-none"
+        checked ? "bg-primary-400" : "bg-muted",
+        disabled && "cursor-not-allowed bg-muted-foreground pointer-events-none"
       )}
     >
       <div

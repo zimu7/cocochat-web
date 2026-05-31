@@ -101,7 +101,7 @@ const MessageWrapper = React.memo(({ selectMode = false, context, id, mid, divid
       {divider}
       <div
         className={`w-full flex items-center ${
-          selectMode ? "group-hover:bg-slate-100 dark:group-hover:bg-slate-900" : ""
+          selectMode ? "group-hover:bg-muted dark:group-hover:bg-secondary" : ""
         }`}
       >
         {selectMode && <Checkbox className="!ml-2" checked={selected} />}

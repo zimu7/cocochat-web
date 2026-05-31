@@ -37,7 +37,7 @@ const Search: FC<Props> = ({ input, updateInput, openModal, type = "users" }) =>
       )}
     >
       <div className="flex items-center gap-1">
-        <IconSearch className="dark:fill-gray-400 w-6 h-6 shrink-0" />
+        <IconSearch className="dark:fill-muted-foreground w-6 h-6 shrink-0" />
         <input
           value={input}
           placeholder={`${t("action.search_user")}...`}
@@ -50,7 +50,7 @@ const Search: FC<Props> = ({ input, updateInput, openModal, type = "users" }) =>
       </div>
       {!isMembers ? (
         enableContact ? (
-          <IconAdd onClick={openModal} role="button" className="dark:fill-gray-400" />
+          <IconAdd onClick={openModal} role="button" className="dark:fill-muted-foreground" />
         ) : (
           <Tooltip tip={t("more")} placement="bottom">
             <Popover
@@ -59,7 +59,7 @@ const Search: FC<Props> = ({ input, updateInput, openModal, type = "users" }) =>
               onOpenChange={setAddMenuOpen}
               content={<AddEntriesMenu close={() => setAddMenuOpen(false)} />}
             >
-              <IconAdd role="button" className="dark:fill-gray-400" />
+              <IconAdd role="button" className="dark:fill-muted-foreground" />
             </Popover>
           </Tooltip>
         )

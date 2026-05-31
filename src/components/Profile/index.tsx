@@ -59,10 +59,10 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark, onRem
   const isCard = type == "card";
   const canRemoveFromServer = !isCard && canRemove;
   const hasMore = email || canRemoveFromChannel || canRemoveFromServer;
-  const iconClass = `cursor-pointer flex flex-col items-center gap-1 rounded-lg w-32 text-primary-400 bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 text-sm pt-3.5 pb-3`;
+  const iconClass = `cursor-pointer flex flex-col items-center gap-1 rounded-lg w-32 text-primary-400 bg-muted/50 hover:bg-muted dark:bg-card text-sm pt-3.5 pb-3`;
   const containerClass = clsx(
     `flex-center flex-col gap-1 z-[99] mt-20 select-none`,
-    isCard ? "p-4 w-[280px] bg-white dark:bg-gray-800 drop-shadow rounded-md" : "md:w-[432px]"
+    isCard ? "p-4 w-[280px] bg-white dark:bg-card drop-shadow rounded-md" : "md:w-[432px]"
   );
 
   return (
@@ -77,11 +77,11 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark, onRem
           name={name}
         />
         <Remark uid={uid} />
-        <h2 className="text-lg select-text font-bold text-gray-900 dark:text-white">
-          {name} {canDM && <span className="font-normal text-gray-500">#{uid}</span>}
+        <h2 className="text-lg select-text font-bold text-foreground dark:text-white">
+          {name} {canDM && <span className="font-normal text-muted-foreground">#{uid}</span>}
         </h2>
         {canCopyEmail && (
-          <span className="text-sm text-gray-400 dark:text-gray-200 select-text">{email}</span>
+          <span className="text-sm text-muted-foreground dark:text-muted-foreground select-text">{email}</span>
         )}
         {/* <p className="intro">{introduction}</p> */}
         {canDM && (
@@ -170,7 +170,7 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark, onRem
                 />
               }
             >
-              <li className={`${iconClass} icon ${hasMore ? "" : "text-gray-500"}`}>
+              <li className={`${iconClass} icon ${hasMore ? "" : "text-muted-foreground"}`}>
                 <IconMore className={hasMore ? "fill-primary-500" : ""} />
                 <span>{ct("more")}</span>
               </li>

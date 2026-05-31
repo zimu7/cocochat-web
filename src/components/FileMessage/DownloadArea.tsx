@@ -16,10 +16,10 @@ const DownloadArea = ({ copyLink, downloadLink }: Props) => {
         disabled={copied}
         onClick={copy.bind(null, copyLink, false)}
       >
-        <IconCopy className="size-6 fill-gray-500 dark:fill-gray-400" />
+        <IconCopy className="size-6 fill-muted-foreground dark:fill-muted-foreground" />
       </button>
       <a className="hidden md:block whitespace-nowrap" download={name} href={downloadLink}>
-        <IconDownload className="fill-gray-500 dark:fill-gray-400" />
+        <IconDownload className="fill-muted-foreground dark:fill-muted-foreground" />
       </a>
     </div>
   );

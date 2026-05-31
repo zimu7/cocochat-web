@@ -83,8 +83,8 @@ const WebhookEdit = ({ uid }: Props) => {
               name="webhook"
               defaultValue={url}
               className={clsx(
-                "text-sm text-gray-400 dark:text-gray-100 dark:bg-slate-900 px-2 py-1",
-                editable ? "ring-1 ring-gray-500 bg-gray-50" : "bg-transparent"
+                "text-sm text-muted-foreground dark:text-foreground dark:bg-secondary px-2 py-1",
+                editable ? "ring-1 ring-gray-500 bg-muted/50" : "bg-transparent"
               )}
             />
           </form>
@@ -94,12 +94,12 @@ const WebhookEdit = ({ uid }: Props) => {
             ) : editable ? (
               <IconSave className="stroke-gray-500 !w-5 !h-5" />
             ) : (
-              <IconEdit className="fill-gray-500 !w-5 !h-5" />
+              <IconEdit className="fill-muted-foreground !w-5 !h-5" />
             )}
           </button>
           {editable && !isUpdating && (
             <button type="button" disabled={isUpdating} onClick={handleCancelEdit}>
-              <IconCancel className="!w-5 !h-5 fill-gray-500" />
+              <IconCancel className="!w-5 !h-5 fill-muted-foreground" />
             </button>
           )}
         </div>

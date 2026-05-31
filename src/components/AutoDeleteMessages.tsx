@@ -82,7 +82,7 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
   return (
     <section className="w-full max-w-[512px] h-full relative">
       <Label>{t("title")}</Label>
-      <p className="text-gray-400 text-xs">{t("desc")}</p>
+      <p className="text-muted-foreground text-xs">{t("desc")}</p>
       <div className="mt-4">
         <StyledRadio
           options={options.map(({ title }) => title)}
@@ -96,7 +96,7 @@ const AutoDeleteMessages = ({ id, type = "channel" }: Props) => {
         <>
           <div className="text-sm mt-8">
             <h2 className="dark:text-white">{t("clear_title")}</h2>
-            <p className="text-gray-400 text-xs">{t("clear_desc")}</p>
+            <p className="text-muted-foreground text-xs">{t("clear_desc")}</p>
           </div>
           <div className="mt-4">
             <StyledButton className="danger" onClick={handleClear}>

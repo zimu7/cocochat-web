@@ -15,13 +15,13 @@ const SaveTip: FC<Props> = ({ saveHandler, resetHandler }) => {
   return (
     <div
       className="z-[999] w-full max-w-lg p-2 fixed bottom-4 md:bottom-16
-    flex flex-col md:flex-row items-center justify-between font-semibold text-gray-700 border 
-    border-solid border-gray-200 dark:border-gray-400 bg-white dark:bg-gray-600 shadow-2xl dark:shadow-primary-400/50 rounded-full"
+    flex flex-col md:flex-row items-center justify-between font-semibold text-foreground border 
+    border-solid border-border dark:border-border bg-white dark:bg-secondary shadow-2xl dark:shadow-primary-400/50 rounded-full"
     >
-      <span className="p-2 text-sm dark:text-gray-200">{t("save_tip")}</span>
+      <span className="p-2 text-sm dark:text-muted-foreground">{t("save_tip")}</span>
       <div className="flex items-center gap-3">
         <Button
-          className="small ghost border_less !text-gray-700 !shadow-none dark:!text-gray-100"
+          className="small ghost border_less !text-foreground !shadow-none dark:!text-foreground"
           onClick={resetHandler}
         >
           {t("reset")}

@@ -35,10 +35,10 @@ const Type: FC<Props> = ({ select = "", updateFilter }) => {
   };
 
   return (
-    <div className="p-3 bg-white dark:bg-gray-800 min-w-[180px] overflow-auto shadow-md rounded-lg flex flex-col items-start relative">
+    <div className="p-3 bg-white dark:bg-card min-w-[180px] overflow-auto shadow-md rounded-lg flex flex-col items-start relative">
       <ul className="w-full flex flex-col gap-4">
         <li
-          className="relative cursor-pointer flex items-center gap-4 text-gray-500 dark:text-gray-300 font-semibold text-sm"
+          className="relative cursor-pointer flex items-center gap-4 text-muted-foreground dark:text-muted-foreground font-semibold text-sm"
           onClick={handleClick.bind(null, "")}
         >
           {t("any_type")}
@@ -48,7 +48,7 @@ const Type: FC<Props> = ({ select = "", updateFilter }) => {
           return (
             <li
               key={type}
-              className="relative cursor-pointer flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300 font-semibold"
+              className="relative cursor-pointer flex items-center gap-2 text-sm text-muted-foreground dark:text-muted-foreground font-semibold"
               onClick={handleClick.bind(null, type)}
             >
               {FileTypeIcons[type]} {t(tKey)}

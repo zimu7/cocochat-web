@@ -32,7 +32,7 @@ const Version: FC<Props> = () => {
       </li>
       <li>
         {t("build_time")}: {dayjs(ts * 1000).format(i18n.language === "zh" ? "YYYY年M月D日 HH:mm:ss" : "YYYY/M/D HH:mm:ss")}{" "}
-        <span className="text-gray-700 dark:text-gray-300">({dayjs(ts * 1000).fromNow()})</span>
+        <span className="text-foreground dark:text-muted-foreground">({dayjs(ts * 1000).fromNow()})</span>
       </li>
     </ul>
   );

@@ -8,6 +8,7 @@ import ChannelModal from "@/components/ChannelModal";
 import ErrorCatcher from "@/components/ErrorCatcher";
 import Server from "@/components/Server";
 import UsersModal from "@/components/UsersModal";
+import { useSwipeGesture } from "@/hooks/useSwipeGesture";
 import ChannelChat from "./ChannelChat";
 import DMChat from "./DMChat";
 import GuestBlankPlaceholder from "./GuestBlankPlaceholder";
@@ -57,6 +58,11 @@ function ChatPage() {
   const dmChatVisible = user_id != 0;
   const isMainPath = isHomePath || isChatHomePath;
 
+  const { onTouchStart, onTouchEnd } = useSwipeGesture({
+    onSwipeRight: () => !sessionListVisible && setSessionListVisible(true),
+    onSwipeLeft: () => sessionListVisible && setSessionListVisible(false),
+  });
+
   return (
     <ErrorCatcher>
       {channelModalVisible && (
@@ -68,17 +74,21 @@ function ChatPage() {
           `flex h-screen md:h-full md:pt-2 md:pb-2.5 md:pr-1`,
           isGuest ? "guest-container md:px-1" : "md:pr-12"
         )}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
       >
-        {sessionListVisible && (
-          <div
-            onClick={toggleSessionList}
-            className="z-30 fixed top-0 left-4 w-screen h-screen bg-black/50 transition-all backdrop-blur-sm"
-          ></div>
-        )}
+        <div
+          onClick={toggleSessionList}
+          className={clsx(
+            "z-30 fixed top-0 left-4 w-screen h-screen bg-black/50 backdrop-blur-sm transition-opacity duration-300",
+            sessionListVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+          )}
+        ></div>
         <div
           className={clsx(
-            "left-container flex-col md:rounded-l-2xl w-full h-screen md:h-full md:max-w-[250px] md:min-w-[268px] shadow-[rgb(0_0_0_/_10%)_-1px_0px_0px_inset] bg-white dark:!bg-gray-800",
-            isMainPath ? "flex" : "hidden md:flex"
+            "left-container flex-col md:rounded-l-2xl w-full h-screen md:h-full md:max-w-[250px] md:min-w-[268px] shadow-[rgb(0_0_0_/_10%)_-1px_0px_0px_inset] bg-white dark:!bg-card transition-transform duration-300 ease-in-out",
+            isMainPath ? "flex" : "hidden md:flex",
+            !isMainPath && !sessionListVisible && "-translate-x-full md:translate-x-0"
           )}
         >
           <Server readonly={isGuest} />
@@ -86,7 +96,7 @@ function ChatPage() {
         </div>
         <div
           className={clsx(
-            `right-container md:rounded-r-2xl w-full bg-white dark:!bg-gray-700`,
+            `right-container md:rounded-r-2xl w-full bg-white dark:!bg-card`,
             placeholderVisible && "h-full flex-center",
             isMainPath && "hidden md:flex"
           )}

@@ -22,10 +22,10 @@ const DateFilter: FC<Props> = ({ select = "", updateFilter }) => {
   };
 
   return (
-    <div className="p-3 bg-white dark:bg-gray-800 min-w-[200px] overflow-auto rounded-lg flex flex-col items-start relative drop-shadow">
+    <div className="p-3 bg-white dark:bg-card min-w-[200px] overflow-auto rounded-lg flex flex-col items-start relative drop-shadow">
       <ul className="w-full flex flex-col gap-4">
         <li
-          className="relative cursor-pointer flex items-center gap-4 text-gray-500 dark:text-gray-300 font-semibold text-sm"
+          className="relative cursor-pointer flex items-center gap-4 text-muted-foreground dark:text-muted-foreground font-semibold text-sm"
           onClick={handleClick.bind(null, undefined)}
         >
           {t("any_time")}
@@ -35,7 +35,7 @@ const DateFilter: FC<Props> = ({ select = "", updateFilter }) => {
           return (
             <li
               key={_key}
-              className="relative cursor-pointer flex items-center gap-4 text-gray-500 dark:text-gray-300 font-semibold text-sm"
+              className="relative cursor-pointer flex items-center gap-4 text-muted-foreground dark:text-muted-foreground font-semibold text-sm"
               onClick={handleClick.bind(null, _key)}
             >
               {t(tKey)}

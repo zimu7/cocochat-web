@@ -30,7 +30,38 @@ module.exports = {
             light: "#EEEEF0",
             dark: "#34363A"
           }
-        }
+        },
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))"
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))"
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))"
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))"
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))"
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))"
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        "message-self": "hsl(var(--message-self))",
+        "message-other": "hsl(var(--message-other))"
       },
       animation: {
         speaking: "speaking 0.5s infinite cubic-bezier(.36, .11, .89, .32) alternate",
@@ -67,5 +98,5 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [require("tailwindcss-animate")]
 };

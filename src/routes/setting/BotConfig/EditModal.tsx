@@ -100,7 +100,7 @@ const EditModal = ({ uid, closeModal }: Props) => {
       >
         <div className="w-full flex flex-col gap-2">
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"name"} className="text-sm text-gray-500">
+            <label htmlFor={"name"} className="text-sm text-muted-foreground">
               Name
             </label>
             <Input
@@ -113,7 +113,7 @@ const EditModal = ({ uid, closeModal }: Props) => {
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"password"} className="text-sm text-gray-500">
+            <label htmlFor={"password"} className="text-sm text-muted-foreground">
               Password
             </label>
             <Input
@@ -127,7 +127,7 @@ const EditModal = ({ uid, closeModal }: Props) => {
             ></Input>
           </div>
           <div className="flex flex-col items-start gap-1 w-full">
-            <label htmlFor={"webhook_url"} className="text-sm text-gray-500">
+            <label htmlFor={"webhook_url"} className="text-sm text-muted-foreground">
               Webhook URL (Optional)
             </label>
             <Input

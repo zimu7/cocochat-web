@@ -42,7 +42,7 @@ const renderContent = ({
           <LinkifyText text={content} cid={to} />
           {edited && (
             <span
-              className="ml-1 text-gray-500 text-[10px]"
+              className="ml-1 text-muted-foreground text-[10px]"
               title={dayjs(+edited).format(i18n.t("datetime_format", { ns: "chat" }))}
             >
               ({i18n.t("edited", { ns: "chat" })})

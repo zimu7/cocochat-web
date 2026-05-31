@@ -55,7 +55,7 @@ const ImageMessage: FC<Props> = ({
       {uploading && (
         <div className="absolute left-0 top-0 w-full h-full bg-white/50 flex flex-col justify-center items-center gap-1">
           <Spinner type="ping" size={45} speed={2} color="#555" />
-          <span className="text-xs text-gray-500">{progress}%</span>
+          <span className="text-xs text-muted-foreground">{progress}%</span>
         </div>
       )}
       {status == "loading" ? (

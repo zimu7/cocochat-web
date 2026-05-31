@@ -12,7 +12,7 @@ const Menu: FC<Props> = () => {
       <li className="cursor-pointer flex items-center p-2.5 gap-2.5 link_navs">
         <NavLink className="link" to={`/setting/overview?f=${pathname}`}>
           <Tooltip placement="right" tip="Settings">
-            <IconSetting className="w-6 h-6 dark:fill-gray-400" />
+            <IconSetting className="w-6 h-6 dark:fill-muted-foreground" />
           </Tooltip>
         </NavLink>
       </li>

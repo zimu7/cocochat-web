@@ -143,7 +143,7 @@ const UserFormModal = ({ closeModal, user }: Props) => {
 
   const { name, email, password, confirmPassword, isAdmin, isBot } = inputs;
   const inputClass = "my-2 w-full flex flex-col items-start gap-1";
-  const labelClass = "text-gray-400 font-semibold text-xs";
+  const labelClass = "text-muted-foreground font-semibold text-xs";
 
   const isDisabled = isEdit
     ? !name.trim() || !email.trim() || (!!password && password !== confirmPassword)
@@ -239,9 +239,9 @@ const UserFormModal = ({ closeModal, user }: Props) => {
               checked={isAdmin}
               onChange={handleAdminChange}
               disabled={isBot}
-              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+              className="w-4 h-4 rounded border-border text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
             />
-            <label htmlFor="new_is_admin" className="text-xs font-semibold text-gray-600 dark:text-gray-300 cursor-pointer">
+            <label htmlFor="new_is_admin" className="text-xs font-semibold text-foreground dark:text-muted-foreground cursor-pointer">
               {t("set_as_admin")}
             </label>
           </div>
@@ -252,9 +252,9 @@ const UserFormModal = ({ closeModal, user }: Props) => {
               checked={isBot}
               onChange={handleBotChange}
               disabled={isAdmin}
-              className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
+              className="w-4 h-4 rounded border-border text-blue-600 focus:ring-blue-500 cursor-pointer disabled:cursor-not-allowed"
             />
-            <label htmlFor="new_is_bot" className="text-xs font-semibold text-gray-600 dark:text-gray-300 cursor-pointer">
+            <label htmlFor="new_is_bot" className="text-xs font-semibold text-foreground dark:text-muted-foreground cursor-pointer">
               {t("set_as_bot")}
             </label>
           </div>

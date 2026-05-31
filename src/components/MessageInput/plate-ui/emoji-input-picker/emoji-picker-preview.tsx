@@ -15,7 +15,7 @@ function EmojiPreview({ emoji }: EmojiPreviewProps) {
     <div className="flex items-center border-t border-gray-100 dark:border-gray-900 p-2">
       <div className="flex items-center justify-center text-3xl">{emoji?.skins[0].native}</div>
       <div className="overflow-hidden pl-2">
-        <div className="truncate text-sm text-gray-600 dark:text-gray-400">{emoji?.name}</div>
+        <div className="truncate text-sm text-foreground dark:text-muted-foreground">{emoji?.name}</div>
         <div className="truncate text-xs text-muted-foreground">{`:${emoji?.id}:`}</div>
       </div>
     </div>
@@ -27,7 +27,7 @@ function NoEmoji({ i18n }: NoEmojiPreviewProps) {
     <div className="flex items-center border-t border-gray-100 dark:border-gray-900 p-2">
       <div className="flex items-center justify-center text-3xl">😢</div>
       <div className="overflow-hidden pl-2">
-        <div className="truncate text-sm text-gray-600">{i18n.searchNoResultsTitle}</div>
+        <div className="truncate text-sm text-foreground">{i18n.searchNoResultsTitle}</div>
         <div className="truncate text-xs text-muted-foreground">{i18n.searchNoResultsSubtitle}</div>
       </div>
     </div>
@@ -39,7 +39,7 @@ function PickAnEmoji({ i18n }: PickAnEmojiPreviewProps) {
     <div className="flex items-center border-t border-gray-100 dark:border-gray-900 p-2">
       <div className="flex items-center justify-center text-3xl">☝️</div>
       <div className="overflow-hidden pl-2">
-        <div className="truncate text-lg text-gray-800 dark:text-gray-200">{i18n.pick}</div>
+        <div className="truncate text-lg text-foreground dark:text-muted-foreground">{i18n.pick}</div>
       </div>
     </div>
   );

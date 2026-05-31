@@ -33,14 +33,14 @@ const PinnedMessageView: FC<Props> = ({ data }) => {
       </div>
       <div className="w-full flex flex-col items-start gap-1  text-sm">
         <div className="flex items-center gap-2 font-semibold">
-          <span className="text-gray-500">{name}</span>
+          <span className="text-muted-foreground">{name}</span>
           {created_at && (
-            <time className="text-xs text-gray-400">
+            <time className="text-xs text-muted-foreground">
               {dayjs(created_at).format(i18n.t("datetime_format", { ns: "chat" }))}
             </time>
           )}
         </div>
-        <div className={`select-text text-gray-600 break-all whitespace-pre-wrap dark:text-white`}>
+        <div className={`select-text text-foreground break-all whitespace-pre-wrap dark:text-white`}>
           {renderContent({
             content_type,
             content,

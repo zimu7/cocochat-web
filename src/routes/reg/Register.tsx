@@ -148,7 +148,7 @@ export default function Register() {
           alt="logo"
           className="w-14 h-14 md:mb-7 rounded-full"
         />
-        <h2 className="font-semibold text-center text-balance text-2xl text-gray-800 dark:text-white">
+        <h2 className="font-semibold text-center text-balance text-2xl text-foreground dark:text-white">
           {t("reg.title", { name: serverName })}
         </h2>
       </div>

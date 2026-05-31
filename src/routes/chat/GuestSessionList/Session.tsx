@@ -60,18 +60,18 @@ const Session: FC<IProps> = ({ id, mid }) => {
           <div className="flex items-center justify-between">
             <span
               className={clsx(
-                `flex items-center gap-2 font-semibold text-sm text-gray-500 dark:text-white truncate`,
+                `flex items-center gap-2 font-semibold text-sm text-muted-foreground dark:text-white truncate`,
                 previewMsg.created_at ? "max-w-[120px]" : "max-w-[190px]"
               )}
             >
               {name}
             </span>
-            <span className="text-xs text-gray-600 max-w-[80px] truncate">
+            <span className="text-xs text-foreground max-w-[80px] truncate">
               {fromNowTime(previewMsg.created_at)}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-gray-500 w-36 truncate">
+            <span className="text-xs text-muted-foreground w-36 truncate">
               {renderPreviewMessage(previewMsg)}
             </span>
           </div>

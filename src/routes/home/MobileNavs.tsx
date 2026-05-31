@@ -33,8 +33,8 @@ const MobileNavs = () => {
   return (
     <ul
       className={clsx(
-        "flex justify-around py-2 fixed bottom-0 left-0 w-full bg-gray-100 dark:bg-gray-800 md:hidden",
-        isChattingPage && "hidden"
+        "flex justify-around p-3 fixed bottom-0 left-0 w-full bg-muted dark:bg-card md:hidden transition-transform duration-300 ease-in-out pb-[env(safe-area-inset-bottom)]",
+        isChattingPage ? "translate-y-full" : "translate-y-0"
       )}
     >
       <li>
@@ -43,8 +43,8 @@ const MobileNavs = () => {
             const active = isActive || isChatPage;
             return (
               <div className="flex flex-col gap-1 items-center">
-                <ChatIcon className={!active ? "fill-gray-500" : "fill-primary-500"} />
-                <span className={clsx("text-xs", !active ? "text-gray-500" : "text-primary-500")}>
+                <ChatIcon className={!active ? "fill-muted-foreground" : "fill-primary-500"} />
+                <span className={clsx("text-xs", !active ? "text-muted-foreground" : "text-primary-500")}>
                   Chats
                 </span>
               </div>
@@ -57,8 +57,8 @@ const MobileNavs = () => {
           {({ isActive: active }) => {
             return (
               <div className="flex flex-col gap-1 items-center">
-                <UserIcon className={!active ? "fill-gray-500" : "fill-primary-500"} />
-                <span className={clsx("text-xs", !active ? "text-gray-500" : "text-primary-500")}>
+                <UserIcon className={!active ? "fill-muted-foreground" : "fill-primary-500"} />
+                <span className={clsx("text-xs", !active ? "text-muted-foreground" : "text-primary-500")}>
                   Contacts
                 </span>
               </div>
@@ -72,9 +72,9 @@ const MobileNavs = () => {
             return (
               <div className="flex flex-col gap-1 items-center">
                 <SettingIcon
-                  className={clsx("w-6 h-6", !active ? "fill-gray-500" : "fill-primary-500")}
+                  className={clsx("w-6 h-6", !active ? "fill-muted-foreground" : "fill-primary-500")}
                 />
-                <span className={clsx("text-xs", !active ? "text-gray-500" : "text-primary-500")}>
+                <span className={clsx("text-xs", !active ? "text-muted-foreground" : "text-primary-500")}>
                   Settings
                 </span>
               </div>

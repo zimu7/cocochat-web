@@ -11,7 +11,7 @@ export default function SignUpLink() {
   };
 
   return (
-    <div className="flex gap-1 mt-7 text-sm text-slate-500 dark:text-gray-100 justify-center">
+    <div className="flex gap-1 mt-7 text-sm text-muted-foreground dark:text-foreground justify-center">
       <span>{t("login.no_account")}</span>
       <a className="text-primary-400 cursor-pointer" onClick={handleSignUp}>
         {t("sign_up")}

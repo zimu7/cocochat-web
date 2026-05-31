@@ -40,7 +40,7 @@ export default function APIConfig() {
         checked={thirdParty}
       />
       <div className="w-full flex flex-col items-start gap-2">
-        <label htmlFor="secret" className="text-sm text-gray-500 dark:text-gray-100">
+        <label htmlFor="secret" className="text-sm text-muted-foreground dark:text-foreground">
           {" "}
           {t("third_app.key")}:
         </label>

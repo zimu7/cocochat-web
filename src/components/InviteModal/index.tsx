@@ -25,8 +25,8 @@ const InviteModal: FC<Props> = ({ type = "server", cid, title = "", closeModal }
   const finalTitle = type == "server" ? serverName : `#${title || channel?.name}`;
   return (
     <Modal>
-      <div className="flex flex-col bg-white dark:bg-gray-900 rounded-lg max-h-[85vh] overflow-y-scroll  md:min-w-[408px] relative">
-        <h2 className="z-50 p-4 bg-white dark:bg-gray-900 flex items-center justify-between text-lg text-gray-700 dark:text-gray-50 sticky top-0">
+      <div className="flex flex-col bg-white dark:bg-secondary rounded-lg max-h-[85vh] overflow-y-scroll  md:min-w-[408px] relative">
+        <h2 className="z-50 p-4 bg-white dark:bg-secondary flex items-center justify-between text-lg text-foreground dark:text-gray-50 sticky top-0">
           {t("invite_title", { name: finalTitle })}
           <CloseIcon className="cursor-pointer dark:fill-white" onClick={closeModal} />
         </h2>

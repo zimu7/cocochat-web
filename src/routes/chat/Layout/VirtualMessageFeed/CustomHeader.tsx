@@ -25,7 +25,7 @@ const ChannelHeader = ({ cid }: ChannelHeaderProps) => {
         {t("welcome_channel", { name: data?.name })}
       </h2>
       <p
-        className="text-gray-600 dark:text-gray-300 [&>a]:text-blue-500 [&>a]:hover:underline"
+        className="text-foreground dark:text-muted-foreground [&>a]:text-blue-500 [&>a]:hover:underline"
         dangerouslySetInnerHTML={{ __html: desc }}
       />
       {isAdmin && (
