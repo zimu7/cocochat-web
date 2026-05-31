@@ -19,7 +19,7 @@ const PinList: FC<Props> = ({ id }: Props) => {
   };
   const noPins = pins.length == 0;
   return (
-    <div className="p-4 drop-shadow-md overflow-y-scroll min-w-[320px] md:min-w-[486px] md:max-h-[90vh] rounded-xl bg-muted/50 dark:bg-card">
+    <div className="p-4 drop-shadow-md overflow-y-scroll min-w-[320px] md:min-w-[486px] md:max-h-[90vh] rounded-xl bg-muted/95 dark:bg-card">
       <h4 className=" text-foreground dark:text-muted-foreground mb-4 font-semibold">
         {t("pinned_msg")}({pins.length})
       </h4>

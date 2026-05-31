@@ -121,10 +121,10 @@ const Message: FC<IProps> = ({
       data-msg-mid={mid}
       ref={inViewRef}
       className={clsx(
-        `group w-full relative flex items-start gap-2 md:gap-3 py-1 px-2 md:py-1.5 md:px-3 my-1 rounded-lg md:dark:hover:bg-card md:hover:bg-muted`,
+        `group w-full relative flex items-start gap-2 md:gap-3 py-1 px-2 md:py-1.5 md:px-3 my-1 rounded-lg md:hover:bg-black/10 md:dark:hover:bg-white/10`,
         readOnly && "hover:bg-transparent",
         showExpire && "bg-red-200 dark:bg-red-200/40",
-        pinInfo && "bg-cyan-50 dark:bg-cyan-800 !pt-7",
+        pinInfo && "bg-primary-50 dark:bg-primary-900/30 !pt-7",
         isSelf && "flex-row-reverse"
       )}
     >
@@ -205,7 +205,7 @@ const Message: FC<IProps> = ({
               isTextMessage &&
                 (isSelf
                   ? "rounded-2xl rounded-tr-sm bg-gradient-to-br from-primary-400 to-primary-500 dark:from-primary-600 dark:to-primary-700 text-white !pr-4"
-                  : "rounded-2xl rounded-tl-sm bg-white/80 dark:bg-white/5 backdrop-blur-md text-foreground"),
+                  : "rounded-2xl rounded-tl-sm bg-muted dark:bg-secondary text-foreground !pr-4"),
               sending && "opacity-90"
             )}
           >

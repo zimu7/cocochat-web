@@ -1,30 +1,29 @@
-import { FC, MouseEvent } from "react";
+import { FC, FormEvent } from "react";
 import { useTranslation } from "react-i18next";
 
 import FavoredMessage from "@/components/Message/FavoredMessage";
 import useFavMessage from "@/hooks/useFavMessage";
-import IconRemove from "@/assets/icons/close.svg";
+import IconClose from "@/assets/icons/close.svg";
 import IconSurprise from "@/assets/icons/emoji.surprise.svg";
 
 type Props = { cid?: number; uid?: number };
 const FavList: FC<Props> = ({ cid = null, uid = null }) => {
   const { t } = useTranslation("chat");
   const { favorites, removeFavorite } = useFavMessage({ cid, uid });
-  const handleRemove = (evt: MouseEvent<HTMLButtonElement>) => {
+  const handleRemove = (evt: FormEvent<HTMLButtonElement>) => {
     const { id = "" } = evt.currentTarget.dataset;
-    // console.log("remove fav", id);
     removeFavorite(id);
   };
   const noFavs = favorites.length == 0;
   return (
-    <div className="p-4 bg-muted/50 dark:bg-card rounded-xl min-w-[500px] max-w-[600px] max-h-[500px] overflow-auto drop-shadow-[0px_25px_50px_rgba(31,_41,_55,_0.25)]">
-      <h4 className="font-bold text-foreground dark:text-muted-foreground mb-4">
+    <div className="p-4 drop-shadow-md overflow-y-scroll min-w-[320px] md:min-w-[486px] md:max-h-[90vh] rounded-xl bg-muted/95 dark:bg-card">
+      <h4 className=" text-foreground dark:text-muted-foreground mb-4 font-semibold">
         {t("fav_msg")}({favorites.length})
       </h4>
       {noFavs ? (
-        <div className="flex flex-col gap-2 w-full items-center p-4">
+        <div className="flex flex-col items-center gap-2 w-full p-4">
           <IconSurprise />
-          <div className="w-60 text-foreground dark:text-muted-foreground text-center font-bold">
+          <div className="w-60 font-semibold text-muted-foreground dark:text-muted-foreground text-center">
             {t("fav_empty_tip")}
           </div>
         </div>
@@ -34,12 +33,16 @@ const FavList: FC<Props> = ({ cid = null, uid = null }) => {
             return (
               <li
                 key={id}
-                className="relative border border-solid border-border dark:border-gray-600 rounded-md group"
+                className="group relative border border-solid border-slate-100 dark:border-slate-600 rounded-md "
               >
                 <FavoredMessage id={id} />
-                <div className="flex items-center absolute top-2 right-2 border border-solid border-border dark:border-gray-600 rounded-md overflow-hidden invisible group-hover:visible">
-                  <button className="flex-center w-6 h-6 p-1" data-id={id} onClick={handleRemove}>
-                    <IconRemove className="fill-slate-900 dark:fill-slate-500" />
+                <div className="invisible group-hover:visible flex items-center gap-1 absolute top-1 right-1 p-1 border border-solid border-black/10 dark:border-border rounded-md">
+                  <button
+                    className="flex bg-none border-none"
+                    data-id={id}
+                    onClick={handleRemove}
+                  >
+                    <IconClose className="fill-slate-900 dark:fill-slate-300" />
                   </button>
                 </div>
               </li>

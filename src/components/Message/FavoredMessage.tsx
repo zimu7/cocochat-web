@@ -20,30 +20,27 @@ const FavoredMessage: FC<Props> = ({ id = "" }) => {
     setMsgs(
       <div
         data-favorite-mids={favorite_mids.join(",")}
-        className="favorite flex flex-col rounded-md bg-muted/50 dark:bg-card"
+        className="favorite flex flex-col rounded-lg bg-[#f0f1f3] dark:bg-[#1e2028] border border-border shadow-sm p-1"
       >
         <div className="list">
           {messages.map((msg, idx) => {
             const { user = {}, download, content, content_type, properties, thumbnail } = msg;
             return (
               <div
-                className="w-full relative flex items-start gap-3 px-2 py-1 my-2 rounded-lg md:dark:hover:bg-card"
+                className="w-full relative flex items-start gap-3 p-2 my-2 rounded-lg"
                 key={idx}
               >
-                {user && (
-                  <div className="shrink-0 w-10 h-10 flex">
-                    <Avatar
-                      width={40}
-                      height={40}
-                      className="rounded-full object-cover"
-                      src={user.avatar}
-                      name={user.name}
-                    />
-                  </div>
-                )}
-                <div className="w-full flex flex-col gap-2 text-sm">
+                <div className="rounded-full overflow-hidden w-10 h-10 shrink-0">
+                  <Avatar
+                    width={40}
+                    height={40}
+                    src={user.avatar}
+                    name={user.name}
+                  />
+                </div>
+                <div className="w-full flex flex-col items-start gap-1 text-sm">
                   <div className="flex items-center gap-2 font-semibold">
-                    <span className="text-foreground dark:text-muted-foreground">
+                    <span className="text-muted-foreground">
                       {user?.name || "Deleted User"}
                     </span>
                   </div>
