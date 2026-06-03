@@ -14,7 +14,7 @@ const From: FC<Props> = ({ select = "", updateFilter }) => {
   const { t } = useTranslation("file");
   const { input, updateInput, users } = useFilteredUsers();
   const handleClick = (uid?: number) => {
-    updateFilter({ uid });
+    updateFilter({ from: uid });
   };
 
   return (
@@ -38,7 +38,7 @@ const From: FC<Props> = ({ select = "", updateFilter }) => {
               onClick={handleClick.bind(null, uid)}
             >
               <div className="flex-1 min-w-0">
-                <User uid={uid} interactive={true} />
+                <User uid={uid} interactive={false} />
               </div>
               {select == uid && <CheckSign className="shrink-0" />}
             </li>

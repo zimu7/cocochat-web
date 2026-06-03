@@ -50,9 +50,13 @@ function Files() {
   }, [filter]);
   if (!data) return null;
 
-  const { file_type: typeFilter, creation_time_type: dateFilter } = filter;
+  const { file_type: typeFilter, creation_time_type: dateFilter, from: fromFilter } = filter;
   const nonExpiredFiles = data
     .filter((item) => !item.expired)
+    .filter((item) => {
+      if (!fromFilter) return true;
+      return item.from_uid == fromFilter;
+    })
     .filter((item) => {
       if (!typeFilter) return true;
       const props = item.properties ? JSON.parse(item.properties) : {};
