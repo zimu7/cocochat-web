@@ -36,7 +36,7 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
       <div className="w-screen h-screen flex">
         <div
           className={clsx(
-            "h-full w-full overflow-y-scroll md:max-w-[212px] px-4 py-8 bg-background dark:bg-card",
+            "h-full w-full overflow-y-scroll md:max-w-[212px] px-4 py-8 bg-[#f0f0f0] dark:bg-[#1a1a1a] shadow-[inset_-1px_0px_0px_rgba(0,0,0,0.1)]",
             nav && "hidden md:block"
           )}
         >
@@ -51,7 +51,7 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
               <ul
                 key={title}
                 data-title={title}
-                className="flex flex-col gap-0.5 mb-5 md:mb-9 before:md:pl-3 before:content-[attr(data-title)] before:font-bold before:text-xs before:text-muted-foreground"
+                className="flex flex-col gap-y-0.5 mb-5 md:mb-9 before:md:pl-3 before:content-[attr(data-title)] before:font-bold before:text-xs before:text-muted-foreground"
               >
                 {items.map(({ name, link, title }) => {
                   if (link)
@@ -59,14 +59,14 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                       <li
                         key={name}
                         className={clsx(
-                          `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
-                          name == nav?.name && "bg-stone-200 dark:bg-slate-500/20"
+                          `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground md:rounded md:hover:bg-primary-400 md:dark:hover:bg-primary-400 md:hover:text-white md:dark:hover:text-white`,
+                          name == nav?.name && "bg-primary-400 dark:bg-primary-400 text-white dark:text-white"
                         )}
                       >
                         <a
                           href={link}
                           target="_blank"
-                          className="block md:px-3 py-1"
+                          className="block md:px-3 py-2"
                           rel="noreferrer"
                         >
                           {title} <span className="text-xs mx-1">🔗</span>
@@ -77,11 +77,11 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                     <li
                       key={name}
                       className={clsx(
-                        `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground  md:rounded md:hover:bg-stone-200 md:dark:hover:bg-slate-500/20`,
-                        name == nav?.name && "bg-stone-200 dark:bg-slate-500/20"
+                        `md:text-sm font-semibold text-foreground whitespace-nowrap dark:text-muted-foreground md:rounded md:hover:bg-primary-400 md:dark:hover:bg-primary-400 md:hover:text-white md:dark:hover:text-white`,
+                        name == nav?.name && "bg-primary-400 dark:bg-primary-400 text-white dark:text-white"
                       )}
                     >
-                      <NavLink to={`${pathPrefix}/${name}`} className="block md:px-3 py-1">
+                      <NavLink to={`${pathPrefix}/${name}`} className="block md:px-3 py-2">
                         {title}
                       </NavLink>
                     </li>
