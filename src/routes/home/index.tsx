@@ -65,7 +65,7 @@ function HomePage() {
       >
         {!guest && (
           <div
-            className={`hidden md:flex h-full flex-col items-center relative w-16 transition-all`}
+            className={`hidden md:flex h-full flex-col items-center relative w-16 transition-all bg-[#f0f0f0] dark:bg-[#1a1a1a] shadow-[inset_-1px_0px_0px_rgba(0,0,0,0.1)]`}
           >
             {loginUid && <User uid={loginUid} />}
             <nav className="flex flex-col gap-1 px-3 py-6">

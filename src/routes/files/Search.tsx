@@ -29,7 +29,7 @@ const Search: FC<Props> = ({ value = "", updateSearchValue = null, embed = false
       <input
         value={value}
         onChange={handleChange}
-        className="bg-black/5 dark:bg-black/20 rounded-full text-sm text-muted-foreground py-2.5 pl-9"
+        className="bg-black/5 dark:bg-black/20 rounded-full text-sm text-muted-foreground py-2.5 pl-9 outline-none focus:ring-1 focus:ring-primary-400/50 border border-transparent"
         placeholder={`${t("action.search")}...`}
       />
     </div>

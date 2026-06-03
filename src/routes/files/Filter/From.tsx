@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 import User from "@/components/User";
 import useFilteredUsers from "@/hooks/useFilteredUsers";
@@ -10,6 +11,7 @@ type Props = {
   updateFilter: (param: { uid?: number }) => void;
 };
 const From: FC<Props> = ({ select = "", updateFilter }) => {
+  const { t } = useTranslation("file");
   const { input, updateInput, users } = useFilteredUsers();
   const handleClick = (uid?: number) => {
     updateFilter({ uid });
@@ -25,7 +27,7 @@ const From: FC<Props> = ({ select = "", updateFilter }) => {
           className="relative cursor-pointer p-2.5 font-semibold text-sm text-muted-foreground"
           onClick={handleClick.bind(null, undefined)}
         >
-          Anyone
+          {t("any_from")}
           {!select && <CheckSign className="absolute right-1.5 top-1/2 -translate-y-1/2" />}
         </li>
         {users.map(({ uid }) => {
@@ -35,8 +37,10 @@ const From: FC<Props> = ({ select = "", updateFilter }) => {
               className="relative flex items-center gap-2 justify-between cursor-pointer"
               onClick={handleClick.bind(null, uid)}
             >
-              <User uid={uid} interactive={true} />
-              {select == uid && <CheckSign className="" />}
+              <div className="flex-1 min-w-0">
+                <User uid={uid} interactive={true} />
+              </div>
+              {select == uid && <CheckSign className="shrink-0" />}
             </li>
           );
         })}

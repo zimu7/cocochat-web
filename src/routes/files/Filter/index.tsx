@@ -14,10 +14,10 @@ import { shallowEqual } from "react-redux";
 
 const getClass = (selected: boolean) => {
   return clsx(
-    `cursor-pointer flex items-center gap-1 md:gap-2 shadow rounded-lg p-1 md:py-2 md:px-3 text-xs text-foreground dark:text-muted-foreground`,
+    `cursor-pointer flex items-center gap-1 md:gap-2 shadow rounded-lg p-1 md:py-2 md:px-3 text-xs border border-solid text-foreground dark:text-muted-foreground`,
     selected
-      ? "text-white bg-primary-400"
-      : "border border-solid border-border dark:border-border "
+      ? "text-white bg-primary-400 border-primary-400"
+      : "border-border dark:border-border"
   );
 };
 export default function Filter({ filter, updateFilter }) {

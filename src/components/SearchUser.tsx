@@ -94,7 +94,7 @@ const SearchUser: FC<Props> = ({ closeModal }) => {
       <div className=" relative flex flex-col gap-2 w-96 px-4 py-3 rounded-lg bg-muted dark:bg-secondary text-foreground dark:text-foreground">
         <div className="flex items-center gap-2 py-2">
           <StyledButton
-            className={clsx("mini", type !== "name" && "ghost !border-none !shadow-none")}
+            className={clsx("mini border", type !== "name" && "ghost !border-none !shadow-none")}
             onClick={handleChangeKeyword.bind(null, "name")}
           >
             {t("search_by_name", { ns: "member" })}

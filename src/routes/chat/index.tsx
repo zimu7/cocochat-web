@@ -71,7 +71,7 @@ function ChatPage() {
       {usersModalVisible && <UsersModal closeModal={toggleUsersModalVisible} />}
       <div
         className={clsx(
-          `flex h-screen md:h-full md:pt-2 md:pb-2.5 md:pr-1`,
+          `flex h-screen md:h-full md:pr-1`,
           isGuest ? "guest-container md:px-1" : "md:pr-12"
         )}
         onTouchStart={onTouchStart}
@@ -86,7 +86,7 @@ function ChatPage() {
         ></div>
         <div
           className={clsx(
-            "left-container flex-col md:rounded-l-2xl w-full h-screen md:h-full md:max-w-[250px] md:min-w-[268px] shadow-[rgb(0_0_0_/_10%)_-1px_0px_0px_inset] bg-white dark:!bg-card transition-transform duration-300 ease-in-out",
+            "left-container flex-col md:rounded-l-2xl w-full h-screen md:h-full md:max-w-[250px] md:min-w-[268px] shadow-[rgb(0_0_0_/_10%)_-1px_0px_0px_inset] transition-transform duration-300 ease-in-out",
             isMainPath ? "flex" : "hidden md:flex",
             !isMainPath && !sessionListVisible && "-translate-x-full md:translate-x-0"
           )}
@@ -96,7 +96,7 @@ function ChatPage() {
         </div>
         <div
           className={clsx(
-            `right-container md:rounded-r-2xl w-full bg-white dark:!bg-card`,
+            `right-container w-full`,
             placeholderVisible && "h-full flex-center",
             isMainPath && "hidden md:flex"
           )}

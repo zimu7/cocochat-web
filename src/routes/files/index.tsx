@@ -70,9 +70,9 @@ function Files() {
     })
     .sort((a, b) => b.created_at - a.created_at);
   return (
-    <div className="h-screen max-w-full overflow-hidden flex flex-col my-5 mr-6 pb-8 rounded-2xl bg-white dark:bg-card">
+    <div className="h-screen max-w-full overflow-hidden flex flex-col mt-2 pb-8 rounded-2xl bg-white dark:bg-card">
       {/* <Search value={filter.name} updateSearchValue={handleUpdateSearch} /> */}
-      <div className="flex justify-between w-full px-4 py-5 shrink-0">
+      <div className="flex justify-between w-full px-4 pt-3 pb-5 shrink-0">
         <Filter filter={filter} updateFilter={updateFilter} />
         <View view={view} />
       </div>
@@ -80,8 +80,8 @@ function Files() {
         <div
           className={clsx(
             `min-h-0 min-w-0 px-4 gap-4`,
-            view == "item" && "flex flex-col",
-            view == "grid" && "grid grid-cols-4"
+            view == "item" && "grid grid-cols-[repeat(auto-fill,minmax(480px,1fr))]",
+            view == "grid" && "grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))]"
           )}
           ref={listContainerRef}
         >
