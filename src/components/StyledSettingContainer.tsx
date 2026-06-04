@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
 import IconBack from "@/assets/icons/arrow.left.svg";
+import IconCloseCircle from "@/assets/icons/close.circle.svg";
 import MobileNavs from "../routes/home/MobileNavs";
 import { Nav } from "../routes/settingChannel/navs";
 import GoBackNav from "./GoBackNav";
@@ -53,7 +54,7 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                 data-title={title}
                 className="flex flex-col gap-y-0.5 mb-5 md:mb-9 before:md:pl-3 before:content-[attr(data-title)] before:font-bold before:text-xs before:text-muted-foreground"
               >
-                {items.map(({ name, link, title }) => {
+                {items.map(({ name, link, title, icon }) => {
                   if (link)
                     return (
                       <li
@@ -66,9 +67,10 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                         <a
                           href={link}
                           target="_blank"
-                          className="block md:px-3 py-2"
+                          className="flex items-center gap-2 md:px-3 py-2"
                           rel="noreferrer"
                         >
+                          {icon}
                           {title} <span className="text-xs mx-1">🔗</span>
                         </a>
                       </li>
@@ -81,7 +83,8 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                         name == nav?.name && "bg-primary-400 dark:bg-primary-400 text-white dark:text-white"
                       )}
                     >
-                      <NavLink to={`${pathPrefix}/${name}`} className="block md:px-3 py-2">
+                      <NavLink to={`${pathPrefix}/${name}`} className="flex items-center gap-2 md:px-3 py-2">
+                        {icon}
                         {title}
                       </NavLink>
                     </li>
@@ -99,8 +102,9 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
                   <li
                     key={title}
                     onClick={handler}
-                    className="rounded cursor-pointer py-1.5 md:px-3"
+                    className="flex items-center gap-2 rounded cursor-pointer py-1.5 md:px-3"
                   >
+                    <IconCloseCircle className="w-5 h-5 shrink-0 text-red-500 dark:text-red-400" />
                     {title}
                   </li>
                 );

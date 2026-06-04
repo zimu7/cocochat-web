@@ -7,9 +7,18 @@ import DataManagement from "./DataManagement";
 import MyAccount from "./MyAccount";
 import Overview from "./Overview";
 import { shallowEqual } from "react-redux";
+import IconInfo from "@/assets/icons/info.filled.svg";
+import IconUser from "@/assets/icons/user.svg";
+import IconPeople from "@/assets/icons/people.svg";
+import IconFolder from "@/assets/icons/folder.svg";
+import IconVersion from "@/assets/icons/version.svg";
+import IconCloseCircle from "@/assets/icons/close.circle.svg";
+
+const iconClass = "w-5 h-5 shrink-0 text-muted-foreground";
 
 const dataManagementNav = {
   name: "data_management",
+  icon: <IconFolder className={iconClass} />,
   component: <DataManagement />,
   admin: true,
 };
@@ -19,14 +28,17 @@ const navs = [
     items: [
       {
         name: "overview",
+        icon: <IconInfo className={iconClass} />,
         component: <Overview />,
       },
       {
         name: "my_account",
+        icon: <IconUser className={iconClass} />,
         component: <MyAccount />,
       },
       {
         name: "member_management",
+        icon: <IconPeople className={iconClass} />,
         component: <ManageMembers />,
         admin: true,
       },
@@ -52,6 +64,7 @@ const navs = [
     items: [
       {
         name: "version",
+        icon: <IconVersion className={iconClass} />,
         component: <Version />,
       },
     ],

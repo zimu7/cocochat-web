@@ -25,6 +25,7 @@
     --ring: 191 86% 53%;
     --message-self: 191 86% 53%;
     --message-other: 240 5% 93%;
+    --list-hover: 210 8% 90%;
   }
   .dark {
     --background: 220 14% 10%;
@@ -48,6 +49,7 @@
     --ring: 191 85% 42%;
     --message-self: 191 85% 42%;
     --message-other: 220 10% 20%;
+    --list-hover: 220 6% 17%;
   }
 }
 

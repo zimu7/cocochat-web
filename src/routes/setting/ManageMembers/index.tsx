@@ -16,7 +16,7 @@ import ManageAPIKeysModal from "./ManageAPIKeysModal";
 import DeleteUserModal from "./DeleteUserModal";
 
 const tdClass =
-  "px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground dark:text-foreground align-middle";
+  "px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground dark:text-foreground align-middle border border-border dark:border-gray-600";
 
 type UserTarget = { uid: number; name: string };
 
@@ -103,8 +103,8 @@ export default function ManageMembers() {
         </div>
 
         <div className="w-full overflow-auto">
-          <table className="min-w-full table-auto">
-            <thead className="border-b dark:border-b-gray-500 bg-muted/50 dark:bg-secondary">
+          <table className="min-w-full table-auto border border-border dark:border-gray-600">
+            <thead className="bg-muted/50 dark:bg-secondary border-b border-border dark:border-gray-600">
               <tr>
                 {[
                   { title: t("username"), align: "left" },
@@ -117,7 +117,7 @@ export default function ManageMembers() {
                   <th
                     key={title}
                     scope="col"
-                    className={`text-sm font-bold text-foreground dark:text-foreground px-6 py-4 text-${align}`}
+                    className={`text-sm font-bold text-foreground dark:text-foreground px-6 py-5 text-${align} border border-border dark:border-gray-600`}
                   >
                     {title}
                   </th>
@@ -125,14 +125,14 @@ export default function ManageMembers() {
               </tr>
             </thead>
             <tbody>
-              {filteredMembers.map((user) => {
+              {filteredMembers.map((user, index) => {
                 const { uid, name, avatar, email, is_admin, is_bot } = user;
                 const isSelf = uid === loginUser?.uid;
                 const isSuperAdmin = uid === 1;
                 return (
                   <tr
                     key={uid}
-                    className="bg-white dark:bg-card border-b dark:border-b-gray-500 transition duration-300 ease-in-out md:hover:bg-muted dark:md:hover:bg-transparent"
+                    className={`${index % 2 === 0 ? "bg-white dark:bg-card" : "bg-gray-50 dark:bg-gray-800/50"} border-b border-border dark:border-gray-600 transition duration-300 ease-in-out md:hover:bg-muted dark:md:hover:bg-transparent`}
                   >
                     <td className={tdClass}>
                       <div className="flex items-center gap-2">

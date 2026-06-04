@@ -125,8 +125,8 @@ function FavsPage() {
               <li
                 key={f}
                 className={clsx(
-                  f == filter && "bg-[rgba(116,_127,_141,_0.2)]",
-                  `cursor-pointer flex items-center gap-2 p-2 rounded-lg md:hover:bg-[rgba(116,_127,_141,_0.2)]`
+                  f == filter && "bg-list-hover",
+                  `cursor-pointer flex items-center gap-2 p-2 rounded-lg md:hover:bg-list-hover`
                 )}
                 onClick={handleFilter.bind(null, f as filter)}
               >

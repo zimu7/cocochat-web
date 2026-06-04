@@ -49,7 +49,7 @@ export default function Server({ readonly = false }: Props) {
 
   return (
     <>
-      <div className="relative flex items-center justify-between gap-2 px-4 py-2">
+      <div className="relative flex items-center justify-between gap-2 px-5 h-[60px] bg-muted/60 dark:bg-secondary shadow-[inset_0_-1px_0_rgb(0_0_0_/_25%),inset_-1px_0_0_rgb(0_0_0_/_25%)]">
         <NavLink to={`/setting/overview?f=${pathname}`}>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8">
@@ -59,7 +59,7 @@ export default function Server({ readonly = false }: Props) {
                 src={logo}
               />
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-0.5">
               <h3 className="text-sm text-foreground font-bold dark:text-foreground" title={description}>
                 {name}
               </h3>

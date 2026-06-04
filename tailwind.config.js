@@ -61,7 +61,8 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         "message-self": "hsl(var(--message-self))",
-        "message-other": "hsl(var(--message-other))"
+        "message-other": "hsl(var(--message-other))",
+        "list-hover": "hsl(var(--list-hover))"
       },
       animation: {
         speaking: "speaking 0.5s infinite cubic-bezier(.36, .11, .89, .32) alternate",

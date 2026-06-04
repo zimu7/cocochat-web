@@ -69,7 +69,7 @@ function UsersPage() {
                   data-group-title={title}
                   key={id}
                   className={({ isActive }) =>
-                    `rounded-md md:hover:bg-gray-500/10 ${isActive ? "bg-gray-500/10" : ""}`
+                    `rounded-md md:hover:bg-list-hover ${isActive ? "bg-list-hover" : ""}`
                   }
                   to={`/users/${id}`}
                 >

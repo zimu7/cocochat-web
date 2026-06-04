@@ -143,8 +143,8 @@ const Session: FC<IProps> = ({
           className={clsx(
             `nav flex gap-2 rounded-lg px-3 py-2.5 w-full transition-colors duration-150`,
             isActive && "shadow-[inset_0_0_0_2px_hsl(var(--primary))]",
-            isCurrentPath && "bg-secondary",
-            pinned ? "md:hover:bg-muted" : "md:hover:bg-secondary"
+            isCurrentPath && "bg-list-hover",
+            "md:hover:bg-list-hover"
           )}
           to={navPath}
         >

@@ -9,6 +9,7 @@ export interface NavItem {
   name: string;
   title: string;
   link?: string;
+  icon?: ReactNode;
   component: ReactNode;
 }
 
