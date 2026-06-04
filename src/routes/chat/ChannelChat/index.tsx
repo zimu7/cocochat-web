@@ -123,7 +123,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
   const pinCount = data?.pinned_messages?.length || 0;
   const { favorites } = useFavMessage({ cid });
   const favCount = favorites.length;
-  const toolClass = `relative cursor-pointer hidden md:block`;
+  const toolClass = `relative p-1.5 hover:bg-muted dark:hover:bg-secondary rounded hidden md:block`;
   const onlyAdminCanSeeMembers = getExtSetting(KEY_ADMIN_SEE_CHANNEL_MEMBERS);
   const canViewMembers = loginUser?.is_admin ? true : !onlyAdminCanSeeMembers;
   return (
@@ -133,49 +133,6 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
         context="channel"
         dropFiles={dropFiles}
         feedRef={feedRef}
-        aside={
-          <ul className="flex flex-col gap-6">
-            <Tooltip tip={t("pin")} placement="left">
-              <Popover
-                placement="left-start"
-                offset={20}
-                content={<PinList id={cid} />}
-              >
-                <li className={`${toolClass}`}>
-                  {pinCount > 0 ? (
-                    <span className="absolute -top-2 -right-2 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
-                      {pinCount}
-                    </span>
-                  ) : null}
-                  <IconPin className="fill-muted-foreground" />
-                </li>
-              </Popover>
-            </Tooltip>
-            <Tooltip tip={t("fav")} placement="left">
-              <Popover
-                placement="left-start"
-                offset={20}
-                content={<FavList cid={cid} />}
-              >
-                <li className={`${toolClass}`}>
-                  {favCount > 0 ? (
-                    <span className="absolute -top-2 -right-2 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
-                      {favCount}
-                    </span>
-                  ) : null}
-                  <IconFav className="fill-muted-foreground" />
-                </li>
-              </Popover>
-            </Tooltip>
-            {canViewMembers && (
-              <li className={`${toolClass}`} onClick={toggleMembersVisible}>
-                <Tooltip tip={t("channel_members")} placement="left">
-                  <IconPeople className={visibleAside == "members" ? "fill-gray-600" : ""} />
-                </Tooltip>
-              </li>
-            )}
-          </ul>
-        }
         header={
           <>
             <header className="px-5 h-[60px] flex items-center justify-center md:justify-between bg-muted/60 dark:bg-secondary shadow-[inset_0_-1px_0_rgb(0_0_0_/_25%)]">
@@ -190,7 +147,48 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                 </Link>
                 <span className="ml-2 text-muted-foreground hidden md:block">{description}</span>
               </div>
-              <MessageSearch context="channel" id={cid} onLocate={handleLocate} />
+              <div className="flex items-center gap-1">
+                <MessageSearch context="channel" id={cid} onLocate={handleLocate} />
+                <Tooltip tip={t("pin")} placement="bottom">
+                  <Popover
+                    placement="bottom-end"
+                    offset={10}
+                    content={<PinList id={cid} />}
+                  >
+                    <button className={toolClass}>
+                      {pinCount > 0 ? (
+                        <span className="absolute -top-1 -right-1 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
+                          {pinCount}
+                        </span>
+                      ) : null}
+                      <IconPin className="w-5 h-5 fill-muted-foreground" />
+                    </button>
+                  </Popover>
+                </Tooltip>
+                <Tooltip tip={t("fav")} placement="bottom">
+                  <Popover
+                    placement="bottom-end"
+                    offset={10}
+                    content={<FavList cid={cid} />}
+                  >
+                    <button className={toolClass}>
+                      {favCount > 0 ? (
+                        <span className="absolute -top-1 -right-1 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
+                          {favCount}
+                        </span>
+                      ) : null}
+                      <IconFav className="w-5 h-5 fill-muted-foreground" />
+                    </button>
+                  </Popover>
+                </Tooltip>
+                {canViewMembers && (
+                  <Tooltip tip={t("channel_members")} placement="bottom">
+                    <button className={toolClass} onClick={toggleMembersVisible}>
+                      <IconPeople className={`w-5 h-5 ${visibleAside == "members" ? "fill-gray-600" : "fill-muted-foreground"}`} />
+                    </button>
+                  </Tooltip>
+                )}
+              </div>
             </header>
             {announcement && showBanner && !bannerDismissed && (
               <AnnouncementBanner

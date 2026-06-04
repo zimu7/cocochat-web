@@ -15,13 +15,11 @@ import LicenseUpgradeTip from "./LicenseOutdatedTip";
 import LoginTip from "./LoginTip";
 import Operations from "./Operations";
 import VirtualMessageFeed, { VirtualMessageFeedHandle } from "./VirtualMessageFeed";
-import { platform } from "@/utils";
 import { shallowEqual } from "react-redux";
 
 interface Props {
   readonly?: boolean;
   header: ReactElement;
-  aside?: ReactElement | null;
   users?: ReactElement | null;
   dropFiles?: File[];
   context: ChatContext;
@@ -32,7 +30,6 @@ interface Props {
 const Layout: FC<Props> = ({
   readonly = false,
   header,
-  aside = null,
   feedRef,
   users = null,
   dropFiles = [],
@@ -127,17 +124,7 @@ const Layout: FC<Props> = ({
             </div>
           </div>
         </main>
-        {aside && (
-          <div
-            className={clsx(
-              "flex z-50 p-3 absolute right-0 md:right-auto md:left-full flex-col",
-              platform().isWindows ? "top-14 md:top-5" : "top-14 md:top-0"
-            )}
-          >
-            {aside}
-          </div>
-        )}
-        {users && <div className="hidden md:block">{users}</div>}
+        {users}
         {!readonly && inputMode == "text" && isActive && <DnDTip context={context} name={name} />}
       </section>
     </>

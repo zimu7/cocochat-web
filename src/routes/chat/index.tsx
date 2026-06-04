@@ -71,8 +71,8 @@ function ChatPage() {
       {usersModalVisible && <UsersModal closeModal={toggleUsersModalVisible} />}
       <div
         className={clsx(
-          `flex h-screen md:h-full md:pr-1`,
-          isGuest ? "guest-container md:px-1" : "md:pr-12"
+          `flex h-screen md:h-full`,
+          isGuest ? "guest-container md:px-1" : ""
         )}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}

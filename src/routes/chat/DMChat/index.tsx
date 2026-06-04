@@ -44,31 +44,29 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
       context="dm"
       dropFiles={dropFiles}
       feedRef={feedRef}
-      aside={
-        <ul className="flex flex-col gap-6">
-          <Tooltip tip="Saved Items" placement="left">
-            <Popover
-              placement="left-start"
-              offset={20}
-              content={<FavList uid={uid} />}
-            >
-              <li className={`relative cursor-pointer fav`}>
-                {favCount > 0 ? (
-                  <span className="absolute -top-2 -right-2 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
-                    {favCount}
-                  </span>
-                ) : null}
-                <FavIcon className="fill-muted-foreground" />
-              </li>
-            </Popover>
-          </Tooltip>
-        </ul>
-      }
       header={
         <header className="box-border px-5 h-[60px] flex items-center justify-center md:justify-between bg-muted/60 dark:bg-secondary shadow-[inset_0_-1px_0_rgb(0_0_0_/_25%)]">
           <GoBackNav />
           <User interactive={false} uid={currUser.uid} enableNavToSetting={true} />
-          <MessageSearch context="dm" id={uid} onLocate={handleLocate} />
+          <div className="flex items-center gap-1">
+            <MessageSearch context="dm" id={uid} onLocate={handleLocate} />
+            <Tooltip tip="Saved Items" placement="bottom">
+              <Popover
+                placement="bottom-end"
+                offset={10}
+                content={<FavList uid={uid} />}
+              >
+                <button className="relative p-1.5 hover:bg-muted dark:hover:bg-secondary rounded hidden md:block">
+                  {favCount > 0 ? (
+                    <span className="absolute -top-1 -right-1 flex-center w-4 h-4 rounded-full bg-primary-400 text-white font-bold text-[10px]">
+                      {favCount}
+                    </span>
+                  ) : null}
+                  <FavIcon className="w-5 h-5 fill-muted-foreground" />
+                </button>
+              </Popover>
+            </Tooltip>
+          </div>
         </header>
       }
     />

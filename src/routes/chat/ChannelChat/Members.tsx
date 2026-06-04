@@ -41,7 +41,7 @@ const Members = ({ uids, addVisible, ownerId, cid, membersVisible }: Props) => {
       <div
         ref={ref}
         className={`h-full flex-col gap-1 w-[226px] overflow-y-scroll p-2 shadow-[inset_1px_0px_0px_rgba(0,_0,_0,_0.1)] ${
-          membersVisible ? "flex" : "hidden"
+          membersVisible ? "hidden md:flex" : "hidden"
         }`}
       >
         {addVisible && (
