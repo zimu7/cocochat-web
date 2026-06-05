@@ -35,7 +35,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
         } = item;
         if (subs.length > 0)
           return (
-            <li
+            <ContextMenuPrimitive.Item
               key={title}
               className={`item group ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""} relative`}
             >
@@ -55,7 +55,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
                     checked: subChecked = false
                   } = sub;
                   return (
-                    <li
+                    <ContextMenuPrimitive.Item
                       className={`item group ${subUnderline ? "bottom_line" : ""} ${subDanger ? "danger" : ""}`}
                       key={subTitle}
                       onClick={(evt) => {
@@ -69,15 +69,15 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
                       {subChecked && (
                         <IconChecked className="group-hover:fill-white dark:fill-muted-foreground absolute right-2 top-2" />
                       )}
-                    </li>
+                    </ContextMenuPrimitive.Item>
                   );
                 })}
               </ul>
-            </li>
+            </ContextMenuPrimitive.Item>
           );
 
         return (
-          <li
+          <ContextMenuPrimitive.Item
             className={`item ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
             key={title}
             onClick={(evt) => {
@@ -87,7 +87,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu }) => {
           >
             {icon}
             {title}
-          </li>
+          </ContextMenuPrimitive.Item>
         );
       })}
     </ul>

@@ -183,8 +183,8 @@ export default function useStreaming() {
       }, 2000);
     };
     SSE.onmessage = (evt) => {
-      // console.log("sse msg");
       const data: ServerEvent = JSON.parse(evt.data);
+      if (data.type !== "heartbeat") console.log("sse event:", data.type, data);
       const { type } = data;
       switch (type) {
         case "heartbeat":

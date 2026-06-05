@@ -333,7 +333,7 @@ const VirtualMessageFeed = forwardRef<VirtualMessageFeedHandle, Props>(({ contex
         increaseViewportBy={{ top: 0, bottom: 200 }}
         context={{ loadingMore, id, isChannel: context == "channel" }}
         id={`CocoChat_FEED_${context}_${id}`}
-        className="px-1 md:px-4 py-4.5 overflow-x-hidden overflow-y-scroll"
+        className="px-2 md:px-6 py-4.5 overflow-x-hidden overflow-y-scroll"
         ref={vList}
         components={{
           List: CustomList,

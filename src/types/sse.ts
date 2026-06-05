@@ -100,7 +100,7 @@ export type PinChatTargetChannel = {
   gid: number;
 };
 export type PinChatTarget = PinChatTargetUser | PinChatTargetChannel;
-export type PinChat = { target: PinChatTarget[]; updated_at: number };
+export type PinChat = { target: PinChatTarget; updated_at: number };
 
 export interface NormalMessage {
   mid: number;
