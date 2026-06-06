@@ -1,3 +1,51 @@
+## 40 设置页面图标替换为 iconfont 及导航文案精简
+
+1. **引入 iconfont 图标字体**：
+   - 将 `font_vachat/` 下的 `iconfont.ttf`、`iconfont.woff`、`iconfont.woff2` 复制到 `src/assets/fonts/`
+   - 在 `src/assets/index.css` 添加 `@font-face` 声明、`.iconfont` 基础类（font-size: 20px）及各图标 `:before` 规则：
+     - `.icon-system`(\e648)、`.icon-account`(\e60e)、`.icon-members`(\e767)、`.icon-data`(\e644)、`.icon-version`(\e601)、`.icon-leave`(\e726)、`.icon-remove`(\e728)、`.icon-notice`(\e8c4)、`.icon-close`(\e6b2)
+
+2. **系统设置页面图标替换**（`src/routes/setting/navs.tsx`）：
+   - 系统概况：SVG `IconInfo` → `icon-system`
+   - 我的账号：SVG `IconUser` → `icon-account`
+   - 成员管理：SVG `IconPeople` → `icon-members`
+   - 数据管理：SVG `IconFolder` → `icon-data`
+   - 版本信息：SVG `IconVersion` → `icon-version`
+   - 移除所有 SVG 图标 import
+
+3. **频道设置页面图标添加**（`src/routes/settingChannel/navs.tsx`）：
+   - 系统：`icon-system`
+   - 公告：`icon-notice`
+   - 成员：`icon-members`
+
+4. **DM 设置页面图标添加**（`src/routes/settingDM/navs.tsx`）：
+   - 系统：`icon-system`
+   - 数据：`icon-data`
+
+5. **退出/删除图标**（`src/components/StyledSettingContainer.tsx`）：
+   - `Danger` 接口新增可选 `icon?: ReactNode` 字段
+   - 默认 danger 按钮图标从 SVG `IconCloseCircle` 改为 `icon-leave`
+   - 频道设置删除按钮使用 `icon-remove`（`src/routes/settingChannel/index.tsx`）
+
+6. **中文导航文案精简**（仅修改 `zh/` 翻译，英文不变）：
+
+   | 文件 | key | 原文 | 修改后 |
+   |------|-----|------|--------|
+   | zh/setting.json | nav.overview | 系统概况 | 系统 |
+   | zh/setting.json | nav.my_account | 我的账号 | 账号 |
+   | zh/setting.json | nav.member_management | 成员管理 | 成员 |
+   | zh/setting.json | nav.data_management | 数据管理 | 数据 |
+   | zh/setting.json | nav.auto_delete_msg | 自动删除消息 | 数据 |
+   | zh/setting.json | nav.version | 版本信息 | 版本 |
+   | zh/setting.json | channel.delete | 删除频道 | 删除 |
+   | zh/common.json | action.logout | 退出登录 | 退出 |
+   | zh/common.json | action.remove_user | 移除用户 | 移除 |
+
+7. **图标样式调整**：
+   - `.iconfont` font-size 从 16px 改为 20px，与原 SVG 图标尺寸（w-5 h-5）一致
+   - 导航图标颜色从 `text-muted-foreground`（灰色）改为 `text-foreground`（接近纯黑），字体图标反锯齿渲染下更清晰
+
+
 ## 39 修复右键菜单"发消息"无法跳转及Popover内ContextMenu报错
 
 1. **`startChat` 导航失效修复**（`src/hooks/useUserOperation.ts`）：

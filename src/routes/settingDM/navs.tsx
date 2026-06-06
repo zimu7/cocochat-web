@@ -7,8 +7,11 @@ import Overview from "./Overview";
 export interface NavItem {
   name: string;
   title: string;
+  icon?: ReactNode;
   component: ReactNode;
 }
+
+const icon = (cls: string) => <i className={`iconfont ${cls} text-foreground`} />;
 
 export interface Nav {
   name?: string;
@@ -25,11 +28,13 @@ const useNavs = (uid: number): Nav[] => {
         {
           name: "overview",
           title: t("nav.overview"),
+          icon: icon("icon-system"),
           component: <Overview id={uid} />
         },
         {
           name: "auto_delete_msg",
           title: t("nav.auto_delete_msg"),
+          icon: icon("icon-data"),
           component: <AutoDeleteMessages id={uid} type="dm" />
         }
       ]

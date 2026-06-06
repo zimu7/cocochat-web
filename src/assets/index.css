@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "iconfont";
+  src: url("./fonts/iconfont.woff2") format("woff2"),
+       url("./fonts/iconfont.woff") format("woff"),
+       url("./fonts/iconfont.ttf") format("truetype");
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-system:before { content: "\e648"; }
+.icon-account:before { content: "\e60e"; }
+.icon-members:before { content: "\e767"; }
+.icon-data:before { content: "\e644"; }
+.icon-version:before { content: "\e601"; }
+.icon-leave:before { content: "\e726"; }
+.icon-remove:before { content: "\e728"; }
+.icon-notice:before { content: "\e8c4"; }
+.icon-close:before { content: "\e6b2"; }
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -13,6 +13,8 @@ export interface NavItem {
   component: ReactNode;
 }
 
+const icon = (cls: string) => <i className={`iconfont ${cls} text-foreground`} />;
+
 export interface Nav {
   name?: string;
   title: string;
@@ -28,16 +30,19 @@ const useNavs = (cid: number): Nav[] => {
         {
           name: "overview",
           title: t("nav.overview"),
+          icon: icon("icon-system"),
           component: <Overview id={cid} />
         },
         {
           name: "announcement",
           title: t("nav.announcement"),
+          icon: icon("icon-notice"),
           component: <Announcement id={cid} />
         },
         {
           name: "members",
           title: t("nav.members"),
+          icon: icon("icon-members"),
           component: <ChannelMembers cid={cid} />
         }
       ]

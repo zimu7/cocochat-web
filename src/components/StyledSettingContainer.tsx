@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 
 import IconBack from "@/assets/icons/arrow.left.svg";
-import IconCloseCircle from "@/assets/icons/close.circle.svg";
 import MobileNavs from "../routes/home/MobileNavs";
 import { Nav } from "../routes/settingChannel/navs";
 import GoBackNav from "./GoBackNav";
@@ -12,6 +11,7 @@ import GoBackNav from "./GoBackNav";
 export interface Danger {
   title: string;
   handler: () => void;
+  icon?: ReactNode;
 }
 
 interface Props {
@@ -97,14 +97,14 @@ const StyledSettingContainer: FC<PropsWithChildren<Props>> = ({
             <ul className="flex flex-col gap-2 mb-9 md:text-sm font-semibold text-red-500 dark:text-red-400">
               {dangers.map((d) => {
                 if (typeof d === "boolean" || !d) return null;
-                const { title, handler } = d;
+                const { title, handler, icon: dangerIcon } = d;
                 return (
                   <li
                     key={title}
                     onClick={handler}
                     className="flex items-center gap-2 rounded cursor-pointer py-1.5 md:px-3"
                   >
-                    <IconCloseCircle className="w-5 h-5 shrink-0 text-red-500 dark:text-red-400" />
+                    {dangerIcon || <i className="iconfont icon-leave text-red-500 dark:text-red-400" />}
                     {title}
                   </li>
                 );

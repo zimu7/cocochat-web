@@ -9,7 +9,7 @@
   "action": {
     "login": "登录",
     "re_login": "重新登录",
-    "logout": "退出登录",
+    "logout": "退出",
     "change_avatar": "修改",
     "cancel": "取消",
     "dismiss": "关闭",
@@ -28,7 +28,7 @@
     "add": "新增",
     "yes": "是的",
     "remove": "删除",
-    "remove_user": "移除用户",
+    "remove_user": "移除",
     "delete_channel": "删除频道",
     "edit": "编辑",
     "edit_msg": "编辑消息",

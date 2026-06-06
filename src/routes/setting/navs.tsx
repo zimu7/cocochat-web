@@ -7,38 +7,24 @@ import DataManagement from "./DataManagement";
 import MyAccount from "./MyAccount";
 import Overview from "./Overview";
 import { shallowEqual } from "react-redux";
-import IconInfo from "@/assets/icons/info.filled.svg";
-import IconUser from "@/assets/icons/user.svg";
-import IconPeople from "@/assets/icons/people.svg";
-import IconFolder from "@/assets/icons/folder.svg";
-import IconVersion from "@/assets/icons/version.svg";
-import IconCloseCircle from "@/assets/icons/close.circle.svg";
 
-const iconClass = "w-5 h-5 shrink-0 text-muted-foreground";
-
-const dataManagementNav = {
-  name: "data_management",
-  icon: <IconFolder className={iconClass} />,
-  component: <DataManagement />,
-  admin: true,
-};
 const navs = [
   {
     name: "general",
     items: [
       {
         name: "overview",
-        icon: <IconInfo className={iconClass} />,
+        icon: <i className="iconfont icon-system text-foreground" />,
         component: <Overview />,
       },
       {
         name: "my_account",
-        icon: <IconUser className={iconClass} />,
+        icon: <i className="iconfont icon-account text-foreground" />,
         component: <MyAccount />,
       },
       {
         name: "member_management",
-        icon: <IconPeople className={iconClass} />,
+        icon: <i className="iconfont icon-members text-foreground" />,
         component: <ManageMembers />,
         admin: true,
       },
@@ -64,12 +50,19 @@ const navs = [
     items: [
       {
         name: "version",
-        icon: <IconVersion className={iconClass} />,
+        icon: <i className="iconfont icon-version text-foreground" />,
         component: <Version />,
       },
     ],
   },
 ];
+
+const dataManagementNav = {
+  name: "data_management",
+  icon: <i className="iconfont icon-data text-foreground" />,
+  component: <DataManagement />,
+  admin: true,
+};
 
 const useNavs = () => {
   const { t } = useTranslation("setting");

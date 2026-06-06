@@ -60,7 +60,8 @@ export default function ChannelSetting() {
           },
           canDelete && {
             title: t("channel.delete"),
-            handler: toggleDeleteConfirm
+            handler: toggleDeleteConfirm,
+            icon: <i className="iconfont icon-remove text-red-500 dark:text-red-400" />
           }
         ]}
       >
