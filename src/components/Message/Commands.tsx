@@ -147,6 +147,7 @@ const Commands: FC<Props> = ({
           }}
           content={
             <ContextMenu
+              variant="plain"
               hideMenu={() => setMoreOpen(false)}
               items={
                 [

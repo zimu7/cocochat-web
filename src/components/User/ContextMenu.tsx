@@ -34,13 +34,12 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
     canRemoveFromContact,
     canBlock,
     canRemoveFromChannel,
-    removeFromChannel,
     isAdmin,
     canUpdateRole,
-    updateRole,
+    updateRole
   } = useUserOperation({
     uid,
-    cid,
+    cid
   });
 
   if (!enable) return <>{children}</>;
@@ -49,9 +48,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
     <>
       <NicknameModal uid={uid} visible={remarkVisible} updateVisible={setRemarkVisible} />
       <ContextMenuPrimitive.Root>
-        <ContextMenuPrimitive.Trigger asChild>
-          {children}
-        </ContextMenuPrimitive.Trigger>
+        <ContextMenuPrimitive.Trigger asChild>{children}</ContextMenuPrimitive.Trigger>
         <ContextMenuPrimitive.Portal>
           <ContextMenuPrimitive.Content className="z-50">
             <ContextMenu
@@ -59,15 +56,15 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                 [
                   {
                     title: t("send_msg"),
-                    handler: startChat,
+                    handler: startChat
                   },
                   {
                     title: chatTran("remark"),
-                    handler: setRemarkVisible.bind(null, true),
+                    handler: setRemarkVisible.bind(null, true)
                   },
                   canCopyEmail && {
                     title: t("copy_email"),
-                    handler: copyEmail,
+                    handler: copyEmail
                   },
                   canUpdateRole && {
                     title: t("roles"),
@@ -76,35 +73,35 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                       {
                         title: t("set_normal"),
                         checked: !isAdmin,
-                        handler: updateRole,
+                        handler: updateRole
                       },
                       {
                         title: t("set_admin"),
                         checked: isAdmin,
-                        handler: updateRole,
-                      },
-                    ],
+                        handler: updateRole
+                      }
+                    ]
                   },
                   canRemoveFromChannel && {
                     danger: true,
                     title: t("remove_from_channel"),
-                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "channel" }),
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "channel" })
                   },
                   canRemoveFromContact && {
                     danger: true,
                     title: t("remove_from_contact"),
-                    handler: removeFromContact,
+                    handler: removeFromContact
                   },
                   canBlock && {
                     danger: true,
                     title: chatTran("block"),
-                    handler: blockThisContact,
+                    handler: blockThisContact
                   },
                   canRemove && {
                     danger: true,
                     title: t("remove"),
-                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "server" }),
-                  },
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "server" })
+                  }
                 ].filter(Boolean) as Item[]
               }
             />

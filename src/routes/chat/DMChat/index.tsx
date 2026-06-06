@@ -22,22 +22,23 @@ const DMChat: FC<Props> = ({ uid = 0, dropFiles }) => {
   const navigate = useNavigate();
   const feedRef = useRef<VirtualMessageFeedHandle>(null);
   const currUser = useAppSelector((store) => store.users.byId[uid], shallowEqual);
-  
+
   useEffect(() => {
     if (!currUser) {
       // user不存在了 回首页
       navigate("/chat");
     }
   }, [currUser]);
-  
+
+  if (!currUser) return null;
+
   const handleLocate = (mid: number) => {
     feedRef.current?.scrollToMessage(mid);
   };
-  
+
   const { favorites } = useFavMessage({ uid });
   const favCount = favorites.length;
 
-  if (!currUser) return null;
   return (
     <Layout
       to={uid}

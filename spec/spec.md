@@ -1,3 +1,22 @@
+## 39 修复右键菜单"发消息"无法跳转及Popover内ContextMenu报错
+
+1. **`startChat` 导航失效修复**（`src/hooks/useUserOperation.ts`）：
+   - 右键菜单点击"发消息"后，`navigateTo(`/chat/dm/${uid}`)` 虽然更新了 hash（变为 `#/chat/dm/${uid}`），但 React Router 的路由树没有重新渲染，页面停留在原处。
+   - 根因：Radix ContextMenu 的点击事件处理使用 `flushSync` 关闭菜单并恢复焦点，与同一事件循环中的 `navigateTo` 状态更新冲突，导致 React Router 的导航被覆盖。
+   - 修复：将 `navigateTo` 用 `setTimeout(0)` 推迟到下一个事件循环执行，避开 Radix 同步状态更新干扰。
+
+2. **Popover 内 ContextMenu 报错修复**（`src/components/ContextMenu.tsx`）：
+   - Profile 的"更多"按钮和 Message Commands 的"更多"按钮都使用 Popover + ContextMenu 组合。`ContextMenu` 内部使用了 `ContextMenuPrimitive.Item`，它必须在 Radix `ContextMenuPrimitive.Root` 上下文中才能使用。Popover 不提供此上下文，导致报错：`MenuItem must be used within Menu`。
+   - 修复：给 `ContextMenu` 添加 `variant` 属性：
+     - `variant="context"`（默认）：使用 `ContextMenuPrimitive.Item`，适用于右键菜单场景（有 Radix 上下文）
+     - `variant="plain"`：使用普通 `<li>` 元素，适用于 Popover 内的场景（无需 Radix 上下文，靠 `hideMenu` 关闭菜单）
+
+3. **受影响组件**：
+   - `src/components/Profile/index.tsx`：Popover 内的 `ContextMenu` 加上 `variant="plain"`
+   - `src/components/Message/Commands.tsx`：Popover 内的 `ContextMenu` 加上 `variant="plain"`
+   - 右键菜单场景（UserContextMenu、MessageContextMenu、SessionContextMenu）不受影响，默认使用 `variant="context"`
+
+
 ## 38 UI优化
 
 UI 优化方案

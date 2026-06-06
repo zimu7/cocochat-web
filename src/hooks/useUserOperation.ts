@@ -90,7 +90,9 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     navigateTo(`/chat/dm/${uid}`);
   };
   const startChat = () => {
-    navigateTo(`/chat/dm/${uid}`);
+    setTimeout(() => {
+      navigateTo(`/chat/dm/${uid}`);
+    }, 0);
   };
   const updateRole = () => {
     if (uid) {

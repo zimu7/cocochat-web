@@ -105,6 +105,7 @@ const Profile: FC<Props> = ({ uid, type = "embed", cid, onClose, onRemark, onRem
               content={
                 <ContextMenu
                   hideMenu={() => setMoreOpen(false)}
+                  variant="plain"
                   items={
                     [
                       {
