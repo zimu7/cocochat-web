@@ -90,9 +90,7 @@ const useUserOperation = ({ uid, cid }: IProps) => {
     navigateTo(`/chat/dm/${uid}`);
   };
   const startChat = () => {
-    setTimeout(() => {
-      navigateTo(`/chat/dm/${uid}`);
-    }, 0);
+    navigateTo(`/chat/dm/${uid}`);
   };
   const updateRole = () => {
     if (uid) {
@@ -106,16 +104,22 @@ const useUserOperation = ({ uid, cid }: IProps) => {
   };
   const removeFromContact = () => {
     if (uid) {
-      updateContactStatus({ target_uid: uid, action: "remove" });
+      updateContactStatus({ target_uid: uid, action: "remove" }).unwrap().then(() => {
+        toast.success(ct("tip.delete"));
+      }).catch(() => {});
     }
   };
   const blockThisContact = () => {
     if (uid === undefined) return;
-    updateContactStatus({ target_uid: uid, action: "block" });
+    updateContactStatus({ target_uid: uid, action: "block" }).unwrap().then(() => {
+      toast.success(ct("tip.update"));
+    }).catch(() => {});
   };
   const unblockThisContact = () => {
     if (uid === undefined) return;
-    updateContactStatus({ target_uid: uid, action: "unblock" });
+    updateContactStatus({ target_uid: uid, action: "unblock" }).unwrap().then(() => {
+      toast.success(ct("tip.update"));
+    }).catch(() => {});
   };
 
   const loginUserIsAdmin = !!loginUser?.is_admin;

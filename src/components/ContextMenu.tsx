@@ -20,8 +20,18 @@ interface Props {
   variant?: "context" | "plain";
 }
 
+// Radix ContextMenu 的点击事件处理使用 flushSync，与同一事件循环中的
+// React Router navigate / Redux dispatch 等状态更新冲突。
+// 将 handler 推迟到下一个事件循环执行，避开冲突。
+const deferHandler = (handler: (param: any) => void, evt: any) => {
+  setTimeout(() => handler(evt), 0);
+};
+
 const ContextMenu: FC<Props> = ({ items = [], hideMenu, variant = "context" }) => {
   const isPlain = variant === "plain";
+  const invokeHandler = isPlain
+    ? (handler: (param: any) => void, evt: any) => handler(evt)
+    : deferHandler;
 
   return (
     <ul className="context-menu">
@@ -63,7 +73,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu, variant = "context" }) =
                       key={subTitle}
                       onClick={(evt) => {
                         if (subChecked) return;
-                        subHandler(evt);
+                        invokeHandler(subHandler, evt);
                         hideMenu?.();
                       }}
                     >
@@ -103,7 +113,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu, variant = "context" }) =
                       key={subTitle}
                       onClick={(evt) => {
                         if (subChecked) return;
-                        subHandler(evt);
+                        invokeHandler(subHandler, evt);
                         hideMenu?.();
                       }}
                     >
@@ -124,7 +134,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu, variant = "context" }) =
             className={`item ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
             key={title}
             onClick={(evt) => {
-              handler(evt);
+              invokeHandler(handler, evt);
               hideMenu?.();
             }}
           >
@@ -136,7 +146,7 @@ const ContextMenu: FC<Props> = ({ items = [], hideMenu, variant = "context" }) =
             className={`item ${underline ? "bottom_line" : ""} ${danger ? "danger" : ""}`}
             key={title}
             onClick={(evt) => {
-              handler(evt);
+              invokeHandler(handler, evt);
               hideMenu?.();
             }}
           >
