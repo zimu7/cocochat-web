@@ -3,12 +3,12 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 import { useRemoveMembersMutation } from "@/app/services/channel";
-import { useLazyDeleteUserQuery } from "@/app/services/user";
+import { useLazyDeleteUserQuery, useUpdateContactStatusMutation } from "@/app/services/user";
 import Modal from "@/components/Modal";
 import Button from "@/components/styled/Button";
 import StyledModal from "@/components/styled/Modal";
 
-type RemoveType = "server" | "channel";
+type RemoveType = "server" | "channel" | "contact";
 
 interface Props {
   uid: number;
@@ -25,8 +25,9 @@ const RemoveConfirmModal: FC<Props> = ({ uid, name, type, cid, closeModal }) => 
 
   const [removeUser, { isSuccess: removeUserSuccess }] = useLazyDeleteUserQuery();
   const [removeFromChannel, { isSuccess: removeChannelSuccess }] = useRemoveMembersMutation();
+  const [removeFromContact, { isSuccess: removeContactSuccess }] = useUpdateContactStatusMutation();
 
-  const isSuccess = removeUserSuccess || removeChannelSuccess;
+  const isSuccess = removeUserSuccess || removeChannelSuccess || removeContactSuccess;
 
   useEffect(() => {
     if (isSuccess) {
@@ -41,18 +42,25 @@ const RemoveConfirmModal: FC<Props> = ({ uid, name, type, cid, closeModal }) => 
       removeUser(uid);
     } else if (type === "channel" && cid) {
       removeFromChannel({ id: cid, members: [uid] });
+    } else if (type === "contact") {
+      removeFromContact({ target_uid: uid, action: "remove" });
     }
   };
 
-  const title =
-    type === "server"
-      ? `${t("remove")} - ${name}`
-      : `${t("remove_from_channel")} - ${name}`;
+  const titleMap = {
+    server: t("remove"),
+    channel: t("remove_from_channel"),
+    contact: t("remove_from_contact"),
+  };
 
-  const desc =
-    type === "server"
-      ? t("remove_desc")
-      : t("remove_from_channel_desc");
+  const descMap = {
+    server: t("remove_desc"),
+    channel: t("remove_from_channel_desc"),
+    contact: t("remove_from_contact_desc"),
+  };
+
+  const title = `${titleMap[type]} - ${name}`;
+  const desc = descMap[type];
 
   return (
     <Modal id="modal-modal">

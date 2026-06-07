@@ -1,3 +1,24 @@
+## 41 联系人可见性、移除确认与聊天设置国际化
+
+1. **管理员侧边栏成员列表只显示联系人**（`src/hooks/useFilteredUsers.ts`）：
+   - 之前开启联系人验证时，普通用户只显示 `status === "added"` 的联系人，但管理员会绕过联系人过滤，侧边栏成员列表显示所有用户。
+   - 修改后只要开启联系人验证，侧边栏成员列表统一只显示 `status === "added"` 的联系人。
+   - 管理员仍可在设置页成员管理中查看和管理所有成员，`src/routes/setting/ManageMembers/index.tsx` 的全量成员管理逻辑不受影响。
+
+2. **“从联系人中移除”增加二次确认**：
+   - `src/components/User/ContextMenu.tsx`：右键菜单点击“从联系人中移除”不再直接调用移除接口，而是设置 `removeTarget` 打开确认框。
+   - `src/components/RemoveConfirmModal.tsx`：`RemoveType` 新增 `contact` 类型，确认后调用 `useUpdateContactStatusMutation`，提交 `{ target_uid: uid, action: "remove" }`。
+   - `public/locales/zh/member.json`、`public/locales/en/member.json`：新增 `remove_from_contact_desc` 翻译，用于联系人移除确认提示。
+
+3. **聊天设置页面移除确认框国际化**：
+   - `public/locales/zh/setting.json`：补齐 `dm.delete`、`dm.delete_desc`，避免中文环境下显示 `Delete User` 和英文提示。
+   - `src/routes/settingDM/DeleteConfirmModal.tsx`：删除按钮加载态从硬编码 `Deleting` 改为 `ct("status.saving")`。
+   - `src/routes/settingChannel/DeleteConfirmModal.tsx`：同类频道删除确认框加载态也从硬编码 `Deleting` 改为 `ct("status.saving")`。
+
+4. **验证**：
+   - 已运行 `pnpm build`，构建通过。
+
+
 ## 40 设置页面图标替换为 iconfont 及导航文案精简
 
 1. **引入 iconfont 图标字体**：

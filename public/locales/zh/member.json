@@ -28,6 +28,7 @@
   "remove_from_channel": "从频道移除",
   "remove_desc": "确定将该成员从服务器删除？此操作不可撤销。",
   "remove_from_channel_desc": "确定将该成员从频道移除？",
+  "remove_from_contact_desc": "确定将该用户从联系人中移除？",
   "roles": "设置角色",
   "set_admin": "管理员",
   "set_normal": "普通用户",

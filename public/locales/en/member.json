@@ -29,6 +29,7 @@
   "remove_from_channel": "Remove from channel",
   "remove_desc": "Are you sure you want to remove this member from the server? This action cannot be undone.",
   "remove_from_channel_desc": "Are you sure you want to remove this member from the channel?",
+  "remove_from_contact_desc": "Are you sure you want to remove this user from your contacts?",
   "roles": "Roles",
   "set_admin": "Admin",
   "set_normal": "User",

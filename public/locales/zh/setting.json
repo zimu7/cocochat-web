@@ -28,6 +28,10 @@
     "video": "音视频",
     "notification": "通知设置"
   },
+  "dm": {
+    "delete": "删除用户",
+    "delete_desc": "确定删除该用户？"
+  },
   "channel": {
     "channel_settings": "频道设置",
     "leave": "离开",

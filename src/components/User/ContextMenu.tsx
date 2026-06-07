@@ -19,14 +19,13 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
   const [removeTarget, setRemoveTarget] = useState<{
     uid: number;
     name: string;
-    type: "server" | "channel";
+    type: "server" | "channel" | "contact";
   } | null>(null);
   const { t } = useTranslation("member");
   const { t: chatTran } = useTranslation("chat");
   const user = useAppSelector((store) => store.users.byId[uid]);
   const {
     blockThisContact,
-    removeFromContact,
     copyEmail,
     canCopyEmail,
     startChat,
@@ -90,7 +89,7 @@ const UserContextMenu: FC<Props> = ({ enable = false, uid, cid, children }) => {
                   canRemoveFromContact && {
                     danger: true,
                     title: t("remove_from_contact"),
-                    handler: removeFromContact
+                    handler: () => setRemoveTarget({ uid, name: user?.name || "", type: "contact" })
                   },
                   canBlock && {
                     danger: true,

@@ -43,7 +43,7 @@ const DeleteConfirmModal: FC<Props> = ({ id, closeModal }) => {
               {ct("action.cancel")}
             </Button>
             <Button onClick={handleDelete} className="danger">
-              {isLoading ? "Deleting" : ct("action.remove")}
+              {isLoading ? ct("status.saving") : ct("action.remove")}
             </Button>
           </>
         }

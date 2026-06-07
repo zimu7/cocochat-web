@@ -8,15 +8,13 @@ import { sortUsersByRole } from "@/utils";
 
 export default function useFilteredUsers() {
   const [input, setInput] = useState("");
-  const isAdmin = useAppSelector((store) => store.authData.user?.is_admin, shallowEqual);
   const originUsers = useAppSelector((store) => Object.values(store.users.byId), shallowEqual);
   const enableContact = useAppSelector(
     (store) => store.server.contact_verification_enable,
     shallowEqual
   );
   const [filteredUsers, setFilteredUsers] = useState<StoredUser[]>([]);
-  const useContactList = enableContact && !isAdmin;
-  const users = useContactList ? originUsers.filter((u) => u.status == "added") : originUsers;
+  const users = enableContact ? originUsers.filter((u) => u.status == "added") : originUsers;
   useEffect(() => {
     if (!input) {
       setFilteredUsers(sortUsersByRole(users));
