@@ -125,7 +125,7 @@ const Message: FC<IProps> = ({
         readOnly && "hover:bg-transparent",
         showExpire && "bg-red-200 dark:bg-red-200/40",
         pinInfo && "bg-primary-50 dark:bg-primary-900/30 !pt-7",
-        isSelf && "flex-row-reverse"
+        isSelf && "flex-row-reverse md:pr-6"
       )}
     >
       <Popover

@@ -109,7 +109,7 @@ const Layout: FC<Props> = ({
               {/* 消息流 */}
               <VirtualMessageFeed ref={feedRef} context={context} id={to} />
               {/* 发送框 */}
-              <div className={`px-2 py-0 md:p-4 ${selects ? "selecting" : ""}`}>
+              <div className={`px-2 py-0 md:px-8 md:py-4 ${selects ? "selecting" : ""}`}>
                 {readonly ? (
                   <LoginTip />
                 ) : reachLimit ? (
