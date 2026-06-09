@@ -21,6 +21,7 @@ type Props = {
   download?: string;
   thumbnail?: string;
   edited?: boolean | number;
+  self?: boolean;
 };
 const renderContent = ({
   context,
@@ -32,14 +33,19 @@ const renderContent = ({
   content,
   download = "",
   thumbnail = "",
-  edited = false
+  edited = false,
+  self = false
 }: Props) => {
   let ctn = null;
   switch (content_type) {
     case ContentTypes.text:
       ctn = (
         <>
-          <LinkifyText text={content} cid={to} />
+          <LinkifyText
+            text={content}
+            cid={to}
+            mentionClassName={self ? "text-white font-semibold underline decoration-white/60 underline-offset-2" : undefined}
+          />
           {edited && (
             <span
               className="ml-1 text-muted-foreground text-[10px]"

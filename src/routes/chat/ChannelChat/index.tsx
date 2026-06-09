@@ -119,7 +119,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
   if (!data) return null;
   const { name, description, is_public, members = [], owner } = data;
   const memberIds = is_public ? userIds : members.slice(0).sort((n) => (n == owner ? -1 : 0));
-  const addVisible = loginUser?.is_admin || owner == loginUser?.uid;
+  const addVisible = !is_public && (loginUser?.is_admin || owner == loginUser?.uid);
   const pinCount = data?.pinned_messages?.length || 0;
   const { favorites } = useFavMessage({ cid });
   const favCount = favorites.length;
@@ -152,7 +152,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                 <Tooltip tip={t("pin")} placement="bottom">
                   <Popover
                     placement="bottom-end"
-                    offset={10}
+                    offset={16}
                     content={<PinList id={cid} />}
                   >
                     <button className={toolClass}>
@@ -168,7 +168,7 @@ function ChannelChat({ cid = 0, dropFiles = [] }: Props) {
                 <Tooltip tip={t("fav")} placement="bottom">
                   <Popover
                     placement="bottom-end"
-                    offset={10}
+                    offset={16}
                     content={<FavList cid={cid} />}
                   >
                     <button className={toolClass}>

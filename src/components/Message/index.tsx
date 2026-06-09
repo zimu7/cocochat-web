@@ -226,6 +226,7 @@ const Message: FC<IProps> = ({
                 thumbnail,
                 download,
                 edited,
+                self: isSelf,
               })
             )}
           </div>

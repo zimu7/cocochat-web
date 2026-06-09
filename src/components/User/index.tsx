@@ -69,15 +69,17 @@ const User: FC<Props> = ({
     online ? "bg-green-500" : "bg-zinc-400",
     compact ? "w-[15px] h-[15px]" : "w-3 h-3"
   );
-  const statusElement = curr.is_bot ? (
-    <div className={statusContainerClass}>
-      <IconBot className={clsx(
-        compact ? "w-[15px] h-[15px]" : "w-3 h-3",
-        online ? "text-green-500" : "text-zinc-400"
-      )} />
-    </div>
-  ) : showStatus ? (
-    <div className={statusClass}></div>
+  const statusElement = showStatus ? (
+    curr.is_bot ? (
+      <div className={statusContainerClass}>
+        <IconBot className={clsx(
+          compact ? "w-[15px] h-[15px]" : "w-3 h-3",
+          online ? "text-green-500" : "text-zinc-400"
+        )} />
+      </div>
+    ) : (
+      <div className={statusClass}></div>
+    )
   ) : null;
   if (!popover)
     return (

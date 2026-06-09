@@ -14,6 +14,7 @@ type Props = {
   mention?: boolean;
   mentionTextOnly?: boolean;
   mentionPopOver?: boolean;
+  mentionClassName?: string;
   text: string;
   cid?: number;
 };
@@ -23,6 +24,7 @@ const LinkifyText = ({
   mention = true,
   mentionTextOnly = false,
   mentionPopOver = true,
+  mentionClassName,
   linkPreview = true,
   text,
   cid
@@ -59,7 +61,13 @@ const LinkifyText = ({
             if (/@[0-9]+/.test(content)) {
               const uid = content.trim().slice(1);
               return (
-                <Mention uid={+uid} cid={cid} popover={mentionPopOver} textOnly={mentionTextOnly} />
+                <Mention
+                  uid={+uid}
+                  cid={cid}
+                  popover={mentionPopOver}
+                  textOnly={mentionTextOnly}
+                  className={mentionClassName}
+                />
               );
             }
             return <>{content}</>;
